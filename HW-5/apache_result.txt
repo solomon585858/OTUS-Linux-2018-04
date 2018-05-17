@@ -1,0 +1,26 @@
+Minimum Response Time
+2326
+
+Average Response Time
+7676
+
+Maximum Response Time
+19341
+
+IP address list of visitors
+10.31.2.237
+
+Number of requests for IP addresses of visitors
+     66 10.31.2.237
+
+Real-time IP-Page Requests
+10.31.2.237     "GET    404     /noindex/css/fonts/Bold/OpenSans-Bold.ttf
+10.31.2.237     "GET    403     /
+10.31.2.237     "GET    304     /noindex/css/bootstrap.min.css
+10.31.2.237     "GET    304     /noindex/css/open-sans.css
+10.31.2.237     "GET    304     /images/apache_pb.gif
+10.31.2.237     "GET    304     /images/poweredby.png
+10.31.2.237     "GET    404     /noindex/css/fonts/Light/OpenSans-Light.woff
+10.31.2.237     "GET    404     /noindex/css/fonts/Bold/OpenSans-Bold.woff
+10.31.2.237     "GET    404     /noindex/css/fonts/Light/OpenSans-Light.ttf
+10.31.2.237     "GET    404     /noindex/css/fonts/Bold/OpenSans-Bold.ttf
