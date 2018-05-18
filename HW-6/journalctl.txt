@@ -1,0 +1,43 @@
+[root@localhost tmp]# cat /etc/sysconfig/EVM 
+EVM=EVM
+
+[root@localhost tmp]# cat /etc/systemd/system/EVM.service
+[Unit]
+Description=Prints logs with EVM word into /tmp/EVM file
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/sysconfig/EVM
+ExecStart=/usr/bin/sh -c 'journalctl | grep ${EVM}  >> /tmp/EVM'
+
+[root@localhost tmp]# cat /etc/systemd/system/EVM.timer
+[Unit]
+Description=Run EVM.service every 30 seconds
+
+[Timer]
+OnCalendar=*:*:0/30
+
+[root@localhost tmp]# systemctl daemon-reload
+[root@localhost tmp]# systemctl start EVM.timer
+[root@localhost tmp]# systemctl list-timers
+NEXT                         LEFT     LAST                         PASSED    UNIT                         ACTIVATES
+Fri 2018-05-18 09:51:00 MSK  37s ago  Fri 2018-05-18 09:51:37 MSK  8ms ago   EVM.timer                    EVM.service
+Sat 2018-05-19 09:00:32 MSK  23h left Fri 2018-05-18 09:00:32 MSK  51min ago systemd-tmpfiles-clean.timer systemd-tmpfiles-
+
+3 timers listed.
+Pass --all to see loaded but inactive timers, too.
+[root@localhost tmp]# cat /tmp/EVM
+May 18 08:44:49 localhost.localdomain kernel: EVM: security.selinux
+May 18 08:44:49 localhost.localdomain kernel: EVM: security.ima
+May 18 08:44:49 localhost.localdomain kernel: EVM: security.capability
+May 18 09:50:01 localhost.localdomain systemd[1]: Started Run EVM.service every 30 seconds.
+May 18 09:50:01 localhost.localdomain systemd[1]: Starting Run EVM.service every 30 seconds.
+May 18 09:50:43 localhost.localdomain systemd[1]: Starting Prints logs with EVM word into /tmp/EVM file...
+May 18 08:44:49 localhost.localdomain kernel: EVM: security.selinux
+May 18 08:44:49 localhost.localdomain kernel: EVM: security.ima
+May 18 08:44:49 localhost.localdomain kernel: EVM: security.capability
+May 18 09:50:01 localhost.localdomain systemd[1]: Started Run EVM.service every 30 seconds.
+May 18 09:50:01 localhost.localdomain systemd[1]: Starting Run EVM.service every 30 seconds.
+May 18 09:50:43 localhost.localdomain systemd[1]: Starting Prints logs with EVM word into /tmp/EVM file...
+May 18 09:50:43 localhost.localdomain systemd[1]: Started Prints logs with EVM word into /tmp/EVM file.
+May 18 09:51:37 localhost.localdomain systemd[1]: Starting Prints logs with EVM word into /tmp/EVM file...
