@@ -261,10 +261,26 @@ hello world[root@localhost ~]#
 
 
 
-[root@localhost ~]# rpm -ivh hello-1.0-1.x86_64.rpm
+[root@localhost ~]# wget https://github.com/solomon585858/OTUS-Linux-2018-04/raw/HW-8/HW-8/hello-1.0-1.x86_64.rpm
+--2018-05-23 12:30:34--  https://github.com/solomon585858/OTUS-Linux-2018-04/raw/HW-8/HW-8/hello-1.0-1.x86_64.rpm
+Resolving github.com (github.com)... 192.30.253.112, 192.30.253.113
+Connecting to github.com (github.com)|192.30.253.112|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://raw.githubusercontent.com/solomon585858/OTUS-Linux-2018-04/HW-8/HW-8/hello-1.0-1.x86_64.rpm [following]
+--2018-05-23 12:30:35--  https://raw.githubusercontent.com/solomon585858/OTUS-Linux-2018-04/HW-8/HW-8/hello-1.0-1.x86_64.rpm
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.84.133
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.84.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4756 (4.6K) [audio/pn-realaudio-plugin]
+Saving to: ‘hello-1.0-1.x86_64.rpm’
+
+100%[=========================================================================================>] 4,756       --.-K/s   in 0s      
+
+2018-05-23 12:30:36 (32.6 MB/s) - ‘hello-1.0-1.x86_64.rpm’ saved [4756/4756]
+
+[root@localhost ~]# rpm -ivh hello-1.0-1.x86_64.rpm 
 Preparing...                          ################################# [100%]
 Updating / installing...
    1:hello-1.0-1                      ################################# [100%]
 [root@localhost ~]# hello
-hello world[root@localhost ~]#
-
+hello world[root@localhost ~]# 
