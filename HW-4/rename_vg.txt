@@ -1,0 +1,170 @@
+[root@localhost ~]# vgs
+  VG   #PV #LV #SN Attr   VSize   VFree
+  swan   1   2   0 wz--n- <19.00g    0 
+[root@localhost ~]# lvs swan
+  LV   VG   Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root swan -wi-ao---- <17.00g                                                    
+  swap swan -wi-ao----   2.00g                                                    
+[root@localhost ~]# vgrename swan swannew
+  Volume group "swan" successfully renamed to "swannew"
+[root@localhost ~]# vgs
+  VG      #PV #LV #SN Attr   VSize   VFree
+  swannew   1   2   0 wz--n- <19.00g    0 
+[root@localhost ~]# vi /etc/fstab
+
+#
+# /etc/fstab
+# Created by anaconda on Tue May 15 10:15:53 2018
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+/dev/mapper/swannew-root   /                       xfs     defaults        0 0
+UUID=e6d82a70-06f3-4941-81cd-ae6574c04337 /boot                   xfs     defaults        0 0
+/dev/mapper/swannew-swap   swap                    swap    defaults        0 0
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+"/etc/fstab" 11L, 471C written
+[root@localhost ~]# cat /boot/grub2/grub.cfg | grep swan
+        linux16 /vmlinuz-3.10.0-693.el7.x86_64 root=/dev/mapper/swan-root ro crashkernel=auto rd.lvm.lv=swan/root rd.lvm.lv=swan/swap rhgb quiet LANG=en_US.UTF-8
+        linux16 /vmlinuz-0-rescue-351b5db4a8664f7cb47778d4437896e9 root=/dev/mapper/swan-root ro crashkernel=auto rd.lvm.lv=swan/root rd.lvm.lv=swan/swap rhgb quiet
+[root@localhost ~]# sed -i 's/swan/swannew/g' /boot/grub2/grub.cfg
+[root@localhost ~]# cat /boot/grub2/grub.cfg | grep swannew
+        linux16 /vmlinuz-3.10.0-693.el7.x86_64 root=/dev/mapper/swannew-root ro crashkernel=auto rd.lvm.lv=swannew/root rd.lvm.lv=swannew/swap rhgb quiet LANG=en_US.UTF-8
+        linux16 /vmlinuz-0-rescue-351b5db4a8664f7cb47778d4437896e9 root=/dev/mapper/swannew-root ro crashkernel=auto rd.lvm.lv=swannew/root rd.lvm.lv=swannew/swap rhgb quiet
+[root@localhost ~]# vgchange -ay
+  2 logical volume(s) in volume group "swannew" now active
+[root@localhost ~]# lvchange /dev/swannew/root --refresh
+[root@localhost ~]# lvchange /dev/swannew/swap --refresh
+[root@localhost ~]# ls -al /boot/initramfs-
+initramfs-0-rescue-351b5db4a8664f7cb47778d4437896e9.img  initramfs-3.10.0-693.el7.x86_64kdump.img
+initramfs-3.10.0-693.el7.x86_64.img                      
+[root@localhost ~]# ls -al /boot/initramfs-3.10.0-693.el7.x86_64
+initramfs-3.10.0-693.el7.x86_64.img       initramfs-3.10.0-693.el7.x86_64kdump.img  
+[root@localhost ~]# ls -al /boot/initramfs-3.10.0-693.el7.x86_64
+initramfs-3.10.0-693.el7.x86_64.img       initramfs-3.10.0-693.el7.x86_64kdump.img  
+[root@localhost ~]# ls -al /boot/initramfs-3.10.0-693.el7.x86_64
+initramfs-3.10.0-693.el7.x86_64.img       initramfs-3.10.0-693.el7.x86_64kdump.img  
+[root@localhost ~]# ls -al /boot/initramfs-3.10.0-693.el7.x86_64
+initramfs-3.10.0-693.el7.x86_64.img       initramfs-3.10.0-693.el7.x86_64kdump.img  
+[root@localhost ~]# ls -al /boot/initramfs-3.10.0-693.el7.x86_64.img 
+-rw-------. 1 root root 20859056 May 15 10:25 /boot/initramfs-3.10.0-693.el7.x86_64.img
+[root@localhost ~]# uname -r
+3.10.0-693.el7.x86_64
+[root@localhost ~]# cp /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.$(date +%m-%d-%H%M%S).bak
+[root@localhost ~]# mkinitrd -f -v /boot/initramfs-$(uname -r).img $(uname -r)
+Executing: /usr/sbin/dracut -f -v /boot/initramfs-3.10.0-693.el7.x86_64.img 3.10.0-693.el7.x86_64
+dracut module 'modsign' will not be installed, because command 'keyctl' could not be found!
+dracut module 'busybox' will not be installed, because command 'busybox' could not be found!
+dracut module 'crypt' will not be installed, because command 'cryptsetup' could not be found!
+dracut module 'dmraid' will not be installed, because command 'dmraid' could not be found!
+dracut module 'mdraid' will not be installed, because command 'mdadm' could not be found!
+dracut module 'multipath' will not be installed, because command 'multipath' could not be found!
+dracut module 'cifs' will not be installed, because command 'mount.cifs' could not be found!
+dracut module 'iscsi' will not be installed, because command 'iscsistart' could not be found!
+dracut module 'iscsi' will not be installed, because command 'iscsi-iname' could not be found!
+95nfs: Could not find any command of 'rpcbind portmap'!
+dracut module 'modsign' will not be installed, because command 'keyctl' could not be found!
+dracut module 'busybox' will not be installed, because command 'busybox' could not be found!
+dracut module 'crypt' will not be installed, because command 'cryptsetup' could not be found!
+dracut module 'dmraid' will not be installed, because command 'dmraid' could not be found!
+dracut module 'mdraid' will not be installed, because command 'mdadm' could not be found!
+dracut module 'multipath' will not be installed, because command 'multipath' could not be found!
+dracut module 'cifs' will not be installed, because command 'mount.cifs' could not be found!
+dracut module 'iscsi' will not be installed, because command 'iscsistart' could not be found!
+dracut module 'iscsi' will not be installed, because command 'iscsi-iname' could not be found!
+95nfs: Could not find any command of 'rpcbind portmap'!
+*** Including module: bash ***
+*** Including module: nss-softokn ***
+*** Including module: i18n ***
+*** Including module: network ***
+*** Including module: ifcfg ***
+*** Including module: drm ***
+*** Including module: plymouth ***
+*** Including module: dm ***
+Skipping udev rule: 64-device-mapper.rules
+Skipping udev rule: 60-persistent-storage-dm.rules
+Skipping udev rule: 55-dm.rules
+*** Including module: kernel-modules ***
+*** Including module: lvm ***
+Skipping udev rule: 64-device-mapper.rules
+Skipping udev rule: 56-lvm.rules
+Skipping udev rule: 60-persistent-storage-lvm.rules
+*** Including module: resume ***
+*** Including module: rootfs-block ***
+*** Including module: terminfo ***
+*** Including module: udev-rules ***
+Skipping udev rule: 40-redhat-cpu-hotplug.rules
+Skipping udev rule: 91-permissions.rules
+*** Including module: biosdevname ***
+*** Including module: systemd ***
+*** Including module: usrmount ***
+*** Including module: base ***
+*** Including module: fs-lib ***
+*** Including module: shutdown ***
+*** Including modules done ***
+*** Installing kernel module dependencies and firmware ***
+*** Installing kernel module dependencies and firmware done ***
+*** Resolving executable dependencies ***
+*** Resolving executable dependencies done***
+*** Hardlinking files ***
+*** Hardlinking files done ***
+*** Stripping files ***
+*** Stripping files done ***
+*** Generating early-microcode cpio image contents ***
+*** Constructing GenuineIntel.bin ****
+*** Store current command line parameters ***
+*** Creating image file ***
+*** Creating microcode section ***
+*** Created microcode section ***
+*** Creating image file done ***
+*** Creating initramfs image file '/boot/initramfs-3.10.0-693.el7.x86_64.img' done ***
+[root@localhost ~]# reboot
+
+[root@localhost ~]# vgs
+  VG      #PV #LV #SN Attr   VSize   VFree
+  swannew   1   2   0 wz--n- <19.00g    0 
+[root@localhost ~]# lvs swannew
+  LV   VG      Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root swannew -wi-ao---- <17.00g                                                    
+  swap swannew -wi-ao----   2.00g                                                    
+[root@localhost ~]# df -h
+Filesystem                Size  Used Avail Use% Mounted on
+/dev/mapper/swannew-root   17G  1.4G   16G   9% /
+devtmpfs                  910M     0  910M   0% /dev
+tmpfs                     920M     0  920M   0% /dev/shm
+tmpfs                     920M  8.5M  912M   1% /run
+tmpfs                     920M     0  920M   0% /sys/fs/cgroup
+/dev/sda1                1014M  163M  852M  16% /boot
+tmpfs                     184M     0  184M   0% /run/user/0
