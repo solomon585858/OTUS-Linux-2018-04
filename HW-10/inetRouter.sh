@@ -10,7 +10,7 @@ echo "MTU=9000" >> /etc/sysconfig/network-scripts/ifcfg-bond0
 echo "IPADDR=192.168.255.1" >> /etc/sysconfig/network-scripts/ifcfg-bond0
 echo "PREFIX=30" >> /etc/sysconfig/network-scripts/ifcfg-bond0
 echo "BOOTPROTO=static" >> /etc/sysconfig/network-scripts/ifcfg-bond0
-echo "BONDING_OPTS="mode=802.3ad xmit_hash_policy=layer2+3 lacp_rate=1 miimon=100"" >> /etc/sysconfig/network-scripts/ifcfg-bond0
+echo "BONDING_OPTS="mode=0 miimon=100"" >> /etc/sysconfig/network-scripts/ifcfg-bond0
 echo "DEVICE=eth1" >> /etc/sysconfig/network-scripts/ifcfg-eth1
 echo "ONBOOT=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth1
 echo "SLAVE=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth1
