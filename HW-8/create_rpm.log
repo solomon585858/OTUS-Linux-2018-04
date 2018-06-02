@@ -1,0 +1,286 @@
+[root@localhost ~]# rpmdev-setuptree
+[root@localhost ~]# ls -al
+total 40
+dr-xr-x---.  3 root root  185 May 23 11:29 .
+dr-xr-xr-x. 17 root root  224 May 15 10:24 ..
+-rw-------.  1 root root 1678 May 15 10:25 anaconda-ks.cfg
+-rw-------.  1 root root  590 May 15 10:38 .bash_history
+-rw-r--r--.  1 root root   18 Dec 29  2013 .bash_logout
+-rw-r--r--.  1 root root  176 Dec 29  2013 .bash_profile
+-rw-r--r--.  1 root root  176 Dec 29  2013 .bashrc
+-rw-r--r--.  1 root root  100 Dec 29  2013 .cshrc
+drwxr-xr-x.  7 root root   72 May 23 11:29 rpmbuild
+-rw-r--r--.  1 root root  620 May 23 11:29 .rpmmacros
+-rw-r--r--.  1 root root  129 Dec 29  2013 .tcshrc
+-rw-------.  1 root root 4235 May 23 11:17 .viminfo
+[root@localhost ~]# mkdir hello-1.0
+[root@localhost ~]# cd hello-1.0
+[root@localhost hello-1.0]# cat >main.c <<EOF
+> #include <stdio.h>
+>
+> int main()
+> {
+>   printf("hello world");
+> }
+> EOF
+[root@localhost hello-1.0]# cat main.c
+#include <stdio.h>
+
+int main()
+{
+  printf("hello world");
+}
+[root@localhost hello-1.0]# cat >Makefile <<EOF
+> all:hello
+>
+> hello: main.c
+>         gcc main.c -o hello
+>
+> install: hello
+>         mkdir -p \${prefix}/usr/local/bin
+>         cp hello \${prefix}/usr/local/bin
+> EOF
+[root@localhost hello-1.0]# sed -i "s/        /\t/g" Makefile
+[root@localhost hello-1.0]# ls -al
+total 8
+drwxr-xr-x. 2 root root  36 May 23 11:31 .
+dr-xr-x---. 4 root root 202 May 23 11:30 ..
+-rw-r--r--. 1 root root  60 May 23 11:30 main.c
+-rw-r--r--. 1 root root 130 May 23 11:31 Makefile
+[root@localhost hello-1.0]# cat Makefile
+all:hello
+
+hello: main.c
+        gcc main.c -o hello
+
+install: hello
+        mkdir -p ${prefix}/usr/local/bin
+        cp hello ${prefix}/usr/local/bin
+[root@localhost hello-1.0]# cat >hello.spec<<EOF
+> Summary: hello greets the world
+> Name: hello
+> Version: 1.0
+> Release: 1
+> License: GPL
+> Group: Applications/Tutorials
+> Source: hello.tar.gz
+> URL: https://github.com/solomon585858/OTUS-Linux-2018-04/
+> Distribution: CentOS
+> Vendor: -
+> Packager: Marat
+>
+> %description
+> hello greets the world
+>
+> %prep
+> %setup
+>
+> %build
+> make
+>
+> %install
+> make install prefix=\$RPM_BUILD_ROOT
+>
+> %files
+> %defattr(-, root, root)
+> "/usr/local/bin/hello"
+> EOF
+[root@localhost hello-1.0]# cat hello.spec
+Summary: hello greets the world
+Name: hello
+Version: 1.0
+Release: 1
+License: GPL
+Group: Applications/Tutorials
+Source: hello.tar.gz
+URL: https://github.com/solomon585858/OTUS-Linux-2018-04/
+Distribution: CentOS
+Vendor: -
+Packager: Marat
+
+%description
+hello greets the world
+
+%prep
+%setup
+
+%build
+make
+
+%install
+make install prefix=$RPM_BUILD_ROOT
+
+%files
+%defattr(-, root, root)
+"/usr/local/bin/hello"
+[root@localhost hello-1.0]# cd
+[root@localhost ~]# tar cvzf hello.tar.gz hello-1.0
+hello-1.0/
+hello-1.0/main.c
+hello-1.0/Makefile
+hello-1.0/hello.spec
+[root@localhost ~]# ls -al
+total 44
+dr-xr-x---.  4 root root  222 May 23 11:35 .
+dr-xr-xr-x. 17 root root  224 May 15 10:24 ..
+-rw-------.  1 root root 1678 May 15 10:25 anaconda-ks.cfg
+-rw-------.  1 root root  590 May 15 10:38 .bash_history
+-rw-r--r--.  1 root root   18 Dec 29  2013 .bash_logout
+-rw-r--r--.  1 root root  176 Dec 29  2013 .bash_profile
+-rw-r--r--.  1 root root  176 Dec 29  2013 .bashrc
+-rw-r--r--.  1 root root  100 Dec 29  2013 .cshrc
+drwxr-xr-x.  2 root root   54 May 23 11:34 hello-1.0
+-rw-r--r--.  1 root root  600 May 23 11:35 hello.tar.gz
+drwxr-xr-x.  7 root root   72 May 23 11:29 rpmbuild
+-rw-r--r--.  1 root root  620 May 23 11:29 .rpmmacros
+-rw-r--r--.  1 root root  129 Dec 29  2013 .tcshrc
+-rw-------.  1 root root 4434 May 23 11:34 .viminfo
+[root@localhost ~]# cp hello.tar.gz ~/rpmbuild/SOURCES/
+[root@localhost ~]# rpmbuild -ba hello-1.0/hello.spec
+Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.Y1WHf7
++ umask 022
++ cd /root/rpmbuild/BUILD
++ cd /root/rpmbuild/BUILD
++ rm -rf hello-1.0
++ /usr/bin/gzip -dc /root/rpmbuild/SOURCES/hello.tar.gz
++ /usr/bin/tar -xvvf -
+drwxr-xr-x root/root         0 2018-05-23 11:34 hello-1.0/
+-rw-r--r-- root/root        60 2018-05-23 11:30 hello-1.0/main.c
+-rw-r--r-- root/root       130 2018-05-23 11:31 hello-1.0/Makefile
+-rw-r--r-- root/root       405 2018-05-23 11:34 hello-1.0/hello.spec
++ STATUS=0
++ '[' 0 -ne 0 ']'
++ cd hello-1.0
++ /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w .
++ exit 0
+Executing(%build): /bin/sh -e /var/tmp/rpm-tmp.9B7MQi
++ umask 022
++ cd /root/rpmbuild/BUILD
++ cd hello-1.0
++ make
+gcc main.c -o hello
++ exit 0
+Executing(%install): /bin/sh -e /var/tmp/rpm-tmp.gv6IBu
++ umask 022
++ cd /root/rpmbuild/BUILD
++ '[' /root/rpmbuild/BUILDROOT/hello-1.0-1.x86_64 '!=' / ']'
++ rm -rf /root/rpmbuild/BUILDROOT/hello-1.0-1.x86_64
+++ dirname /root/rpmbuild/BUILDROOT/hello-1.0-1.x86_64
++ mkdir -p /root/rpmbuild/BUILDROOT
++ mkdir /root/rpmbuild/BUILDROOT/hello-1.0-1.x86_64
++ cd hello-1.0
++ make install prefix=/root/rpmbuild/BUILDROOT/hello-1.0-1.x86_64
+mkdir -p /root/rpmbuild/BUILDROOT/hello-1.0-1.x86_64/usr/local/bin
+cp hello /root/rpmbuild/BUILDROOT/hello-1.0-1.x86_64/usr/local/bin
++ /usr/lib/rpm/find-debuginfo.sh --strict-build-id -m --run-dwz --dwz-low-mem-die-limit 10000000 --dwz-max-die-limit 110000000 /root/rpmbuild/BUILD/hello-1.0
+extracting debug info from /root/rpmbuild/BUILDROOT/hello-1.0-1.x86_64/usr/local/bin/hello
+dwz: Too few files for multifile optimization
+/usr/lib/rpm/sepdebugcrcfix: Updated 0 CRC32s, 1 CRC32s did match.
++ '[' '%{buildarch}' = noarch ']'
++ QA_CHECK_RPATHS=1
++ case "${QA_CHECK_RPATHS:-}" in
++ /usr/lib/rpm/check-rpaths
++ /usr/lib/rpm/check-buildroot
++ /usr/lib/rpm/redhat/brp-compress
++ /usr/lib/rpm/redhat/brp-strip-static-archive /usr/bin/strip
++ /usr/lib/rpm/brp-python-bytecompile /usr/bin/python 1
++ /usr/lib/rpm/redhat/brp-python-hardlink
++ /usr/lib/rpm/redhat/brp-java-repack-jars
+Processing files: hello-1.0-1.x86_64
+Provides: hello = 1.0-1 hello(x86-64) = 1.0-1
+Requires(rpmlib): rpmlib(CompressedFileNames) <= 3.0.4-1 rpmlib(FileDigests) <= 4.6.0-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1
+Requires: libc.so.6()(64bit) libc.so.6(GLIBC_2.2.5)(64bit) rtld(GNU_HASH)
+Processing files: hello-debuginfo-1.0-1.x86_64
+Provides: hello-debuginfo = 1.0-1 hello-debuginfo(x86-64) = 1.0-1
+Requires(rpmlib): rpmlib(FileDigests) <= 4.6.0-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1 rpmlib(CompressedFileNames) <= 3.0.4-1
+Checking for unpackaged file(s): /usr/lib/rpm/check-files /root/rpmbuild/BUILDROOT/hello-1.0-1.x86_64
+Wrote: /root/rpmbuild/SRPMS/hello-1.0-1.src.rpm
+Wrote: /root/rpmbuild/RPMS/x86_64/hello-1.0-1.x86_64.rpm
+Wrote: /root/rpmbuild/RPMS/x86_64/hello-debuginfo-1.0-1.x86_64.rpm
+Executing(%clean): /bin/sh -e /var/tmp/rpm-tmp.Y3Mall
++ umask 022
++ cd /root/rpmbuild/BUILD
++ cd hello-1.0
++ /usr/bin/rm -rf /root/rpmbuild/BUILDROOT/hello-1.0-1.x86_64
++ exit 0
+[root@localhost ~]# ll ~/rpmbuild/
+total 0
+drwxr-xr-x. 3 root root 23 May 23 11:38 BUILD
+drwxr-xr-x. 2 root root  6 May 23 11:38 BUILDROOT
+drwxr-xr-x. 3 root root 20 May 23 11:38 RPMS
+drwxr-xr-x. 2 root root 26 May 23 11:38 SOURCES
+drwxr-xr-x. 2 root root  6 May 23 11:29 SPECS
+drwxr-xr-x. 2 root root 33 May 23 11:38 SRPMS
+[root@localhost ~]# ll ~/rpmbuild/RPMS/
+total 0
+drwxr-xr-x. 2 root root 76 May 23 11:38 x86_64
+[root@localhost ~]# ll ~/rpmbuild/RPMS/x86_64/
+total 16
+-rw-r--r--. 1 root root 4756 May 23 11:38 hello-1.0-1.x86_64.rpm
+-rw-r--r--. 1 root root 4312 May 23 11:38 hello-debuginfo-1.0-1.x86_64.rpm
+[root@localhost ~]# rpm -ivh ~/hello-1.0-1.x86_64.rpm
+error: open of /root/hello-1.0-1.x86_64.rpm failed: No such file or directory
+[root@localhost ~]# rpm -ivh ~//rpmbuild/RPMS/x86_64/
+error: /root//rpmbuild/RPMS/x86_64/: not an rpm package (or package manifest):
+[root@localhost ~]# rpm -ivh ~/rpmbuild/RPMS/x86_64/hello-1.0-1.x86_64.rpm
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:hello-1.0-1                      ################################# [100%]
+[root@localhost ~]# rpm -ql hello
+/usr/local/bin/hello
+[root@localhost ~]# rpm -qi hello
+Name        : hello
+Version     : 1.0
+Release     : 1
+Architecture: x86_64
+Install Date: Wed 23 May 2018 11:40:15 AM MSK
+Group       : Applications/Tutorials
+Size        : 7136
+License     : GPL
+Signature   : (none)
+Source RPM  : hello-1.0-1.src.rpm
+Build Date  : Wed 23 May 2018 11:38:55 AM MSK
+Build Host  : localhost
+Relocations : (not relocatable)
+Packager    : Marat
+Vendor      : -
+URL         : https://github.com/solomon585858/OTUS-Linux-2018-04/
+Summary     : hello greets the world
+Description :
+hello greets the world
+[root@localhost ~]# ll /usr/local/bin/hello
+-rwxr-xr-x. 1 root root 7136 May 23 11:38 /usr/local/bin/hello
+[root@localhost ~]# ls /usr/local/bin/hello
+/usr/local/bin/hello
+[root@localhost ~]# /usr/local/bin/hello
+hello world[root@localhost ~]#
+[root@localhost ~]#
+[root@localhost ~]# /usr/local/bin/hello
+hello world[root@localhost ~]#
+
+
+
+
+[root@localhost ~]# wget https://github.com/solomon585858/OTUS-Linux-2018-04/raw/HW-8/HW-8/hello-1.0-1.x86_64.rpm
+--2018-05-23 12:30:34--  https://github.com/solomon585858/OTUS-Linux-2018-04/raw/HW-8/HW-8/hello-1.0-1.x86_64.rpm
+Resolving github.com (github.com)... 192.30.253.112, 192.30.253.113
+Connecting to github.com (github.com)|192.30.253.112|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://raw.githubusercontent.com/solomon585858/OTUS-Linux-2018-04/HW-8/HW-8/hello-1.0-1.x86_64.rpm [following]
+--2018-05-23 12:30:35--  https://raw.githubusercontent.com/solomon585858/OTUS-Linux-2018-04/HW-8/HW-8/hello-1.0-1.x86_64.rpm
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.84.133
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.84.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4756 (4.6K) [audio/pn-realaudio-plugin]
+Saving to: ‘hello-1.0-1.x86_64.rpm’
+
+100%[=========================================================================================>] 4,756       --.-K/s   in 0s      
+
+2018-05-23 12:30:36 (32.6 MB/s) - ‘hello-1.0-1.x86_64.rpm’ saved [4756/4756]
+
+[root@localhost ~]# rpm -ivh hello-1.0-1.x86_64.rpm 
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:hello-1.0-1                      ################################# [100%]
+[root@localhost ~]# hello
+hello world[root@localhost ~]# 
