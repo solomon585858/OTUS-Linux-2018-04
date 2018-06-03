@@ -26,3 +26,4 @@ echo "MASTER=bond0" >> /etc/sysconfig/network-scripts/ifcfg-eth2
 echo "MTU=9000" >> /etc/sysconfig/network-scripts/ifcfg-eth2
 echo "BOOTPROTO=none" >> /etc/sysconfig/network-scripts/ifcfg-eth2
 systemctl restart network
+sysctl net.ipv4.conf.all.forwarding=1
