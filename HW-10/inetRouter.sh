@@ -2,6 +2,7 @@
 
 sysctl net.ipv4.conf.all.forwarding=1
 iptables -t nat -A POSTROUTING ! -d 192.168.0.0/16 -o eth0 -j MASQUERADE 
+echo "192.168.0.0/22 via 192.168.255.2 dev eth1" >> /etc/sysconfig/network-scripts/route-eth1
 echo "DEVICE=bond0" >> /etc/sysconfig/network-scripts/ifcfg-bond0
 echo "ONBOOT=yes" >> /etc/sysconfig/network-scripts/ifcfg-bond0
 echo "TYPE=Bond" >> /etc/sysconfig/network-scripts/ifcfg-bond0
@@ -24,3 +25,4 @@ echo "MASTER=bond0" >> /etc/sysconfig/network-scripts/ifcfg-eth2
 echo "MTU=9000" >> /etc/sysconfig/network-scripts/ifcfg-eth2
 echo "BOOTPROTO=none" >> /etc/sysconfig/network-scripts/ifcfg-eth2
 systemctl restart network
+sysctl net.ipv4.conf.all.forwarding=1 
