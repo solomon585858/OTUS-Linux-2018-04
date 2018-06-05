@@ -1,0 +1,141 @@
+SERVER:
+[root@server ~]# ifconfig
+ens160: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 78.138.168.60  netmask 255.255.255.0  broadcast 78.138.168.255
+        inet6 fe80::2fcf:7563:1097:490f  prefixlen 64  scopeid 0x20<link>
+        inet6 fe80::e428:13c1:f349:645d  prefixlen 64  scopeid 0x20<link>
+        ether 00:50:56:bc:09:eb  txqueuelen 1000  (Ethernet)
+        RX packets 448  bytes 50247 (49.0 KiB)
+        RX errors 0  dropped 1  overruns 0  frame 0
+        TX packets 321  bytes 50305 (49.1 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1  (Local Loopback)
+        RX packets 4  bytes 344 (344.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 4  bytes 344 (344.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+tap0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.123.1  netmask 255.255.255.0  broadcast 192.168.123.255
+        inet6 fe80::78a8:24ff:fe73:721c  prefixlen 64  scopeid 0x20<link>
+        ether 7a:a8:24:73:72:1c  txqueuelen 1000  (Ethernet)
+        RX packets 10  bytes 732 (732.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 10  bytes 732 (732.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+[root@server ~]# cat /etc/vtund.conf 
+options {
+  port 5000;
+  syslog daemon;
+ 
+  # Path to various programs
+  ppp /usr/sbin/pppd;
+  ifconfig /sbin/ifconfig;
+  route /sbin/route;
+  firewall /sbin/ipchains;
+  ip /sbin/ip;
+}
+# Default session options
+default {
+  compress no; # Compression is off by default
+  speed 0;     # By default maximum speed, NO shaping
+}
+mysess {
+  passwd  MyPass; # Password
+  type  ether; 
+  device tap0;
+  proto udp;      # UDP protocol
+  encrypt  no;    # Encryption
+  keepalive yes;  # Keep connection alive
+ 
+  up {
+    ifconfig "%% 192.168.123.1 netmask 255.255.255.0";
+  };
+ 
+  down {
+    ifconfig "%% down";
+  };
+}
+
+
+
+
+CLIENT:
+[root@client ~]# ifconfig
+ens160: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 78.138.168.62  netmask 255.255.255.0  broadcast 78.138.168.255
+        inet6 fe80::e428:13c1:f349:645d  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:55:1b:c8  txqueuelen 1000  (Ethernet)
+        RX packets 486  bytes 50607 (49.4 KiB)
+        RX errors 0  dropped 10  overruns 0  frame 0
+        TX packets 307  bytes 45593 (44.5 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1  (Local Loopback)
+        RX packets 8  bytes 680 (680.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 8  bytes 680 (680.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+tap0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.123.2  netmask 255.255.255.0  broadcast 192.168.123.255
+        inet6 fe80::a01f:64ff:fe99:b172  prefixlen 64  scopeid 0x20<link>
+        ether a2:1f:64:99:b1:72  txqueuelen 1000  (Ethernet)
+        RX packets 13  bytes 914 (914.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 13  bytes 914 (914.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+[root@client ~]# cat /etc/vtund.conf
+options {
+  port 5000;
+  timeout 60;
+  ppp /usr/sbin/pppd;
+  ifconfig /sbin/ifconfig;
+  route /sbin/route;
+  firewall /sbin/ipchains;
+  ip /sbin/ip;
+}
+mysess {
+  passwd  MyPass;
+  type ether;
+ 
+  up {
+    ifconfig "%% 192.168.123.2 netmask 255.255.255.0";
+    route "add 127.0.0.10 gw 192.168.123.1";
+  };
+}
+[root@client ~]# ping 192.168.123.1
+PING 192.168.123.1 (192.168.123.1) 56(84) bytes of data.
+64 bytes from 192.168.123.1: icmp_seq=1 ttl=64 time=0.477 ms
+64 bytes from 192.168.123.1: icmp_seq=2 ttl=64 time=0.299 ms
+64 bytes from 192.168.123.1: icmp_seq=3 ttl=64 time=0.330 ms
+64 bytes from 192.168.123.1: icmp_seq=4 ttl=64 time=0.304 ms
+^C
+--- 192.168.123.1 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3000ms
+rtt min/avg/max/mdev = 0.299/0.352/0.477/0.075 ms
+[root@localhost ~]# ping 127.0.0.10
+PING 127.0.0.10 (127.0.0.10) 56(84) bytes of data.
+64 bytes from 127.0.0.10: icmp_seq=1 ttl=64 time=0.027 ms
+64 bytes from 127.0.0.10: icmp_seq=2 ttl=64 time=0.032 ms
+64 bytes from 127.0.0.10: icmp_seq=3 ttl=64 time=0.033 ms
+64 bytes from 127.0.0.10: icmp_seq=4 ttl=64 time=0.032 ms
+^C
+--- 127.0.0.10 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3000ms
+rtt min/avg/max/mdev = 0.027/0.031/0.033/0.002 ms
+
+
+
+
+
+
+
+
