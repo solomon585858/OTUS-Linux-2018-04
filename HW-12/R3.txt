@@ -1,0 +1,93 @@
+R3# show running-config  
+Building configuration...
+
+Current configuration:
+!
+hostname localhost.localdomain
+hostname ospfd
+log stdout
+!
+password zebra
+!
+interface ens160
+ ipv6 nd suppress-ra
+!
+interface ens192
+ description Link-to-Router-R1
+ ip address 10.1.0.6/30
+ ip ospf authentication message-digest
+ ip ospf dead-interval 15
+ ip ospf hello-interval 5
+ ip ospf message-digest-key 1 md5 quagga
+ ipv6 nd suppress-ra
+!
+interface ens224
+ description Link-to-Router-R2
+ ip address 10.1.0.10/30
+ ip ospf authentication message-digest
+ ip ospf dead-interval 15
+ ip ospf hello-interval 5
+ ip ospf message-digest-key 1 md5 quagga
+ ipv6 nd suppress-ra
+!
+interface lo
+ ip address 10.0.0.3/32
+!
+router ospf
+ ospf router-id 10.0.0.3
+ redistribute connected route-map OSPF-MAP
+ network 10.1.0.4/30 area 0.0.0.0
+ network 10.1.0.8/30 area 0.0.0.0
+!
+ip prefix-list OSPF seq 10 permit 10.0.0.3/32
+!
+route-map OSPF-MAP permit 10
+ match ip address prefix-list OSPF
+!
+ip forwarding
+!
+line vty
+!
+end
+R3# show ip ospf  neighbor  
+
+    Neighbor ID Pri State           Dead Time Address         Interface            RXmtL RqstL DBsmL
+10.0.0.1          1 Full/DR           14.360s 10.1.0.5        ens192:10.1.0.6          0     0     0
+10.0.0.2          1 Full/DR           11.786s 10.1.0.9        ens224:10.1.0.10         0     0     0
+R3# show ip route  
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, A - Babel,
+       > - selected route, * - FIB route
+
+K>* 0.0.0.0/0 via 10.1.100.1, ens160
+S>* 10.0.0.0/8 [1/0] is directly connected, Null0, bh
+O>* 10.0.0.1/32 [110/20] via 10.1.0.5, ens192, 00:04:29
+O>* 10.0.0.2/32 [110/20] via 10.1.0.9, ens224, 00:04:29
+C>* 10.0.0.3/32 is directly connected, lo
+O>* 10.1.0.0/30 [110/1010] via 10.1.0.5, ens192, 00:04:30
+  *                        via 10.1.0.9, ens224, 00:04:30
+O   10.1.0.4/30 [110/10] is directly connected, ens192, 00:04:36
+C>* 10.1.0.4/30 is directly connected, ens192
+O   10.1.0.8/30 [110/10] is directly connected, ens224, 00:04:36
+C>* 10.1.0.8/30 is directly connected, ens224
+C>* 10.1.100.0/24 is directly connected, ens160
+C>* 127.0.0.0/8 is directly connected, lo
+R3# ping 10.0.0.1
+PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
+64 bytes from 10.0.0.1: icmp_seq=1 ttl=64 time=0.207 ms
+64 bytes from 10.0.0.1: icmp_seq=2 ttl=64 time=0.249 ms
+64 bytes from 10.0.0.1: icmp_seq=3 ttl=64 time=0.265 ms
+^C
+--- 10.0.0.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 1999ms
+rtt min/avg/max/mdev = 0.207/0.240/0.265/0.027 ms
+R3# ping 10.0.0.2
+PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=0.266 ms
+64 bytes from 10.0.0.2: icmp_seq=2 ttl=64 time=0.302 ms
+64 bytes from 10.0.0.2: icmp_seq=3 ttl=64 time=0.261 ms
+^C
+--- 10.0.0.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 1999ms
+rtt min/avg/max/mdev = 0.261/0.276/0.302/0.022 ms
+R3# 
