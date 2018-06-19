@@ -1,0 +1,309 @@
+SERVER:
+[root@server ~]# ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: ens160: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 00:50:56:bc:09:eb brd ff:ff:ff:ff:ff:ff
+    inet 78.138.168.60/24 brd 78.138.168.255 scope global ens160
+       valid_lft forever preferred_lft forever
+    inet6 fe80::2fcf:7563:1097:490f/64 scope link 
+       valid_lft forever preferred_lft forever
+    inet6 fe80::e428:13c1:f349:645d/64 scope link tentative dadfailed 
+       valid_lft forever preferred_lft forever
+4: tun0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 100
+    link/none 
+    inet 10.8.0.1/24 brd 10.8.0.255 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::2be1:e3b7:9ef3:4f04/64 scope link flags 800 
+       valid_lft forever preferred_lft forever
+[root@localhost ~]# systemctl status openvpn@server.service
+● openvpn@server.service - OpenVPN Robust And Highly Flexible Tunneling Application On server
+   Loaded: loaded (/usr/lib/systemd/system/openvpn@.service; enabled; vendor preset: disabled)
+   Active: active (running) since Tue 2018-06-05 17:44:35 MSK; 21s ago
+ Main PID: 3865 (openvpn)
+   Status: "Initialization Sequence Completed"
+   CGroup: /system.slice/system-openvpn.slice/openvpn@server.service
+           └─3865 /usr/sbin/openvpn --cd /etc/openvpn/ --config server.conf
+
+Jun 05 17:44:35 localhost.localdomain openvpn[3865]: Tue Jun  5 17:44:35 2018 Could not determine IPv4/IPv6 protocol. Using AF_INET
+Jun 05 17:44:35 localhost.localdomain openvpn[3865]: Tue Jun  5 17:44:35 2018 Socket Buffers: R=[212992->212992] S=[212992->212992]
+Jun 05 17:44:35 localhost.localdomain openvpn[3865]: Tue Jun  5 17:44:35 2018 UDPv4 link local (bound): [AF_INET][undef]:1194
+Jun 05 17:44:35 localhost.localdomain openvpn[3865]: Tue Jun  5 17:44:35 2018 UDPv4 link remote: [AF_UNSPEC]
+Jun 05 17:44:35 localhost.localdomain openvpn[3865]: Tue Jun  5 17:44:35 2018 GID set to nobody
+Jun 05 17:44:35 localhost.localdomain openvpn[3865]: Tue Jun  5 17:44:35 2018 UID set to nobody
+Jun 05 17:44:35 localhost.localdomain openvpn[3865]: Tue Jun  5 17:44:35 2018 MULTI: multi_init called, r=256 v=256
+Jun 05 17:44:35 localhost.localdomain openvpn[3865]: Tue Jun  5 17:44:35 2018 IFCONFIG POOL: base=10.8.0.2 size=252, ipv6=0
+Jun 05 17:44:35 localhost.localdomain openvpn[3865]: Tue Jun  5 17:44:35 2018 IFCONFIG POOL LIST
+Jun 05 17:44:35 localhost.localdomain openvpn[3865]: Tue Jun  5 17:44:35 2018 Initialization Sequence Completed
+Hint: Some lines were ellipsized, use -l to show in full.
+[root@localhost ~]# ls -alZ /etc/openvpn/
+drwxr-xr-x. root   root    system_u:object_r:openvpn_etc_t:s0 .
+drwxr-xr-x. root   root    system_u:object_r:etc_t:s0       ..
+-rw-------. root   root    unconfined_u:object_r:openvpn_etc_t:s0 ca.crt
+-rw-------. root   root    unconfined_u:object_r:openvpn_etc_t:s0 ca.key
+drwxr-x---. root   openvpn system_u:object_r:openvpn_etc_t:s0 client
+-rw-r--r--. root   root    unconfined_u:object_r:openvpn_etc_t:s0 client-common.txt
+-rw-------. nobody nobody  unconfined_u:object_r:openvpn_etc_t:s0 crl.pem
+-rw-------. root   root    unconfined_u:object_r:openvpn_etc_t:s0 dh.pem
+drwxrwxr-x. root   root    unconfined_u:object_r:admin_home_t:s0 easy-rsa
+-rw-------. root   root    system_u:object_r:openvpn_etc_rw_t:s0 ipp.txt
+-rw-------. root   root    system_u:object_r:openvpn_etc_rw_t:s0 openvpn-status.log
+drwxr-x---. root   openvpn system_u:object_r:openvpn_etc_t:s0 server
+-rw-r--r--. root   root    unconfined_u:object_r:openvpn_etc_t:s0 server.conf
+-rw-------. root   root    unconfined_u:object_r:openvpn_etc_t:s0 server.crt
+-rw-------. root   root    unconfined_u:object_r:openvpn_etc_t:s0 server.key
+-rw-------. root   root    unconfined_u:object_r:openvpn_etc_t:s0 ta.key
+
+
+
+
+CLIENT:
+[root@client ~]# cat /etc/openvpn/client.ovpn 
+client
+dev tun
+proto udp
+sndbuf 0
+rcvbuf 0
+remote 78.138.168.60 1194
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+remote-cert-tls server
+auth SHA512
+cipher AES-256-CBC
+comp-lzo
+setenv opt block-outside-dns
+key-direction 1
+verb 3
+<ca>
+-----BEGIN CERTIFICATE-----
+MIIDKzCCAhOgAwIBAgIJAPbqzL3guA51MA0GCSqGSIb3DQEBCwUAMBMxETAPBgNV
+BAMMCENoYW5nZU1lMB4XDTE4MDYwNTE0NDQxOFoXDTI4MDYwMjE0NDQxOFowEzER
+MA8GA1UEAwwIQ2hhbmdlTWUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+AQDviSRzQ4EBwH88kvWEvYyBdgsV2pm7m3LTWLrOqNjHscGpi/iAm8dRX3Wk6tIa
+kHvqWEG2RCNj8cGibLGjCz92yxjQbf/oDi5nOeTPQOVa/lbIPZS9Kp+onNX48jw2
+kdCPHFd33zUDFNMPvXsiDUmNKy3BcPg0SLTME9jNfHK7zHNAE/miW0gAoOvMf63X
+/yiKSb/SCKs0ijl64F1WM1DRERlejm/yJAzkjdBzghQNEV5Td7ygN3/Dp3CHsXZ4
+HaCCSqUfA+TbvGtnr2d2YHBvLdtgVyqEHkI2zyLZ9dhiaNxKVyFOSly0RQnXa8o8
+4Tj+1rGTOS2OSNTvLX8I0oybAgMBAAGjgYEwfzAdBgNVHQ4EFgQUA2jUgbPXtJVt
+rcrL9AiqO6rJ/p4wQwYDVR0jBDwwOoAUA2jUgbPXtJVtrcrL9AiqO6rJ/p6hF6QV
+MBMxETAPBgNVBAMMCENoYW5nZU1lggkA9urMveC4DnUwDAYDVR0TBAUwAwEB/zAL
+BgNVHQ8EBAMCAQYwDQYJKoZIhvcNAQELBQADggEBAKoDnveEXiDeusE7k5i23zH+
+5T4jSu993cyzsfP0rH9Jmc2uKaobtAPiZWaPOYG62t3ullGfwE108OgYZEyNjIgl
+taAvM0EbdbPlH/BLNr9yp32ASDrETTc5GOp40cVQrjEMUHsprtsRYMjGU7Za5LJF
+rmlk2lNoqnh8VPfQqxHIHGAzTj83DYyRLzKHq3TWS2SVyuzmn/fcefagpT+s49Rm
+HS2mDbho3zuJnJFV0sCbXd7YmCHDRKhexLg52mVlbstPy/MKLhTR38MTEUWJZ4lk
+b6I33BjFWg4RGP1SB+VMC63tOWl1DpPuNUSRcNsfXV+V/2UGzId4/1aUewmvouU=
+-----END CERTIFICATE-----
+</ca>
+<cert>
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            1d:c4:33:cc:e4:a1:b0:29:ee:fc:79:58:f8:33:e3:8e
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN=ChangeMe
+        Validity
+            Not Before: Jun  5 14:44:35 2018 GMT
+            Not After : Jun  2 14:44:35 2028 GMT
+        Subject: CN=client
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:c5:40:7e:b6:4e:e4:e6:1c:85:7b:e2:bf:1e:00:
+                    a3:db:94:37:4f:a3:10:4b:14:3b:5d:91:76:64:04:
+                    32:ee:19:91:67:e4:0b:b8:4a:d4:ba:28:da:1d:a4:
+                    82:59:ff:63:0c:6e:f4:92:dd:36:78:f3:1e:d6:40:
+                    fe:65:d5:3d:9a:e6:8e:94:1b:c1:cf:70:c0:25:e2:
+                    48:fe:b3:ca:17:e4:27:48:36:ec:5f:ee:72:6d:a2:
+                    9a:11:6e:84:f7:95:d3:34:fc:17:7e:6e:48:e5:35:
+                    db:e2:45:2d:da:bd:33:35:cb:a1:6a:46:4a:0e:77:
+                    0d:02:19:fa:1f:2b:48:9f:3a:e3:a3:da:34:af:7b:
+                    92:b6:0a:df:66:75:ea:06:66:78:5b:14:26:aa:a3:
+                    69:a7:79:60:bd:86:db:6b:40:48:43:b0:ab:70:ca:
+                    11:d9:bb:db:11:72:66:01:dd:9a:e0:5d:3b:a7:6e:
+                    be:73:7d:b0:74:1a:2b:dd:40:db:86:2a:59:80:d3:
+                    42:ce:36:80:11:60:52:67:25:c5:ed:01:7e:1b:d4:
+                    54:ae:77:f9:6c:0e:58:50:df:89:46:a5:39:92:a3:
+                    d6:13:d9:f7:8f:88:f0:cd:8c:59:57:13:15:49:12:
+                    29:92:a0:bb:07:d4:c0:67:8a:3c:db:b1:6a:c0:f8:
+                    d4:83
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Subject Key Identifier: 
+                A4:AF:04:1D:53:CF:43:6F:D7:32:26:26:B9:B8:0F:8B:86:5A:B6:79
+            X509v3 Authority Key Identifier: 
+                keyid:03:68:D4:81:B3:D7:B4:95:6D:AD:CA:CB:F4:08:AA:3B:AA:C9:FE:9E
+                DirName:/CN=ChangeMe
+                serial:F6:EA:CC:BD:E0:B8:0E:75
+
+            X509v3 Extended Key Usage: 
+                TLS Web Client Authentication
+            X509v3 Key Usage: 
+                Digital Signature
+    Signature Algorithm: sha256WithRSAEncryption
+         ce:3c:14:d1:e8:8e:04:6c:6e:a7:d7:f3:28:a6:c9:8c:3c:a7:
+         91:db:be:c1:f0:f5:24:02:1b:c6:62:a0:04:f6:79:a2:fa:f2:
+         1c:1b:51:3e:42:c5:0b:65:8d:6f:63:96:0c:59:c4:9a:14:de:
+         87:b6:aa:59:5a:76:17:b3:39:c6:0d:61:fb:f4:ba:c6:c7:eb:
+         90:50:50:38:99:d6:fa:8c:5e:8f:03:2d:42:d6:62:e9:24:01:
+         29:e4:fa:c4:72:a0:33:bf:9c:78:be:34:7e:b1:79:af:ee:7c:
+         bb:fa:71:7f:d7:47:d5:83:28:66:37:2e:33:1b:57:cb:3b:ed:
+         6e:16:d6:98:10:9c:e4:78:19:87:49:0c:e5:c2:ea:5e:b0:d3:
+         90:46:13:98:65:bb:79:15:a2:62:2c:86:73:5a:0e:1d:7a:0a:
+         60:84:0b:1e:45:ec:3d:94:f2:ce:34:8c:89:94:7d:d4:79:41:
+         da:9b:b8:0c:6f:36:0d:34:be:3c:1a:9e:7a:86:05:00:4b:cf:
+         c7:c9:86:8c:ba:13:be:f3:7c:9b:8b:1d:c0:a5:7e:ad:73:ff:
+         54:ec:44:09:03:40:25:c7:2e:87:af:1c:dc:b8:f8:cd:2f:59:
+         56:45:e8:0b:c9:bb:bb:50:20:3f:7f:84:89:d2:1c:7e:5a:13:
+         80:f3:af:dd
+-----BEGIN CERTIFICATE-----
+MIIDQzCCAiugAwIBAgIQHcQzzOShsCnu/HlY+DPjjjANBgkqhkiG9w0BAQsFADAT
+MREwDwYDVQQDDAhDaGFuZ2VNZTAeFw0xODA2MDUxNDQ0MzVaFw0yODA2MDIxNDQ0
+MzVaMBExDzANBgNVBAMMBmNsaWVudDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+AQoCggEBAMVAfrZO5OYchXvivx4Ao9uUN0+jEEsUO12RdmQEMu4ZkWfkC7hK1Loo
+2h2kgln/Ywxu9JLdNnjzHtZA/mXVPZrmjpQbwc9wwCXiSP6zyhfkJ0g27F/ucm2i
+mhFuhPeV0zT8F35uSOU12+JFLdq9MzXLoWpGSg53DQIZ+h8rSJ8646PaNK97krYK
+32Z16gZmeFsUJqqjaad5YL2G22tASEOwq3DKEdm72xFyZgHdmuBdO6duvnN9sHQa
+K91A24YqWYDTQs42gBFgUmclxe0BfhvUVK53+WwOWFDfiUalOZKj1hPZ94+I8M2M
+WVcTFUkSKZKguwfUwGeKPNuxasD41IMCAwEAAaOBlDCBkTAJBgNVHRMEAjAAMB0G
+A1UdDgQWBBSkrwQdU89Db9cyJia5uA+Lhlq2eTBDBgNVHSMEPDA6gBQDaNSBs9e0
+lW2tysv0CKo7qsn+nqEXpBUwEzERMA8GA1UEAwwIQ2hhbmdlTWWCCQD26sy94LgO
+dTATBgNVHSUEDDAKBggrBgEFBQcDAjALBgNVHQ8EBAMCB4AwDQYJKoZIhvcNAQEL
+BQADggEBAM48FNHojgRsbqfX8yimyYw8p5HbvsHw9SQCG8ZioAT2eaL68hwbUT5C
+xQtljW9jlgxZxJoU3oe2qlladhezOcYNYfv0usbH65BQUDiZ1vqMXo8DLULWYukk
+ASnk+sRyoDO/nHi+NH6xea/ufLv6cX/XR9WDKGY3LjMbV8s77W4W1pgQnOR4GYdJ
+DOXC6l6w05BGE5hlu3kVomIshnNaDh16CmCECx5F7D2U8s40jImUfdR5QdqbuAxv
+Ng00vjwannqGBQBLz8fJhoy6E77zfJuLHcClfq1z/1TsRAkDQCXHLoevHNy4+M0v
+WVZF6AvJu7tQID9/hInSHH5aE4Dzr90=
+-----END CERTIFICATE-----
+</cert>
+<key>
+-----BEGIN PRIVATE KEY-----
+MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDFQH62TuTmHIV7
+4r8eAKPblDdPoxBLFDtdkXZkBDLuGZFn5Au4StS6KNodpIJZ/2MMbvSS3TZ48x7W
+QP5l1T2a5o6UG8HPcMAl4kj+s8oX5CdINuxf7nJtopoRboT3ldM0/Bd+bkjlNdvi
+RS3avTM1y6FqRkoOdw0CGfofK0ifOuOj2jSve5K2Ct9mdeoGZnhbFCaqo2mneWC9
+httrQEhDsKtwyhHZu9sRcmYB3ZrgXTunbr5zfbB0GivdQNuGKlmA00LONoARYFJn
+JcXtAX4b1FSud/lsDlhQ34lGpTmSo9YT2fePiPDNjFlXExVJEimSoLsH1MBnijzb
+sWrA+NSDAgMBAAECggEBAKAvvjeDXnRZWTXAcICG+IrLlReBTywJpCRaixCyMEIY
+VXNPSQ1DB/qeTnOgM5OuyNtCCDB0oVYb6kEIyxAb2km/Tq6M1BoIcKLTX4Aotcgt
+KpGEuPU3CYprcD8Tx7vg2oK+7r1oBp7N3GGm2JQ47iuT0OQjbOTOXawFOJCzb+iO
+VrwBey8iC6fWLX0rSACZRF/iJQHju9yu/nIyIn9Mgt8RnwOBUx0DZKL1HFYvDzLW
+njxC2EtDF8rydZZNUTDkw3G96L/rAgj7m2UpknTl6en0tLUxBnPPIH+XgQpMzYxb
+r2WE2x4zwWORVT/eHDvpGlxRh8zGbvDjk02Qt4omLnECgYEA7xwdXxrVGhbcIiHU
+VY7kOcvuGpvub3AiLi7bWndU2LbI51K3QBgBPB2mrZtPPaUpLsMX70RXX3uHsX/C
+kTxgvZ7pltr6Zc+9NgzJ6FgzOcA2pdD6hTPXwPS4YGBje/Ekcd6WZGuoKokLS1LY
+zHuDlSGxS5ur2qUClOdtEQ/5nu8CgYEA0y9z/rQclS80o8I/GmhmLYubHoSqMcoU
+y1P+iARE2oSjqkXDrAZxWyX3OcjUAcYNBDrKIdbjbDvuR6T8RIFrsjBjC79sFADd
+6p+A20oYKiJYOQ7j9SnEEoNHH881NN2+BPQu0jk6++Sn4KIABlGHRuMHrWJMTP8J
+qTMEyQBOY60CgYEAvfNIxgfL6PjmEdtsEjf8yIlf8xWS2kZrcOLacUjBR5QVj+bf
+GvS27mnjwqDR13gAelyUBAj3nCvHRVPoXnZnp9u5V5VIPF9GwcxxDbobn7I594pH
+qk/gAzKl0jJgddLAkBEyyj3YD0plhYYgInmws2VbsmPNp1lU7rPWqipVtFMCgYAY
+bp7+0puT7tgqMejXB0j67/HMQBDonbZ2J4uE9Ol6VmoQ4u1WU5B9uRC3ELLmWaFb
+4elMrO22seBJTZ8Z1dc90DdFPqokTk1ePYHM3O+awEpwn3ZkAKb8dU+fMHu5WAYJ
+0K4yCAj452U8qcFS+c+qtc1Hk9278q2Nc6eUEYMAKQKBgQDJyrx4EV/eJZpRubQy
+QlsV2zo6Aml1qg7fDznEUbpRqRUCPsVLDfvj4vbS096McjKDaR9gcXQF9/Gf1o8B
+jwQlbytF10dW3INWOpkUCWW7RX074EsNKZYsKzaB424c1CsDJF3n4GW8mBwJnJNk
+/mEea9mDTqYsEMH0CAWSfonT+A==
+-----END PRIVATE KEY-----
+</key>
+<tls-auth>
+#
+# 2048 bit OpenVPN static key
+#
+-----BEGIN OpenVPN Static key V1-----
+680527192839ebd9613c7df1f18645c0
+0b77c1c5ace7d2265e1c9ce1583507a2
+a05406238e4f6e7498681049cff209c2
+3e0ef7eeb050e126bbae57806648deb8
+e80b97fc9df3aaee7ad93ec112e8ba5f
+ac0ca3fdd2a9adf9d55636cbaeae69aa
+cae11296ec1b0cb649bc273933c764e4
+55dd4ad4b62614bb60cb691ff27b9db7
+c0eff02fb7e4ed97a26ee9f4bfe547c2
+cb8fc9458cbbb1d02bb085f52215e4e6
+43ced3c4fb46a2120558f165b778817b
+06012e0aecaca90374543fb5e7be6625
+661719541b3e959c813d03cc09977a24
+2f8c9d19c7fb6a3ceec6884aa5e6b84d
+aeae3b26c6772f20afbf743cb8ecdbfa
+4c936d20686972020e999ba85207068b
+-----END OpenVPN Static key V1-----
+</tls-auth>
+[root@client ~]# openvpn --config /etc/openvpn/client.ovpn
+Tue Jun  5 17:47:34 2018 Unrecognized option or missing or extra parameter(s) in /etc/openvpn/client.ovpn:15: block-outside-dns (2.4.6)
+Tue Jun  5 17:47:34 2018 OpenVPN 2.4.6 x86_64-redhat-linux-gnu [Fedora EPEL patched] [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on Apr 26 2018
+Tue Jun  5 17:47:34 2018 library versions: OpenSSL 1.0.2k-fips  26 Jan 2017, LZO 2.06
+Tue Jun  5 17:47:34 2018 Outgoing Control Channel Authentication: Using 512 bit message hash 'SHA512' for HMAC authentication
+Tue Jun  5 17:47:34 2018 Incoming Control Channel Authentication: Using 512 bit message hash 'SHA512' for HMAC authentication
+Tue Jun  5 17:47:34 2018 TCP/UDP: Preserving recently used remote address: [AF_INET]78.138.168.60:1194
+Tue Jun  5 17:47:34 2018 Socket Buffers: R=[212992->212992] S=[212992->212992]
+Tue Jun  5 17:47:34 2018 UDP link local: (not bound)
+Tue Jun  5 17:47:34 2018 UDP link remote: [AF_INET]78.138.168.60:1194
+Tue Jun  5 17:47:34 2018 TLS: Initial packet from [AF_INET]78.138.168.60:1194, sid=abb0d190 838f3544
+Tue Jun  5 17:47:34 2018 VERIFY OK: depth=1, CN=ChangeMe
+Tue Jun  5 17:47:34 2018 VERIFY KU OK
+Tue Jun  5 17:47:34 2018 Validating certificate extended key usage
+Tue Jun  5 17:47:34 2018 ++ Certificate has EKU (str) TLS Web Server Authentication, expects TLS Web Server Authentication
+Tue Jun  5 17:47:34 2018 VERIFY EKU OK
+Tue Jun  5 17:47:34 2018 VERIFY OK: depth=0, CN=server
+Tue Jun  5 17:47:34 2018 Control Channel: TLSv1.2, cipher TLSv1/SSLv3 ECDHE-RSA-AES256-GCM-SHA384, 2048 bit RSA
+Tue Jun  5 17:47:34 2018 [server] Peer Connection Initiated with [AF_INET]78.138.168.60:1194
+Tue Jun  5 17:47:35 2018 SENT CONTROL [server]: 'PUSH_REQUEST' (status=1)
+Tue Jun  5 17:47:35 2018 PUSH: Received control message: 'PUSH_REPLY,redirect-gateway def1 bypass-dhcp,dhcp-option DNS 8.8.8.8,route-gateway 10.8.0.1,topology subnet,ping 10,ping-restart 120,ifconfig 10.8.0.2 255.255.255.0,peer-id 0,cipher AES-256-GCM'
+Tue Jun  5 17:47:35 2018 OPTIONS IMPORT: timers and/or timeouts modified
+Tue Jun  5 17:47:35 2018 OPTIONS IMPORT: --ifconfig/up options modified
+Tue Jun  5 17:47:35 2018 OPTIONS IMPORT: route options modified
+Tue Jun  5 17:47:35 2018 OPTIONS IMPORT: route-related options modified
+Tue Jun  5 17:47:35 2018 OPTIONS IMPORT: --ip-win32 and/or --dhcp-option options modified
+Tue Jun  5 17:47:35 2018 OPTIONS IMPORT: peer-id set
+Tue Jun  5 17:47:35 2018 OPTIONS IMPORT: adjusting link_mtu to 1625
+Tue Jun  5 17:47:35 2018 OPTIONS IMPORT: data channel crypto options modified
+Tue Jun  5 17:47:35 2018 Data Channel: using negotiated cipher 'AES-256-GCM'
+Tue Jun  5 17:47:35 2018 Outgoing Data Channel: Cipher 'AES-256-GCM' initialized with 256 bit key
+Tue Jun  5 17:47:35 2018 Incoming Data Channel: Cipher 'AES-256-GCM' initialized with 256 bit key
+Tue Jun  5 17:47:35 2018 ROUTE_GATEWAY 78.138.168.57/255.255.255.0 IFACE=ens160 HWADDR=00:0c:29:55:1b:c8
+Tue Jun  5 17:47:35 2018 TUN/TAP device tun0 opened
+Tue Jun  5 17:47:35 2018 TUN/TAP TX queue length set to 100
+Tue Jun  5 17:47:35 2018 do_ifconfig, tt->did_ifconfig_ipv6_setup=0
+Tue Jun  5 17:47:35 2018 /sbin/ip link set dev tun0 up mtu 1500
+Tue Jun  5 17:47:35 2018 /sbin/ip addr add dev tun0 10.8.0.2/24 broadcast 10.8.0.255
+Tue Jun  5 17:47:35 2018 /sbin/ip route add 78.138.168.60/32 dev ens160
+Tue Jun  5 17:47:35 2018 /sbin/ip route add 0.0.0.0/1 via 10.8.0.1
+Tue Jun  5 17:47:35 2018 /sbin/ip route add 128.0.0.0/1 via 10.8.0.1
+Tue Jun  5 17:47:35 2018 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
+Tue Jun  5 17:47:35 2018 Initialization Sequence Completed
+[root@client ~]# ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: ens160: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 00:0c:29:55:1b:c8 brd ff:ff:ff:ff:ff:ff
+    inet 78.138.168.62/24 brd 78.138.168.255 scope global ens160
+       valid_lft forever preferred_lft forever
+    inet6 fe80::e428:13c1:f349:645d/64 scope link 
+       valid_lft forever preferred_lft forever
+3: tun0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 100
+    link/none 
+    inet 10.8.0.2/24 brd 10.8.0.255 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::1acd:3f18:b14c:aa6a/64 scope link flags 800 
+       valid_lft forever preferred_lft forever
+[root@client ~]# ping 10.8.0.1
+PING 10.8.0.1 (10.8.0.1) 56(84) bytes of data.
+64 bytes from 10.8.0.1: icmp_seq=1 ttl=64 time=0.520 ms
+64 bytes from 10.8.0.1: icmp_seq=2 ttl=64 time=0.348 ms
+64 bytes from 10.8.0.1: icmp_seq=3 ttl=64 time=0.528 ms
