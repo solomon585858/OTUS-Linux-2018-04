@@ -1,0 +1,23 @@
+[vagrant@client2 ~]$ ping web1.dns.lab
+PING web1.dns.lab (192.168.50.15) 56(84) bytes of data.
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=1 ttl=64 time=0.390 ms
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=2 ttl=64 time=0.222 ms
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=3 ttl=64 time=0.251 ms
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=4 ttl=64 time=0.421 ms
+^C
+--- web1.dns.lab ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3002ms
+rtt min/avg/max/mdev = 0.222/0.321/0.421/0.085 ms
+[vagrant@client2 ~]$ ping web2.dns.lab
+PING web2.dns.lab (192.168.50.16) 56(84) bytes of data.
+64 bytes from web2.dns.lab (192.168.50.16): icmp_seq=1 ttl=64 time=0.014 ms
+64 bytes from web2.dns.lab (192.168.50.16): icmp_seq=2 ttl=64 time=0.028 ms
+64 bytes from web2.dns.lab (192.168.50.16): icmp_seq=3 ttl=64 time=0.028 ms
+64 bytes from web2.dns.lab (192.168.50.16): icmp_seq=4 ttl=64 time=0.033 ms
+^C
+--- web2.dns.lab ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3006ms
+rtt min/avg/max/mdev = 0.014/0.025/0.033/0.009 ms
+[vagrant@client2 ~]$ ping www.newdns.lab
+ping: www.newdns.lab: Name or service not known
+[vagrant@client2 ~]$ 

@@ -1,0 +1,160 @@
+[vagrant@ns01 ~]$ sudo cat /etc/named/client.dns.lab
+$TTL 3600
+$ORIGIN dns.lab.
+@               IN      SOA     ns01.dns.lab. root.dns.lab. (
+                            2711201407 ; serial
+                            3600       ; refresh (1 hour)
+                            600        ; retry (10 minutes)
+                            86400      ; expire (1 day)
+                            600        ; minimum (10 minutes)
+                        )
+
+                IN      NS      ns01.dns.lab.
+                IN      NS      ns02.dns.lab.
+
+; DNS Servers
+ns01            IN      A       192.168.50.10
+ns02            IN      A       192.168.50.11
+web1            IN      A       192.168.50.15
+[vagrant@ns01 ~]$ sudo cat /etc/named/client.dns.lab.rev
+$TTL 3600
+$ORIGIN 50.168.192.in-addr.arpa.
+50.168.192.in-addr.arpa.  IN      SOA     ns01.dns.lab. root.dns.lab. (
+                            2711201407 ; serial
+                            3600       ; refresh (1 hour)
+                            600        ; retry (10 minutes)
+                            86400      ; expire (1 day)
+                            600        ; minimum (10 minutes)
+                        )
+
+                IN      NS      ns01.dns.lab.
+                IN      NS      ns02.dns.lab.
+
+; DNS Servers
+10              IN      PTR     ns01.dns.lab.
+11              IN      PTR     ns02.dns.lab.
+15              IN      PTR     web1.dns.lab.
+[vagrant@ns01 ~]$ sudo cat /etc/named/client.newdns.lab    
+$TTL 3600
+$ORIGIN newdns.lab.
+@               IN      SOA     ns01.newdns.lab. root.newdns.lab. (
+                            2711201407 ; serial
+                            3600       ; refresh (1 hour)
+                            600        ; retry (10 minutes)
+                            86400      ; expire (1 day)
+                            600        ; minimum (10 minutes)
+                        )
+
+                IN      NS      ns01.newdns.lab.
+                IN      NS      ns02.newdns.lab.
+
+; DNS Servers
+ns01            IN      A       192.168.50.10
+ns02            IN      A       192.168.50.11
+www             IN      A       192.168.50.15
+www             IN      A       192.168.50.16
+[vagrant@ns01 ~]$ sudo cat /etc/named/client2.dns.lab
+$TTL 3600
+$ORIGIN dns.lab.
+@               IN      SOA     ns01.dns.lab. root.dns.lab. (
+                            2711201407 ; serial
+                            3600       ; refresh (1 hour)
+                            600        ; retry (10 minutes)
+                            86400      ; expire (1 day)
+                            600        ; minimum (10 minutes)
+                        )
+
+                IN      NS      ns01.dns.lab.
+                IN      NS      ns02.dns.lab.
+
+; DNS Servers
+ns01            IN      A       192.168.50.10
+ns02            IN      A       192.168.50.11
+web1            IN      A       192.168.50.15
+web2            IN      A       192.168.50.16
+[vagrant@ns01 ~]$ sudo cat /etc/named/client2.dns.lab.rev
+$TTL 3600
+$ORIGIN 50.168.192.in-addr.arpa.
+50.168.192.in-addr.arpa.  IN      SOA     ns01.dns.lab. root.dns.lab. (
+                            2711201407 ; serial
+                            3600       ; refresh (1 hour)
+                            600        ; retry (10 minutes)
+                            86400      ; expire (1 day)
+                            600        ; minimum (10 minutes)
+                        )
+
+                IN      NS      ns01.dns.lab.
+                IN      NS      ns02.dns.lab.
+
+; DNS Servers
+10              IN      PTR     ns01.dns.lab.
+11              IN      PTR     ns02.dns.lab.
+15              IN      PTR     web1.dns.lab.
+16              IN      PTR     web2.dns.lab.
+
+
+
+[vagrant@ns01 ~]$ sudo cat /etc/named.conf
+options {
+	listen-on port 53 { 192.168.50.10; 127.0.0.1; };
+#   listen-on-v6 port 53 { ::1; };
+	directory "/var/named";
+	dump-file "/var/named/data/cache_dump.db";
+	statistics-file "/var/named/data/named_stats.txt";
+	memstatistics-file "/var/named/data/named_mem_stats.txt";
+    allow-query { any; };
+    recursion no;
+    dnssec-enable no;
+    dnssec-validation no;
+    dnssec-lookaside auto;
+    bindkeys-file "/etc/named.iscdlv.key";
+    managed-keys-directory "/var/named/dynamic";
+    pid-file "/run/named/named.pid";
+    session-keyfile "/run/named/session.key";
+    notify yes;
+    also-notify { 192.168.50.11; };
+    allow-transfer { 127.0.0.1; 192.168.50.11; };
+};
+logging {
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
+};
+acl first { 192.168.50.15; };
+acl second { 192.168.50.16; };
+// CLIENT VIEW
+view client {
+    match-clients { "first"; }; 
+    recursion yes; 
+    // forward zone 1
+    zone "dns.lab" {
+        type master;
+        file "/etc/named/client.dns.lab";   
+    };
+    // reverse zones 1
+    zone "50.168.192.in-addr.arpa" { 
+        type master;
+        file "/etc/named/client.dns.lab.rev";
+    };
+    // forward zone 2
+    zone "newdns.lab" {
+        type master;
+        file "/etc/named/client.newdns.lab";
+    };
+};
+
+view client2 {
+    match-clients { "second"; };
+    recursion yes;
+    // forward zone 1
+    zone "dns.lab" {
+        type master;
+        file "/etc/named/client2.dns.lab";
+    };
+    // reverse zone 1
+    zone "50.168.192.in-addr.arpa" { 
+        type master;
+        file "/etc/named/client2.dns.lab.rev";
+    };
+};
