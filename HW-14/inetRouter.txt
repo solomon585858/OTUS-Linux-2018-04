@@ -1,0 +1,235 @@
+[root@inetrouter ~]#iptables --flush 
+[root@inetrouter ~]#iptables --table nat --flush
+[root@inetrouter ~]#iptables --delete-chain
+[root@inetrouter ~]#iptables --table nat --delete-chain
+[root@inetrouter ~]#iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -j MASQUERADE
+[root@inetrouter ~]#/usr/libexec/iptables/iptables.init save
+[root@inetrouter ~]#
+[root@inetrouter ~]# systemctl status iptables
+в—Џ iptables.service - IPv4 firewall with iptables
+   Loaded: loaded (/usr/lib/systemd/system/iptables.service; enabled; vendor preset: disabled)
+   Active: active (exited) since Tue 2018-06-26 14:10:33 MSK; 6s ago
+  Process: 5665 ExecStop=/usr/libexec/iptables/iptables.init stop (code=exited, status=0/SUCCESS)
+  Process: 5755 ExecStart=/usr/libexec/iptables/iptables.init start (code=exited, status=0/SUCCESS)
+ Main PID: 5755 (code=exited, status=0/SUCCESS)
+
+Jun 26 14:10:33 inetrouter systemd[1]: Starting IPv4 firewall with iptables...
+Jun 26 14:10:33 inetrouter iptables.init[5755]: iptables: Applying firewall rules: [  OK  ]
+Jun 26 14:10:33 inetrouter systemd[1]: Started IPv4 firewall with iptables.
+
+[root@inetrouter ~]# vtysh
+
+Hello, this is Quagga (version 0.99.22.4).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+inetrouter# show running-config  
+Building configuration...
+
+Current configuration:
+!
+hostname localhost.localdomain
+log file /var/log/quagga/quagga.log
+hostname ospfd
+log stdout
+!
+password zebra
+!
+interface ens160
+ ipv6 nd suppress-ra
+!
+interface ens192
+ description IR-CR
+ ip address 192.168.255.1/30
+ ip ospf authentication message-digest
+ ip ospf dead-interval 15
+ ip ospf hello-interval 5
+ ip ospf message-digest-key 1 md5 quagga
+ ipv6 nd suppress-ra
+!
+interface lo
+ ip address 10.0.0.1/32
+!
+router ospf
+ ospf router-id 10.0.0.1
+ redistribute connected route-map OSPF-MAP
+ network 192.168.255.0/30 area 0.0.0.0
+!
+ip prefix-list OSPF seq 10 permit 10.0.0.1/32
+!
+route-map OSPF-MAP permit 10
+ match ip address prefix-list OSPF
+!
+ip forwarding
+!
+line vty
+!
+end
+
+
+inetrouter# show ip route  
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, A - Babel,
+       > - selected route, * - FIB route
+
+K>* 0.0.0.0/0 via 78.138.168.57, ens160
+C>* 10.0.0.1/32 is directly connected, lo
+O>* 10.0.0.2/32 [110/20] via 192.168.255.2, ens192, 00:19:19
+O>* 10.0.0.3/32 [110/20] via 192.168.255.2, ens192, 00:19:19
+C>* 78.138.168.56/29 is directly connected, ens160
+O>* 192.168.0.0/24 [110/20] via 192.168.255.2, ens192, 00:19:19
+O   192.168.255.0/30 [110/10] is directly connected, ens192, 03:06:33
+C>* 192.168.255.0/30 is directly connected, ens192
+O>* 192.168.255.4/30 [110/20] via 192.168.255.2, ens192, 00:19:20
+
+
+Установка Knock Server:
+
+[root@inetrouter ~]# yum install libpcap* -y
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos-mirror.rbc.ru
+ * epel: mirror.logol.ru
+ * extras: mirror.logol.ru
+ * updates: mirror.sale-dedic.com
+Resolving Dependencies
+--> Running transaction check
+---> Package libpcap.x86_64 14:1.5.3-11.el7 will be installed
+---> Package libpcap-devel.x86_64 14:1.5.3-11.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+====================================================================================================================================
+ Package                           Arch                       Version                                Repository                Size
+====================================================================================================================================
+Installing:
+ libpcap                           x86_64                     14:1.5.3-11.el7                        base                     138 k
+ libpcap-devel                     x86_64                     14:1.5.3-11.el7                        base                     118 k
+
+Transaction Summary
+====================================================================================================================================
+Install  2 Packages
+
+Total download size: 256 k
+Installed size: 480 k
+Downloading packages:
+(1/2): libpcap-1.5.3-11.el7.x86_64.rpm                                                                       | 138 kB  00:00:00     
+(2/2): libpcap-devel-1.5.3-11.el7.x86_64.rpm                                                                 | 118 kB  00:00:00     
+------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                               582 kB/s | 256 kB  00:00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : 14:libpcap-1.5.3-11.el7.x86_64                                                                                   1/2 
+  Installing : 14:libpcap-devel-1.5.3-11.el7.x86_64                                                                             2/2 
+  Verifying  : 14:libpcap-1.5.3-11.el7.x86_64                                                                                   1/2 
+  Verifying  : 14:libpcap-devel-1.5.3-11.el7.x86_64                                                                             2/2 
+
+Installed:
+  libpcap.x86_64 14:1.5.3-11.el7                                libpcap-devel.x86_64 14:1.5.3-11.el7                               
+
+Complete!
+[root@inetrouter ~]# wget http://li.nux.ro/download/nux/misc/el6/i386/knock-server-0.5-7.el6.nux.i686.rpm
+--2018-06-26 15:31:03--  http://li.nux.ro/download/nux/misc/el6/i386/knock-server-0.5-7.el6.nux.i686.rpm
+Resolving li.nux.ro (li.nux.ro)... 217.19.15.108
+Connecting to li.nux.ro (li.nux.ro)|217.19.15.108|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 32168 (31K) [application/x-rpm]
+Saving to: вЂknock-server-0.5-7.el6.nux.i686.rpmвЂ™
+
+100%[==========================================================================================>] 32,168      --.-K/s   in 0.1s    
+
+2018-06-26 15:31:04 (320 KB/s) - вЂknock-server-0.5-7.el6.nux.i686.rpmвЂ™ saved [32168/32168]
+
+[root@inetrouter ~]# rpm -ivh knock-server-0.5-7.el6.nux.i686.rpm
+warning: knock-server-0.5-7.el6.nux.i686.rpm: Header V4 RSA/SHA1 Signature, key ID 85c6cd8a: NOKEY
+error: Failed dependencies:
+        libc.so.6 is needed by knock-server-0.5-7.el6.nux.i686
+        libc.so.6(GLIBC_2.0) is needed by knock-server-0.5-7.el6.nux.i686
+        libc.so.6(GLIBC_2.1) is needed by knock-server-0.5-7.el6.nux.i686
+        libc.so.6(GLIBC_2.3) is needed by knock-server-0.5-7.el6.nux.i686
+        libc.so.6(GLIBC_2.3.4) is needed by knock-server-0.5-7.el6.nux.i686
+        libc.so.6(GLIBC_2.4) is needed by knock-server-0.5-7.el6.nux.i686
+        libpcap.so.1 is needed by knock-server-0.5-7.el6.nux.i686
+[root@inetrouter ~]# yum install libpc*
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos-mirror.rbc.ru
+ * epel: mirror.logol.ru
+ * extras: mirror.logol.ru
+ * updates: mirror.sale-dedic.com
+Package libpciaccess-0.14-1.el7.x86_64 already installed and latest version
+Package 14:libpcap-devel-1.5.3-11.el7.x86_64 already installed and latest version
+Package 14:libpcap-1.5.3-11.el7.x86_64 already installed and latest version
+Resolving Dependencies
+--> Running transaction check
+---> Package libpciaccess-devel.x86_64 0:0.14-1.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+====================================================================================================================================
+ Package                                Arch                       Version                           Repository                Size
+====================================================================================================================================
+Installing:
+ libpciaccess-devel                     x86_64                     0.14-1.el7                        base                      13 k
+
+Transaction Summary
+====================================================================================================================================
+Install  1 Package
+
+Total download size: 13 k
+Installed size: 15 k
+Is this ok [y/d/N]: y
+Downloading packages:
+libpciaccess-devel-0.14-1.el7.x86_64.rpm                                                                     |  13 kB  00:00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : libpciaccess-devel-0.14-1.el7.x86_64                                                                             1/1 
+  Verifying  : libpciaccess-devel-0.14-1.el7.x86_64                                                                             1/1 
+
+Installed:
+  libpciaccess-devel.x86_64 0:0.14-1.el7                                                                                            
+
+Complete!
+
+[root@inetrouter ~]# wget http://li.nux.ro/download/nux/dextop/el7/x86_64//knock-server-0.5-7.el7.nux.x86_64.rpm
+--2018-06-26 15:35:50--  http://li.nux.ro/download/nux/dextop/el7/x86_64//knock-server-0.5-7.el7.nux.x86_64.rpm
+Resolving li.nux.ro (li.nux.ro)... 217.19.15.108
+Connecting to li.nux.ro (li.nux.ro)|217.19.15.108|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 34276 (33K) [application/x-rpm]
+Saving to: вЂknock-server-0.5-7.el7.nux.x86_64.rpmвЂ™
+
+100%[==========================================================================================>] 34,276      --.-K/s   in 0.1s    
+
+2018-06-26 15:35:51 (301 KB/s) - вЂknock-server-0.5-7.el7.nux.x86_64.rpmвЂ™ saved [34276/34276]
+
+[root@inetrouter ~]# rpm -ivh knock-server-0.5-7.el7.nux.x86_64.rpm 
+warning: knock-server-0.5-7.el7.nux.x86_64.rpm: Header V4 RSA/SHA1 Signature, key ID 85c6cd8a: NOKEY
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:knock-server-0.5-7.el7.nux       ################################# [100%]
+
+[root@inetrouter ~]# iptables -I INPUT -p tcp --dport 22 -j DROP
+
+[root@inetrouter ~]# cat /etc/knockd.conf 
+[options]
+        logfile = /var/log/knockd.log
+        interface = ens192
+
+[openSSH]
+        sequence      = 5040,6010,6500
+        seq_timeout   = 30
+        tcpflags      = syn
+        start_command = iptables -I INPUT -p tcp -s %IP% --dport 22 -j ACCEPT
+
+
+[closeSSH]
+        sequence      = 4040,5050,8080
+        seq_timeout   = 30
+        command       = iptables -D INPUT -p tcp -s %IP% --dport 22 -j ACCEPT
+        tcpflags      = syn
