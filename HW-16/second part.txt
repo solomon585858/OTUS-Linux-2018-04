@@ -1,0 +1,19 @@
+[root@inetrouter ~]# cat /etc/security/capability.conf
+cap_sys_time    megaadmin
+none *
+
+[root@inetrouter ~]# cat /etc/pam.d/login | grep pam_cap.so
+auth       required     pam_cap.so
+
+[root@inetrouter ~]# setcap CAP_SYS_TIME+ei /bin/date
+[root@inetrouter ~]# getcap /bin/date
+/bin/date = cap_sys_time+ei
+
+[root@inetrouter ~]# su megaadmin
+[megaadmin@inetrouter root]$ 
+[megaadmin@inetrouter root]$ 
+[megaadmin@inetrouter root]$ date -s "2 OCT 2006 18:00:00" 
+Mon Oct  2 18:00:00 MSD 2006
+[megaadmin@inetrouter root]$ date
+Mon Oct  2 18:00:01 MSD 2006
+
