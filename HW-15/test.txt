@@ -1,0 +1,178 @@
+Трафик с centralRouter по дефолту в Интернет ходит через inetRouter:
+[vagrant@centralRouter ~]$ traceroute ya.ru
+traceroute to ya.ru (87.250.250.242), 30 hops max, 60 byte packets
+ 1  gateway (192.168.255.1)  0.339 ms  0.173 ms  0.198 ms
+ 2  * * *
+ 3  * * *
+ 4  10.31.1.1 (10.31.1.1)  1.473 ms  1.363 ms  1.553 ms
+ 5  78.138.168.57 (78.138.168.57)  1.912 ms  2.340 ms  2.274 ms
+ 6  10.1.111.141 (10.1.111.141)  2.205 ms  3.129 ms 10.1.111.137 (10.1.111.137)  3.006 ms
+ 7  10.1.101.169 (10.1.101.169)  2.946 ms 10.1.101.153 (10.1.101.153)  2.812 ms  2.737 ms
+ 8  10.16.248.218 (10.16.248.218)  2.630 ms 10.16.248.150 (10.16.248.150)  2.515 ms 10.16.248.218 (10.16.248.218)  2.453 ms
+ 9  10.16.248.134 (10.16.248.134)  2.378 ms 10.16.248.130 (10.16.248.130)  2.303 ms 10.16.248.134 (10.16.248.134)  2.798 ms
+10  kzn02.transtelecom.net (188.43.4.90)  13.287 ms rtcomm-94-229-16-1.bashrtcomm.ru (94.229.16.1)  14.009 ms kzn02.transtelecom.net (188.43.4.90)  13.107 ms
+11  mskn17-Lo1-gw.transtelecom.net (217.150.55.229)  13.017 ms  12.935 ms  29.228 ms
+12  mag9-cr01-be13.16.msk.stream-internet.net (212.188.55.141)  14.420 ms  16.884 ms  16.819 ms
+13  m9-p1-be15.yndx.net (87.250.239.113)  35.905 ms ss-cr04-be2.77.msk.stream-internet.net (195.34.50.150)  14.739 ms  18.158 ms
+14  dat-cr01-be14.3335.msk.stream-internet.net (212.188.41.137)  14.452 ms  14.399 ms  14.003 ms
+15  m9-p1-be11.yndx.net (213.180.213.88)  21.666 ms  20.868 ms m9-p2-eth-trunk4.yndx.net (213.180.213.11)  18.881 ms
+16  ya.ru (87.250.250.242)  35.001 ms *  18.953 ms
+
+Трафик для centralServer в Интернет ходит через inetRouter2:
+[vagrant@centralServer ~]$ traceroute ya.ru
+traceroute to ya.ru (87.250.250.242), 30 hops max, 60 byte packets
+ 1  gateway (192.168.0.1)  0.272 ms  0.150 ms  0.097 ms
+ 2  192.168.255.6 (192.168.255.6)  0.864 ms  0.759 ms  0.693 ms
+ 3  * * *
+ 4  * * *
+ 5  * * *
+ 6  78.138.168.57 (78.138.168.57)  2.942 ms  2.744 ms  2.870 ms
+ 7  10.1.111.137 (10.1.111.137)  2.797 ms  2.870 ms 10.1.111.141 (10.1.111.141)  3.359 ms
+ 8  10.1.101.193 (10.1.101.193)  4.714 ms 10.1.101.169 (10.1.101.169)  4.681 ms 10.1.101.185 (10.1.101.185)  4.596 ms
+ 9  10.16.248.150 (10.16.248.150)  3.002 ms  2.965 ms  6.142 ms
+10  10.16.248.130 (10.16.248.130)  5.552 ms 10.16.248.134 (10.16.248.134)  5.334 ms 10.16.248.130 (10.16.248.130)  5.186 ms
+11  kzn02.transtelecom.net (188.43.4.90)  13.503 ms rtcomm-94-229-16-1.bashrtcomm.ru (94.229.16.1)  14.240 ms  14.622 ms
+12  pob-cr01-ae22.0.kaz.stream-internet.net (212.188.18.74)  15.371 ms mskn17-lo1-gw.transtelecom.net (217.150.55.229)  30.389 ms  29.461 ms
+13  Yandex-gw.transtelecom.net (188.43.3.213)  36.249 ms mag9-cr01-be13.16.msk.stream-internet.net (212.188.55.141)  14.529 ms yandex-gw.transtelecom.net (188.43.3.213)  28.940 ms
+14  std-p2-be14.yndx.net (87.250.239.62)  34.753 ms ss-cr04-be2.77.msk.stream-internet.net (195.34.50.150)  15.933 ms  15.657 ms
+15  * dat-cr01-be14.3335.msk.stream-internet.net (212.188.41.137)  125.174 ms *
+16  std-p2-be12.yndx.net (87.250.239.65)  20.758 ms  20.559 ms  20.294 ms
+17  ya.ru (87.250.250.242)  35.363 ms *  35.131 ms
+
+Nginx успешно установлен на centralServer:
+[vagrant@centralServer ~]$ sudo systemctl status nginx
+● nginx.service - The nginx HTTP and reverse proxy server
+   Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2018-07-05 13:57:47 UTC; 1min 34s ago
+  Process: 5036 ExecStart=/usr/sbin/nginx (code=exited, status=0/SUCCESS)
+  Process: 5034 ExecStartPre=/usr/sbin/nginx -t (code=exited, status=0/SUCCESS)
+  Process: 5033 ExecStartPre=/usr/bin/rm -f /run/nginx.pid (code=exited, status=0/SUCCESS)
+ Main PID: 5038 (nginx)
+   CGroup: /system.slice/nginx.service
+           ├─5038 nginx: master process /usr/sbin/nginx
+           └─5039 nginx: worker process
+
+Jul 05 13:57:47 centralServer systemd[1]: Starting The nginx HTTP and reverse proxy server...
+Jul 05 13:57:47 centralServer nginx[5034]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+Jul 05 13:57:47 centralServer nginx[5034]: nginx: configuration file /etc/nginx/nginx.conf test is successful
+Jul 05 13:57:47 centralServer systemd[1]: Failed to read PID from file /run/nginx.pid: Invalid argument
+Jul 05 13:57:47 centralServer systemd[1]: Started The nginx HTTP and reverse proxy server.
+
+И виден с inetRouter2:
+[vagrant@inetRouter2 ~]$ curl http://192.168.0.2
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>Test Page for the Nginx HTTP Server on Fedora</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style type="text/css">
+            /*<![CDATA[*/
+            body {
+                background-color: #fff;
+                color: #000;
+                font-size: 0.9em;
+                font-family: sans-serif,helvetica;
+                margin: 0;
+                padding: 0;
+            }
+            :link {
+                color: #c00;
+            }
+            :visited {
+                color: #c00;
+            }
+            a:hover {
+                color: #f50;
+            }
+            h1 {
+                text-align: center;
+                margin: 0;
+                padding: 0.6em 2em 0.4em;
+                background-color: #294172;
+                color: #fff;
+                font-weight: normal;
+                font-size: 1.75em;
+                border-bottom: 2px solid #000;
+            }
+            h1 strong {
+                font-weight: bold;
+                font-size: 1.5em;
+            }
+            h2 {
+                text-align: center;
+                background-color: #3C6EB4;
+                font-size: 1.1em;
+                font-weight: bold;
+                color: #fff;
+                margin: 0;
+                padding: 0.5em;
+                border-bottom: 2px solid #294172;
+            }
+            hr {
+                display: none;
+            }
+            .content {
+                padding: 1em 5em;
+            }
+            .alert {
+                border: 2px solid #000;
+            }
+
+            img {
+                border: 2px solid #fff;
+                padding: 2px;
+                margin: 2px;
+            }
+            a:hover img {
+                border: 2px solid #294172;
+            }
+            .logos {
+                margin: 1em;
+                text-align: center;
+            }
+            /*]]>*/
+        </style>
+    </head>
+
+    <body>
+        <h1>Welcome to <strong>nginx</strong> on Fedora!</h1>
+
+        <div class="content">
+            <p>This page is used to test the proper operation of the
+            <strong>nginx</strong> HTTP server after it has been
+            installed. If you can read this page, it means that the
+            web server installed at this site is working
+            properly.</p>
+
+            <div class="alert">
+                <h2>Website Administrator</h2>
+                <div class="content">
+                    <p>This is the default <tt>index.html</tt> page that
+                    is distributed with <strong>nginx</strong> on
+                    Fedora.  It is located in
+                    <tt>/usr/share/nginx/html</tt>.</p>
+
+                    <p>You should now put your content in a location of
+                    your choice and edit the <tt>root</tt> configuration
+                    directive in the <strong>nginx</strong>
+                    configuration file
+                    <tt>/etc/nginx/nginx.conf</tt>.</p>
+
+                </div>
+            </div>
+
+            <div class="logos">
+                <a href="http://nginx.net/"><img
+                    src="nginx-logo.png" 
+                    alt="[ Powered by nginx ]"
+                    width="121" height="32" /></a>
+
+                <a href="http://fedoraproject.org/"><img 
+                    src="poweredby.png" 
+                    alt="[ Powered by Fedora ]" 
+                    width="88" height="31" /></a>
+            </div>
+        </div>
+    </body>
+</html>

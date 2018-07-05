@@ -1,0 +1,92 @@
+---
+- hosts: inetRouter
+  become: true
+  tasks:
+  - name: Transfer the script for network configuration
+    copy: src=inetRouter-network.sh dest=/var/ mode=0777
+  - name: Execute the script for network configuration
+    command: sh /var/inetRouter-network.sh
+  - name: install iptables-services
+    yum: name={{ item }} state=latest 
+    with_items:
+    - bind
+    - bind-utils
+    - ntp
+    - wget
+    - traceroute
+    - iptables-services
+  - name: enable iptables-services
+    systemd: name=iptables enabled=yes
+  - name: restart iptables-services
+    systemd: name=iptables state=restarted  
+  - name: Transfer the script for iptables configuration
+    copy: src=iptables-inetRouter.sh dest=/var/ mode=0777
+  - name: Execute the script for iptables configuration
+    command: sh /var/iptables-inetRouter.sh
+
+- hosts: inetRouter2
+  become: true
+  tasks:
+  - name: Transfer the script for network configuration
+    copy: src=inetRouter2-network.sh dest=/var/ mode=0777
+  - name: Execute the script for network configuration
+    command: sh /var/inetRouter2-network.sh
+  - name: install iptables-services
+    yum: name={{ item }} state=latest 
+    with_items:
+    - bind
+    - bind-utils
+    - ntp
+    - wget
+    - traceroute
+    - iptables-services
+  - name: enable iptables-services
+    systemd: name=iptables enabled=yes
+  - name: restart iptables-services
+    systemd: name=iptables state=restarted  
+  - name: Transfer the script for iptables configuration
+    copy: src=iptables-inetRouter2.sh dest=/var/ mode=0777
+  - name: Execute the script for iptables configuration
+    command: sh /var/iptables-inetRouter2.sh
+
+- hosts: centralRouter
+  become: true
+  tasks:
+  - name: Transfer the script for network configuration
+    copy: src=centralRouter-network.sh dest=/var/ mode=0777
+  - name: Execute the script for network configuration
+    command: sh /var/centralRouter-network.sh
+  - name: Transfer the script for routing configuration
+    copy: src=routing-centralRouter.sh dest=/var/ mode=0777
+  - name: Execute the script for iptables configuration
+    command: sh /var/routing-centralRouter.sh
+  - name: install packages
+    yum: name={{ item }} state=latest 
+    with_items:
+    - bind
+    - bind-utils
+    - ntp
+    - wget
+    - traceroute
+
+- hosts: centralServer
+  become: true
+  tasks:
+  - name: Transfer the script for network configuration
+    copy: src=centralServer-network.sh dest=/var/ mode=0777
+  - name: Execute the script for network configuration
+    command: sh /var/centralServer-network.sh
+  - name: install packages
+    yum: name={{ item }} state=latest 
+    with_items:
+    - bind
+    - bind-utils
+    - ntp
+    - wget
+    - traceroute
+  - name: Install epel
+    yum: name=epel-release state=present
+  - name: Install nginx CentOS
+    yum: name=nginx state=present
+  - name: Start Nginx
+    service: name=nginx enabled=yes state=started
