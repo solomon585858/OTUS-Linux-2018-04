@@ -1,0 +1,102 @@
+[vagrant@client ~]$ ping web1.dns.lab
+PING web1.dns.lab (192.168.50.15) 56(84) bytes of data.
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=1 ttl=64 time=0.016 ms
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=2 ttl=64 time=0.033 ms
+^C
+--- web1.dns.lab ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 0.016/0.024/0.033/0.009 ms
+[vagrant@client ~]$ ping web2.dns.lab
+PING web2.dns.lab (192.168.50.16) 56(84) bytes of data.
+64 bytes from web2.dns.lab (192.168.50.16): icmp_seq=1 ttl=64 time=0.360 ms
+64 bytes from web2.dns.lab (192.168.50.16): icmp_seq=2 ttl=64 time=0.393 ms
+64 bytes from web2.dns.lab (192.168.50.16): icmp_seq=3 ttl=64 time=0.260 ms
+^C
+--- web2.dns.lab ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 0.260/0.337/0.393/0.060 ms
+[vagrant@client ~]$ ping www.newdns.lab
+PING www.newdns.lab (192.168.50.15) 56(84) bytes of data.
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=1 ttl=64 time=0.016 ms
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=2 ttl=64 time=0.029 ms
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=3 ttl=64 time=0.028 ms
+^C
+--- www.newdns.lab ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2004ms
+rtt min/avg/max/mdev = 0.016/0.024/0.029/0.007 ms
+[vagrant@client ~]$ dig @192.168.50.10 ns01.dns.lab
+
+; <<>> DiG 9.9.4-RedHat-9.9.4-61.el7 <<>> @192.168.50.10 ns01.dns.lab
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 56116
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;ns01.dns.lab.			IN	A
+
+;; ANSWER SECTION:
+ns01.dns.lab.		3600	IN	A	192.168.50.10
+
+;; AUTHORITY SECTION:
+dns.lab.		3600	IN	NS	ns02.dns.lab.
+dns.lab.		3600	IN	NS	ns01.dns.lab.
+
+;; ADDITIONAL SECTION:
+ns02.dns.lab.		3600	IN	A	192.168.50.11
+
+;; Query time: 0 msec
+;; SERVER: 192.168.50.10#53(192.168.50.10)
+;; WHEN: Fri Jun 22 12:17:47 UTC 2018
+;; MSG SIZE  rcvd: 106
+
+[vagrant@client ~]$ dig @192.168.50.11 -x 192.168.50.10
+
+; <<>> DiG 9.9.4-RedHat-9.9.4-61.el7 <<>> @192.168.50.11 -x 192.168.50.10
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 53319
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;10.50.168.192.in-addr.arpa.	IN	PTR
+
+;; ANSWER SECTION:
+10.50.168.192.in-addr.arpa. 3600 IN	PTR	ns01.dns.lab.
+
+;; AUTHORITY SECTION:
+50.168.192.in-addr.arpa. 3600	IN	NS	ns01.dns.lab.
+50.168.192.in-addr.arpa. 3600	IN	NS	ns02.dns.lab.
+
+;; ADDITIONAL SECTION:
+ns01.dns.lab.		3600	IN	A	192.168.50.10
+ns02.dns.lab.		3600	IN	A	192.168.50.11
+
+;; Query time: 1 msec
+;; SERVER: 192.168.50.11#53(192.168.50.11)
+;; WHEN: Fri Jun 22 12:18:05 UTC 2018
+;; MSG SIZE  rcvd: 146
+
+[vagrant@client ~]$ nsupdate -k /etc/named.zonetransfer.key
+> server 192.168.50.10
+> zone ddns.lab
+> update add www.ddns.lab. 60 A 192.168.50.15
+> send
+> 
+> ~!
+incorrect section name: ~!
+> exit
+incorrect section name: exit
+> quit
+[vagrant@client ~]$ ping www.ddns.lab
+PING www.ddns.lab (192.168.50.15) 56(84) bytes of data.
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=1 ttl=64 time=0.013 ms
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=2 ttl=64 time=0.026 ms
+64 bytes from web1.dns.lab (192.168.50.15): icmp_seq=3 ttl=64 time=0.030 ms
+^C
