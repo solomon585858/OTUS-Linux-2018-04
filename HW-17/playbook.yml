@@ -1,0 +1,25 @@
+---
+- hosts: inetrouter
+  become: true
+  tasks:
+  - name: Transfer the script for freeipa-client configuration
+    copy: src=freeipa-client-inetrouter.sh dest=/var/ mode=0777
+  - name: Execute the script for freeipa-client configuration
+    command: sh /var/freeipa-client-inetrouter.sh
+
+- hosts: centralrouter
+  become: true
+  tasks:
+  - name: Transfer the script for freeipa-client configuration
+    copy: src=freeipa-client-centralrouter.sh dest=/var/ mode=0777
+  - name: Execute the script for freeipa-client configuration
+    command: sh /var/freeipa-client-centralrouter.sh
+
+
+- hosts: centralserver
+  become: true
+  tasks:
+  - name: Transfer the script for freeipa-client configuration
+    copy: src=freeipa-client-centralserver.sh dest=/var/ mode=0777
+  - name: Execute the script for freeipa-client configuration
+    command: sh /var/freeipa-client-centralserver.sh
