@@ -1,0 +1,4 @@
+[clients]
+inetrouter ansible_host=192.168.255.1
+centralrouter ansible_host=192.168.0.1
+centralserver ansible_host=192.168.0.2
