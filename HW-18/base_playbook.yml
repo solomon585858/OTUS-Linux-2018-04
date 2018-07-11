@@ -27,6 +27,7 @@
       - wget
       - traceroute
       - iptables-services
+      - atop
     
     - name: enable iptables-services
       systemd: name=iptables enabled=yes

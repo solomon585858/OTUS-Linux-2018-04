@@ -64,7 +64,7 @@ TASK [Gathering Facts] *********************************************************
 ok: [server1]
 
 TASK [install packages] ************************************************************************************************************
-changed: [server1] => (item=[u'sudo', u'bind', u'bind-utils', u'ntp', u'wget', u'traceroute', u'iptables-services'])
+changed: [server1] => (item=[u'sudo', u'bind', u'bind-utils', u'ntp', u'wget', u'traceroute', u'iptables-services', u'atop'])
 
 TASK [enable iptables-services] ****************************************************************************************************
 changed: [server1]
