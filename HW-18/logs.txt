@@ -1,0 +1,113 @@
+[root@ipa]# yum -y install python-passlib
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+epel/x86_64/metalink                                                                                         |  31 kB  00:00:00     
+ * base: mirror.sale-dedic.com
+ * epel: mirror.yandex.ru
+ * extras: mirror.corbina.net
+ * updates: mirror.sale-dedic.com
+base                                                                                                         | 3.6 kB  00:00:00     
+extras                                                                                                       | 3.4 kB  00:00:00     
+updates                                                                                                      | 3.4 kB  00:00:00     
+virtualbox/7/x86_64/signature                                                                                |  181 B  00:00:00     
+virtualbox/7/x86_64/signature                                                                                | 1.1 kB  00:00:00 !!! 
+Resolving Dependencies
+--> Running transaction check
+---> Package python-passlib.noarch 0:1.6.5-2.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+====================================================================================================================================
+ Package                             Arch                        Version                          Repository                   Size
+====================================================================================================================================
+Installing:
+ python-passlib                      noarch                      1.6.5-2.el7                      extras                      488 k
+
+Transaction Summary
+====================================================================================================================================
+Install  1 Package
+
+Total download size: 488 k
+Installed size: 2.7 M
+Downloading packages:
+python-passlib-1.6.5-2.el7.noarch.rpm                                                                        | 488 kB  00:00:14     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : python-passlib-1.6.5-2.el7.noarch                                                                                1/1 
+  Verifying  : python-passlib-1.6.5-2.el7.noarch                                                                                1/1 
+
+Installed:
+  python-passlib.noarch 0:1.6.5-2.el7                                                                                               
+
+Complete!
+
+[root@ipa HW-18]# cat /etc/ansible/ansible.cfg | grep host_key_checking
+host_key_checking = false
+
+[root@ipa HW-18]# cat inventory 
+[servers]
+server1 ansible_host=192.168.0.4
+
+[root@ipa HW-18]#  ansible-playbook base_playbook.yml -i ./inventory --ask-pass
+SSH password: 
+Enter a name for the new user: marat
+confirm Enter a name for the new user: marat
+Enter a password for the new user: 
+confirm Enter a password for the new user: 
+
+PLAY [all] *************************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************
+ok: [server1]
+
+TASK [install packages] ************************************************************************************************************
+changed: [server1] => (item=[u'sudo', u'bind', u'bind-utils', u'ntp', u'wget', u'traceroute', u'iptables-services'])
+
+TASK [enable iptables-services] ****************************************************************************************************
+changed: [server1]
+
+TASK [restart iptables-services] ***************************************************************************************************
+changed: [server1]
+
+TASK [Check to make sure we have a 'wheel' group] **********************************************************************************
+ok: [server1]
+
+TASK [Allow wheel group to have passwordless sudo] *********************************************************************************
+changed: [server1]
+
+TASK [Create the non-root user] ****************************************************************************************************
+changed: [server1]
+
+TASK [Add local public key for key-based SSH authentication] ***********************************************************************
+changed: [server1] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCoxJThX08evM54ZU45eNvqb4/D9HzV8YjmpaAEgQi/YRUWxMKdjOmhKTOG2MMdjqb1ECeZCgtPApFQZqrQVj8MUvYSKs44TuP/0cXsmXQHrhElOEWdBSq++hZ+d+Ib89xDLT1mKtgLKPgcJJnAUR9oQuQ1EXSoupkIG1X79Oz6C16kUppS87OJQ30p+v9btr+xnswB8OmOUVeRifh9u7vQGIGr/xz1Pt4AT62o1gvySe4HvLxiV5S1oLGZVNoXgxX4GBcnaoPr3fWKO1J0Lg9Y2boVy2CA92ykxAQB+dh4PwkNkvJ3PFVZu1s/LuSNO5GTxVOHN9O4KAlKLnxyspVoM2aCoTq6H4xayhZ70OdTPpQQBM+A6jH/Ql/4hKTivuVt2AGt8bpUZ25ct4/BYO3kb052iX+v8aasRu69Fohx6JWtlbs2p5oHtDNY1FkG18OqnXzyRY1Ir7Qa6VRK0wXb0JKX2r/MaXE7cBYkaJs56hDQKPad+hT57ixXAi6MNQHEa2RgFYyxvIqdzMGuw7JWg4LzjHR1aqDFdIGLsc7T27UI7/qrLa+VRSYwBuCnIdlqj7vtRvPMd8KE5/x02fSixVpZp6vIEiY4NFpoWrdPSId86hQBwvNfYlhFWxDVyLTod6Rd4JEcCvID3T0hqxHTr/sxBnftwrXlsEkSAUHVQQ== root@ipa.otus.local)
+
+TASK [Disallow root SSH access] ****************************************************************************************************
+changed: [server1]
+
+RUNNING HANDLER [restart sshd] *****************************************************************************************************
+changed: [server1]
+
+PLAY RECAP *************************************************************************************************************************
+server1                    : ok=10   changed=8    unreachable=0    failed=0   
+
+[root@ipa HW-18]# ssh root@192.168.0.4
+root@192.168.0.4's password: 
+Permission denied, please try again.
+root@192.168.0.4's password: 
+
+[root@ipa HW-18]# ssh marat@192.168.0.4
+
+[marat@localhost ~]$ cat /etc/ssh/sshd_config | grep PermitRootLogin
+cat: /etc/ssh/sshd_config: Permission denied
+[marat@localhost ~]$ sudo cat /etc/ssh/sshd_config | grep PermitRootLogin
+PermitRootLogin no
+# the setting of "PermitRootLogin without-password".
+
+[marat@localhost ~]$ sudo cat /etc/sudoers | grep '%wheel ALL=(ALL) NOPASSWD: ALL'
+%wheel ALL=(ALL) NOPASSWD: ALL
+[marat@localhost ~]$ groups
+marat wheel
+

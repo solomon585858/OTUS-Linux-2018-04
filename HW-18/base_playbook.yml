@@ -1,0 +1,73 @@
+---
+- hosts: all
+  remote_user: root
+
+  vars_prompt:
+    - name: "user_name"
+      prompt: "Enter a name for the new user"
+      private: no
+      confirm: yes
+
+    - name: "user_password"
+      prompt: "Enter a password for the new user"
+      private: yes
+      encrypt: "sha512_crypt"
+      confirm: yes
+      salt_size: 7
+
+  tasks:
+
+    - name: install packages
+      yum: name={{ item }} state=latest 
+      with_items:
+      - sudo
+      - bind
+      - bind-utils
+      - ntp
+      - wget
+      - traceroute
+      - iptables-services
+    
+    - name: enable iptables-services
+      systemd: name=iptables enabled=yes
+    
+    - name: restart iptables-services
+      systemd: name=iptables state=restarted  
+
+    - name: Check to make sure we have a 'wheel' group
+      group:
+        name: wheel
+        state: present
+
+    - name: Allow wheel group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+
+    - name: Create the non-root user
+      user:
+        name: "{{ user_name }}"
+        password: "{{ user_password }}"
+        shell: "/bin/bash"
+        groups: "wheel"
+
+    - name: Add local public key for key-based SSH authentication
+      authorized_key:
+        user: "{{ user_name }}"
+        key: "{{ item }}"
+      with_file:
+        - ~/.ssh/id_rsa.pub
+
+    - name: Disallow root SSH access
+      lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^PermitRootLogin"
+              line="PermitRootLogin no"
+              state=present  
+      notify:
+      - restart sshd
+
+  handlers:
+    - name: restart sshd
+      service: name=sshd state=restarted
