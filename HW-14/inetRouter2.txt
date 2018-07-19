@@ -1,0 +1,90 @@
+﻿[root@inetrouter2 ~]#iptables --flush 
+[root@inetrouter2 ~]#iptables --table nat --flush
+[root@inetrouter2 ~]#iptables --delete-chain
+[root@inetrouter2 ~]#iptables --table nat --delete-chain
+[root@inetrouter2 ~]#iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -j MASQUERADE
+[root@inetrouter2 ~]#/usr/libexec/iptables/iptables.init save
+[root@inetrouter2 ~]#systemctl restart iptables
+[root@inetrouter2 ~]#systemctl status iptables
+в—Џ iptables.service - IPv4 firewall with iptables
+   Loaded: loaded (/usr/lib/systemd/system/iptables.service; disabled; vendor preset: disabled)
+   Active: active (exited) since Tue 2018-06-26 13:09:59 MSK; 1h 2min ago
+  Process: 3565 ExecStop=/usr/libexec/iptables/iptables.init stop (code=exited, status=0/SUCCESS)
+  Process: 3654 ExecStart=/usr/libexec/iptables/iptables.init start (code=exited, status=0/SUCCESS)
+ Main PID: 3654 (code=exited, status=0/SUCCESS)
+
+Jun 26 13:09:59 inetrouter2 systemd[1]: Starting IPv4 firewall with iptables...
+Jun 26 13:09:59 inetrouter2 iptables.init[3654]: iptables: Applying firewall rules: [  OK  ]
+Jun 26 13:09:59 inetrouter2 systemd[1]: Started IPv4 firewall with iptables.
+
+
+[root@inetrouter2 ~]# vtysh
+
+Hello, this is Quagga (version 0.99.22.4).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+inetrouter2# show running-config  
+Building configuration...
+
+Current configuration:
+!
+hostname localhost.localdomain
+log file /var/log/quagga/quagga.log
+hostname ospfd
+log stdout
+!
+password zebra
+!
+interface ens160
+ ipv6 nd suppress-ra
+!
+interface ens192
+ description Link-to-Router-R1
+ ip address 192.168.255.6/30
+ ip ospf authentication message-digest
+ ip ospf dead-interval 15
+ ip ospf hello-interval 5
+ ip ospf message-digest-key 1 md5 quagga
+ ipv6 nd suppress-ra
+!
+interface lo
+ ip address 10.0.0.2/32
+!
+router ospf
+ ospf router-id 10.0.0.2
+ redistribute connected route-map OSPF-MAP
+ network 192.168.255.4/30 area 0.0.0.0
+!
+ip prefix-list OSPF seq 10 permit 10.0.0.2/32
+!
+route-map OSPF-MAP permit 10
+ match ip address prefix-list OSPF
+!
+ip forwarding
+!
+line vty
+!
+end
+inetrouter2# show ip route  
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, A - Babel,
+       > - selected route, * - FIB route
+
+K>* 0.0.0.0/0 via 78.138.168.57, ens160
+O>* 10.0.0.1/32 [110/20] via 192.168.255.5, ens192, 00:26:23
+C>* 10.0.0.2/32 is directly connected, lo
+O>* 10.0.0.3/32 [110/20] via 192.168.255.5, ens192, 00:34:03
+C>* 78.138.168.56/29 is directly connected, ens160
+O>* 192.168.0.0/24 [110/20] via 192.168.255.5, ens192, 00:34:03
+O>* 192.168.255.0/30 [110/20] via 192.168.255.5, ens192, 00:26:38
+O   192.168.255.4/30 [110/10] is directly connected, ens192, 03:42:43
+C>* 192.168.255.4/30 is directly connected, ens192
+
+
+
+Добавляем port forwarding до Nginx, который установлен на centralServer:
+
+[root@inetrouter2 ~]#iptables -t nat -A PREROUTING -p tcp -i ens160 --dport 8080 -j DNAT --to-destination 192.168.0.2:80
+[root@inetrouter2 ~]#iptables -A FORWARD -p tcp -d 192.168.0.2 --dport 80 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+[root@inetrouter2 ~]#/usr/libexec/iptables/iptables.init save
+
