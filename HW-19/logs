@@ -1,0 +1,212 @@
+!!!ВНОСИМ ИЗМЕНЕНИЯ В ФАЙЛ /ETC/NGINX/NGINX.CONF НА СЕРВЕРЕ WEB И ПРОВЕРЯЕМ НА СЕРВЕРЕ LOG НАЛИЧИЕ АУДИТ ЛОГОВ С ПОМОЩЬЮ КОМАНДЫ sudo ausearch -k nginxconfigchange!!!!
+
+[vagrant@log ~]$ sudo ausearch -k nginxconfigchange
+----
+time->Wed Jul 18 13:07:47 2018
+node=web type=CONFIG_CHANGE msg=audit(1531919267.314:97): auid=1000 ses=2 op=updated_rules path="/etc/nginx/nginx.conf" key="nginxconfigchange" list=4 res=1
+----
+time->Wed Jul 18 13:07:47 2018
+node=web type=PROCTITLE msg=audit(1531919267.314:98): proctitle=7669002F6574632F6E67696E782F6E67696E782E636F6E66
+node=web type=PATH msg=audit(1531919267.314:98): item=3 name="/etc/nginx/nginx.conf~" inode=517143 dev=fd:00 mode=0100644 ouid=0 ogid=0 rdev=00:00 obj=system_u:object_r:httpd_config_t:s0 objtype=CREATE cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+node=web type=PATH msg=audit(1531919267.314:98): item=2 name="/etc/nginx/nginx.conf" inode=517143 dev=fd:00 mode=0100644 ouid=0 ogid=0 rdev=00:00 obj=system_u:object_r:httpd_config_t:s0 objtype=DELETE cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+node=web type=PATH msg=audit(1531919267.314:98): item=1 name="/etc/nginx/" inode=517128 dev=fd:00 mode=040755 ouid=0 ogid=0 rdev=00:00 obj=system_u:object_r:httpd_config_t:s0 objtype=PARENT cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+node=web type=PATH msg=audit(1531919267.314:98): item=0 name="/etc/nginx/" inode=517128 dev=fd:00 mode=040755 ouid=0 ogid=0 rdev=00:00 obj=system_u:object_r:httpd_config_t:s0 objtype=PARENT cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+node=web type=CWD msg=audit(1531919267.314:98):  cwd="/home/vagrant"
+node=web type=SYSCALL msg=audit(1531919267.314:98): arch=c000003e syscall=82 success=yes exit=0 a0=23379a0 a1=2345f50 a2=fffffffffffffe80 a3=7ffe68b78ee0 items=4 ppid=1142 pid=1143 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=2 comm="vi" exe="/usr/bin/vi" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key="nginxconfigchange"
+----
+time->Wed Jul 18 13:07:47 2018
+node=web type=CONFIG_CHANGE msg=audit(1531919267.314:99): auid=1000 ses=2 op=updated_rules path="/etc/nginx/nginx.conf" key="nginxconfigchange" list=4 res=1
+----
+time->Wed Jul 18 13:07:47 2018
+node=web type=PROCTITLE msg=audit(1531919267.314:100): proctitle=7669002F6574632F6E67696E782F6E67696E782E636F6E66
+node=web type=PATH msg=audit(1531919267.314:100): item=1 name="/etc/nginx/nginx.conf" inode=502 dev=fd:00 mode=0100644 ouid=0 ogid=0 rdev=00:00 obj=unconfined_u:object_r:httpd_config_t:s0 objtype=CREATE cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+node=web type=PATH msg=audit(1531919267.314:100): item=0 name="/etc/nginx/" inode=517128 dev=fd:00 mode=040755 ouid=0 ogid=0 rdev=00:00 obj=system_u:object_r:httpd_config_t:s0 objtype=PARENT cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+node=web type=CWD msg=audit(1531919267.314:100):  cwd="/home/vagrant"
+node=web type=SYSCALL msg=audit(1531919267.314:100): arch=c000003e syscall=2 success=yes exit=3 a0=23379a0 a1=241 a2=1a4 a3=0 items=2 ppid=1142 pid=1143 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=2 comm="vi" exe="/usr/bin/vi" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key="nginxconfigchange"
+----
+time->Wed Jul 18 13:07:47 2018
+node=web type=PROCTITLE msg=audit(1531919267.317:101): proctitle=7669002F6574632F6E67696E782F6E67696E782E636F6E66
+node=web type=PATH msg=audit(1531919267.317:101): item=0 name="/etc/nginx/nginx.conf" inode=502 dev=fd:00 mode=0100644 ouid=0 ogid=0 rdev=00:00 obj=unconfined_u:object_r:httpd_config_t:s0 objtype=NORMAL cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+node=web type=CWD msg=audit(1531919267.317:101):  cwd="/home/vagrant"
+node=web type=SYSCALL msg=audit(1531919267.317:101): arch=c000003e syscall=188 success=yes exit=0 a0=23379a0 a1=7f84d01a7eaa a2=2345f80 a3=24 items=1 ppid=1142 pid=1143 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=2 comm="vi" exe="/usr/bin/vi" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key="nginxconfigchange"
+----
+time->Wed Jul 18 13:07:47 2018
+node=web type=PROCTITLE msg=audit(1531919267.317:102): proctitle=7669002F6574632F6E67696E782F6E67696E782E636F6E66
+node=web type=PATH msg=audit(1531919267.317:102): item=0 name="/etc/nginx/nginx.conf" inode=502 dev=fd:00 mode=0100644 ouid=0 ogid=0 rdev=00:00 obj=system_u:object_r:httpd_config_t:s0 objtype=NORMAL cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+node=web type=CWD msg=audit(1531919267.317:102):  cwd="/home/vagrant"
+node=web type=SYSCALL msg=audit(1531919267.317:102): arch=c000003e syscall=90 success=yes exit=0 a0=23379a0 a1=81a4 a2=0 a3=24 items=1 ppid=1142 pid=1143 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=2 comm="vi" exe="/usr/bin/vi" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key="nginxconfigchange"
+----
+time->Wed Jul 18 13:07:47 2018
+node=web type=PROCTITLE msg=audit(1531919267.317:103): proctitle=7669002F6574632F6E67696E782F6E67696E782E636F6E66
+node=web type=PATH msg=audit(1531919267.317:103): item=0 name="/etc/nginx/nginx.conf" inode=502 dev=fd:00 mode=0100644 ouid=0 ogid=0 rdev=00:00 obj=system_u:object_r:httpd_config_t:s0 objtype=NORMAL cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+node=web type=CWD msg=audit(1531919267.317:103):  cwd="/home/vagrant"
+node=web type=SYSCALL msg=audit(1531919267.317:103): arch=c000003e syscall=188 success=yes exit=0 a0=23379a0 a1=7f84cfd5dddf a2=2346090 a3=1c items=1 ppid=1142 pid=1143 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=2 comm="vi" exe="/usr/bin/vi" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key="nginxconfigchange"
+
+
+!!! ДЕЛАЕМ CURL ЗАПРОС ДО НАШЕГО СЕРВЕРА NGINX И ПРОВЕРЯЕМ НАЛИЧИЕ ЛОГОВ НА СЕРВЕРЕ LOG.
+
+
+[vagrant@log ~]$ curl http://192.168.255.2
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>Test Page for the Nginx HTTP Server on Fedora</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style type="text/css">
+            /*<![CDATA[*/
+            body {
+                background-color: #fff;
+                color: #000;
+                font-size: 0.9em;
+                font-family: sans-serif,helvetica;
+                margin: 0;
+                padding: 0;
+            }
+            :link {
+                color: #c00;
+            }
+            :visited {
+                color: #c00;
+            }
+            a:hover {
+                color: #f50;
+            }
+            h1 {
+                text-align: center;
+                margin: 0;
+                padding: 0.6em 2em 0.4em;
+                background-color: #294172;
+                color: #fff;
+                font-weight: normal;
+                font-size: 1.75em;
+                border-bottom: 2px solid #000;
+            }
+            h1 strong {
+                font-weight: bold;
+                font-size: 1.5em;
+            }
+            h2 {
+                text-align: center;
+                background-color: #3C6EB4;
+                font-size: 1.1em;
+                font-weight: bold;
+                color: #fff;
+                margin: 0;
+                padding: 0.5em;
+                border-bottom: 2px solid #294172;
+            }
+            hr {
+                display: none;
+            }
+            .content {
+                padding: 1em 5em;
+            }
+            .alert {
+                border: 2px solid #000;
+            }
+
+            img {
+                border: 2px solid #fff;
+                padding: 2px;
+                margin: 2px;
+            }
+            a:hover img {
+                border: 2px solid #294172;
+            }
+            .logos {
+                margin: 1em;
+                text-align: center;
+            }
+            /*]]>*/
+        </style>
+    </head>
+
+    <body>
+        <h1>Welcome to <strong>nginx</strong> on Fedora!</h1>
+
+        <div class="content">
+            <p>This page is used to test the proper operation of the
+            <strong>nginx</strong> HTTP server after it has been
+            installed. If you can read this page, it means that the
+            web server installed at this site is working
+            properly.</p>
+
+            <div class="alert">
+                <h2>Website Administrator</h2>
+                <div class="content">
+                    <p>This is the default <tt>index.html</tt> page that
+                    is distributed with <strong>nginx</strong> on
+                    Fedora.  It is located in
+                    <tt>/usr/share/nginx/html</tt>.</p>
+
+                    <p>You should now put your content in a location of
+                    your choice and edit the <tt>root</tt> configuration
+                    directive in the <strong>nginx</strong>
+                    configuration file
+                    <tt>/etc/nginx/nginx.conf</tt>.</p>
+
+                </div>
+            </div>
+
+            <div class="logos">
+                <a href="http://nginx.net/"><img
+                    src="nginx-logo.png" 
+                    alt="[ Powered by nginx ]"
+                    width="121" height="32" /></a>
+
+                <a href="http://fedoraproject.org/"><img 
+                    src="poweredby.png" 
+                    alt="[ Powered by Fedora ]" 
+                    width="88" height="31" /></a>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+
+[vagrant@log ~]$ sudo cat /var/log/web/nginx.log
+2018-07-19T11:30:24+00:00 web nginx: 192.168.255.1 - - [19/Jul/2018:11:30:24 +0000] "GET / HTTP/1.1" 200 3700 "-" "curl/7.29.0" "-"
+2018-07-19T11:30:25+00:00 web nginx: 192.168.255.1 - - [19/Jul/2018:11:30:25 +0000] "GET / HTTP/1.1" 200 3700 "-" "curl/7.29.0" "-"
+
+
+[vagrant@log ~]$ sudo ls -al /var/log/web/         
+total 8
+drwx------.  2 root root   23 Jul 19 11:30 .
+drwxr-xr-x. 11 root root 4096 Jul 19 11:30 ..
+-rw-------.  1 root root  264 Jul 19 11:30 nginx.log
+
+
+[vagrant@log ~]$ sudo ls -al /var/log/log/
+total 180
+drwx------.  2 root root  4096 Jul 19 11:29 .
+drwxr-xr-x. 11 root root  4096 Jul 19 11:30 ..
+-rw-------.  1 root root   129 Jul 19 11:15 .log
+-rw-------.  1 root root 11202 Jul 19 11:15 NetworkManager.log
+-rw-------.  1 root root   262 Jul 19 11:15 aliasesdb.log
+-rw-------.  1 root root    72 Jul 19 11:15 audispd.log
+-rw-------.  1 root root   287 Jul 19 11:15 auditd.log
+-rw-------.  1 root root    77 Jul 19 11:15 augenrules.log
+-rw-------.  1 root root   445 Jul 19 11:15 chronyd.log
+-rw-------.  1 root root   208 Jul 19 11:15 crond.log
+-rw-------.  1 root root   580 Jul 19 11:15 dbus.log
+-rw-------.  1 root root   307 Jul 19 11:15 dhclient.log
+-rw-------.  1 root root    96 Jul 19 11:15 iptables.init.log
+-rw-------.  1 root root   355 Jul 19 11:15 journal.log
+-rw-------.  1 root root 40454 Jul 19 11:15 kernel.log
+-rw-------.  1 root root   318 Jul 19 11:15 lvm.log
+-rw-------.  1 root root   256 Jul 19 11:15 network.log
+-rw-------.  1 root root   814 Jul 19 11:15 nm-dispatcher.log
+-rw-------.  1 root root   506 Jul 19 11:15 polkitd.log
+-rw-------.  1 root root   247 Jul 19 11:15 postfix.log
+-rw-------.  1 root root   145 Jul 19 11:15 rsyslogd.log
+-rw-------.  1 root root    76 Jul 19 11:15 sm-notify.log
+-rw-------.  1 root root   447 Jul 19 11:17 sshd.log
+-rw-------.  1 root root  2222 Jul 19 11:31 sudo.log
+-rw-------.  1 root root    84 Jul 19 11:15 systemd-fsck.log
+-rw-------.  1 root root    98 Jul 19 11:15 systemd-journald.log
+-rw-------.  1 root root   489 Jul 19 11:17 systemd-logind.log
+-rw-------.  1 root root   396 Jul 19 11:15 systemd-udevd.log
+-rw-------.  1 root root 23950 Jul 19 11:30 systemd.log

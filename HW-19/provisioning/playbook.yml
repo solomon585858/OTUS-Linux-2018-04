@@ -1,0 +1,238 @@
+---
+- hosts: log
+  become: true
+  tasks:
+  - name: Enable ipv4 forwarding
+    sysctl: name=net.ipv4.conf.all.forwarding value=1 sysctl_set=yes state=present reload=yes
+
+  - name: Disable ipv6 all
+    sysctl: name=net.ipv6.conf.all.disable_ipv6 value=1 sysctl_set=yes state=present reload=yes
+
+  - name: Disable ipv6 default
+    sysctl: name=net.ipv6.conf.default.disable_ipv6 value=1 sysctl_set=yes state=present reload=yes
+  
+  - name: Disable ipv6 lo
+    sysctl: name=net.ipv6.conf.lo.disable_ipv6 value=1 sysctl_set=yes state=present reload=yes
+
+  - name: restart network
+    systemd: name=network state=restarted  
+
+  - name: Enable ipv4 forwarding
+    sysctl: name=net.ipv4.conf.all.forwarding value=1 sysctl_set=yes state=present reload=yes
+
+  - name: install packages
+    yum: name={{ item }} state=latest 
+    with_items:
+    - bind
+    - bind-utils
+    - net-tools
+    - ntp
+    - wget
+    - traceroute
+    - iptables-services
+    - rsyslog
+    - policycoreutils-python
+
+  - name: enable rsyslog
+    systemd: name=rsyslog enabled=yes
+
+  - name: enable iptables-services
+    systemd: name=iptables enabled=yes
+
+  - iptables_raw:
+      name: rule for auditd server
+      rules: '-A INPUT -p tcp -m tcp --dport 60 -j ACCEPT'
+
+  - iptables_raw:
+      name: tcp rule for rsyslog server
+      rules: '-A INPUT -p tcp -m tcp --dport 514 -j ACCEPT'
+
+  - iptables_raw:
+      name: udp rule for rsyslog server
+      rules: '-A INPUT -p udp -m udp --dport 514 -j ACCEPT'
+  
+  - iptables_raw:
+      name: MASQUERADING
+      table: nat
+      rules: '-A POSTROUTING ! -d 192.168.0.0/16 -o eth0 -j MASQUERADE'
+
+  - name: restart iptables-services
+    systemd: name=iptables state=restarted
+
+  - name: Transfer the rsyslog conf
+    copy: src=server/rsyslog.conf dest=/etc/ mode=0622
+
+  - name: restart rsyslog
+    systemd: name=iptables state=restarted
+
+  - name: Disable writing logs
+    lineinfile: dest=/etc/audit/auditd.conf
+      regexp="##tcp_listen_port = 60"
+      line="tcp_listen_port = 60"
+      state=present
+
+  - name: Increasing tcp listen queue
+    lineinfile: dest=/etc/audit/auditd.conf
+      regexp="^tcp_listen_queue"
+      line="tcp_listen_queue = 500"   
+      state=present  
+
+  - name: Increasing tcp max per address
+    lineinfile: dest=/etc/audit/auditd.conf
+      regexp="^tcp_max_per_addr"
+      line="tcp_max_per_addr = 100"   
+      state=present  
+
+  - name: Enable ManualStop for auditd
+    lineinfile: dest=/usr/lib/systemd/system/auditd.service
+      regexp="RefuseManualStop=yes"
+      line="RefuseManualStop=no"   
+      state=present
+
+  - name: enable auditd
+    systemd: name=auditd enabled=yes
+
+  - name: restart auditd
+    service: name=auditd state=restarted use=service
+
+  - name: Restart server
+    command: /sbin/shutdown -r +1
+    async: 0
+    poll: 0
+    ignore_errors: true
+
+- hosts: web
+  become: true
+  tasks:
+  - name: Enable ipv4 forwarding
+    sysctl: name=net.ipv4.conf.all.forwarding value=1 sysctl_set=yes state=present reload=yes
+
+  - name: Disable ipv6 all
+    sysctl: name=net.ipv6.conf.all.disable_ipv6 value=1 sysctl_set=yes state=present reload=yes
+
+  - name: Disable ipv6 default
+    sysctl: name=net.ipv6.conf.default.disable_ipv6 value=1 sysctl_set=yes state=present reload=yes
+  
+  - name: Disable ipv6 lo
+    sysctl: name=net.ipv6.conf.lo.disable_ipv6 value=1 sysctl_set=yes state=present reload=yes
+
+  - name: Deleting default route for eth0
+    lineinfile: dest=/etc/sysconfig/network-scripts/ifcfg-eth0      
+      insertafter=EOF
+      line="DEFROUTE=no"  
+
+  - name: Adding default gateway for eth1
+    lineinfile: dest=/etc/sysconfig/network-scripts/ifcfg-eth1      
+      insertafter=EOF
+      line="GATEWAY=192.168.255.1" 
+
+  - name: restart network
+    systemd: name=network state=restarted  
+
+  - name: Enable ipv4 forwarding
+    sysctl: name=net.ipv4.conf.all.forwarding value=1 sysctl_set=yes state=present reload=yes
+
+  - name: Transfer the script for cron job restarting auditd after reboot
+    copy: src=restartauditd.sh dest=/var/ mode=0777
+  
+  - name: install packages
+    yum: name={{ item }} state=latest 
+    with_items:
+    - bind
+    - bind-utils
+    - net-tools
+    - ntp
+    - wget
+    - traceroute
+    - iptables-services
+    - policycoreutils-python
+    - audit
+    - audit-libs
+    - audispd-plugins
+    - rsyslog
+
+  - name: enable rsyslog
+    systemd: name=rsyslog enabled=yes
+
+  - name: Transfer the rsyslog conf
+    copy: src=client/rsyslog.conf dest=/etc/ mode=0622
+
+  - name: restart rsyslog
+    systemd: name=iptables state=restarted
+
+  - name: Install epel
+    yum: name=epel-release state=present
+
+  - name: Install nginx CentOS
+    yum: name=nginx state=present
+
+  - name: Start Nginx
+    service: name=nginx enabled=yes state=started
+
+  - name: Add audit rule for Nginx..
+    shell: echo "-w /etc/nginx/nginx.conf -p wa -k nginxconfigchange" >> /etc/audit/rules.d/audit.rules
+
+  - name: Enable the remote logging plugin
+    lineinfile: dest=/etc/audisp/plugins.d/au-remote.conf
+      regexp="active"
+      line="active = yes"   
+      state=present  
+
+  - name: Specify centralized audit log server
+    lineinfile: dest=/etc/audisp/audisp-remote.conf
+      regexp="remote_server"
+      line="remote_server = 192.168.255.1"   
+      state=present  
+
+  - name: Set up remote logging
+    lineinfile: dest=/etc/audit/auditd.conf
+      regexp="log_format = RAW"
+      line="#log_format = NOLOG"   
+      state=present  
+
+  - name: Disable writing logs
+    lineinfile: dest=/etc/audit/auditd.conf
+      regexp="write_logs"
+      line="write_logs = no"   
+      state=present  
+
+  - name: Enable ManualStop for auditd
+    lineinfile: dest=/usr/lib/systemd/system/auditd.service
+      regexp="RefuseManualStop=yes"
+      line="RefuseManualStop=no"   
+      state=present
+
+  - name: enable auditd
+    systemd: name=auditd enabled=yes
+
+  - name: restart auditd
+    service: name=auditd state=restarted use=service
+
+  - name: Configure sending all error logs with critical severity and higher locally in rsyslog.conf
+    lineinfile: dest=/etc/nginx/nginx.conf
+      regexp="error_log /var/log/nginx/error.log;"
+      line="error_log /var/log/nginx/error.log crit;"   
+      state=present
+
+  - name: Configure sending all access logs with info severity and higher to remote log server in rsyslog.conf
+    lineinfile: dest=/etc/nginx/nginx.conf
+      regexp="access_log  /var/log/nginx/access.log  main;"
+      line="     access_log syslog:server=192.168.255.1,facility=local7,tag=nginx,severity=info main;"   
+      state=present
+
+  - name: restart nginx
+    systemd: name=nginx state=restarted
+
+  - name: restart rsyslog
+    systemd: name=iptables state=restarted
+
+  - cron:
+      name: "restart auditd after reboot"
+      special_time: reboot
+      job: "/var/restartauditd.sh"
+
+  - name: Restart server
+    command: /sbin/shutdown -r +1
+    async: 0
+    poll: 0
+    ignore_errors: true
