@@ -28,6 +28,8 @@
       - traceroute
       - iptables-services
       - atop
+      - setools-console
+      - policycoreutils-python
     
     - name: enable iptables-services
       systemd: name=iptables enabled=yes
