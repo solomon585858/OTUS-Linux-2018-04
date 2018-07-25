@@ -224,7 +224,7 @@
     systemd: name=nginx state=restarted
 
   - name: restart rsyslog
-    systemd: name=iptables state=restarted
+    systemd: name=rsyslog state=restarted
 
   - cron:
       name: "restart auditd after reboot"
