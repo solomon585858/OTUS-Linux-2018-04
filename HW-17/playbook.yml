@@ -1,25 +1,53 @@
----
 - hosts: inetrouter
   become: true
   tasks:
-  - name: Transfer the script for freeipa-client configuration
-    copy: src=freeipa-client-inetrouter.sh dest=/var/ mode=0777
-  - name: Execute the script for freeipa-client configuration
-    command: sh /var/freeipa-client-inetrouter.sh
+  - name: change hostname to inetrouter
+    hostname:
+      name: "inetrouter.otus.local"
+  - name: Add hostname to /etc/hostname
+    lineinfile: dest=/etc/hostname
+      line="inetrouter.otus.local"
 
 - hosts: centralrouter
   become: true
   tasks:
-  - name: Transfer the script for freeipa-client configuration
-    copy: src=freeipa-client-centralrouter.sh dest=/var/ mode=0777
-  - name: Execute the script for freeipa-client configuration
-    command: sh /var/freeipa-client-centralrouter.sh
-
+  - name: change hostname to centralrouter
+    hostname:
+      name: "centralrouter.otus.local"
+  - name: Add hostname to /etc/hostname
+    lineinfile: dest=/etc/hostname
+      line="centralrouter.otus.local"
 
 - hosts: centralserver
   become: true
   tasks:
-  - name: Transfer the script for freeipa-client configuration
-    copy: src=freeipa-client-centralserver.sh dest=/var/ mode=0777
-  - name: Execute the script for freeipa-client configuration
-    command: sh /var/freeipa-client-centralserver.sh
+  - name: change hostname to centralserver
+    hostname:
+      name: "centralserver.otus.local"
+  - name: Add hostname to /etc/hostname
+    lineinfile: dest=/etc/hostname
+      line="centralserver.otus.local"
+
+- hosts: clients
+  become: true
+  tasks:
+  - name: Add otus.local to /etc/resolv.conf
+    lineinfile: dest=/etc/resolv.conf
+      line="search otus.local"
+  - name: Add nameserver 192.168.0.3 to /etc/resolv.conf
+    lineinfile: dest=/etc/resolv.conf
+      line="nameserver 192.168.0.3"
+  - name: Make sure /etc/resolv.conf never be updated by DHCP
+    command: chattr +i /etc/resolv.conf
+  - name: Upgrade all packages
+    yum: name=* state=latest
+  - name: Install packages
+    yum: name={{ item }} state=latest 
+    with_items:
+    - bind
+    - bind-utils
+    - freeipa-client
+  - name: Restart network
+    systemd: name=network state=restarted  
+  - name: Install ipa-client
+    command: ipa-client-install --principal admin --password Password -U --mkhomedir
