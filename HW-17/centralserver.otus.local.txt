@@ -1,0 +1,1314 @@
+[root@centralserver ~]# 
+[root@centralserver ~]# hostname centralserver.otus.local
+[root@centralserver ~]# cat /etc/hostname
+centralserver
+[root@centralserver ~]# vi /etc/hostname
+centralserver.otus.local
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+"/etc/hostname" 1L, 25C written
+[root@centralserver ~]# yum update
+Loaded plugins: fastestmirror
+Determining fastest mirrors
+epel/x86_64/metalink                                                                                         |  32 kB  00:00:00     
+ * base: centos-mirror.rbc.ru
+ * epel: mirror.yandex.ru
+ * extras: mirror.corbina.net
+ * updates: mirror.corbina.net
+base                                                                                                         | 3.6 kB  00:00:00     
+epel                                                                                                         | 3.2 kB  00:00:00     
+extras                                                                                                       | 3.4 kB  00:00:00     
+updates                                                                                                      | 3.4 kB  00:00:00     
+virtualbox/7/x86_64/signature                                                                                |  181 B  00:00:00     
+virtualbox/7/x86_64/signature                                                                                | 1.1 kB  00:00:00 !!! 
+(1/6): epel/x86_64/group_gz                                                                                  |  88 kB  00:00:00     
+(2/6): extras/7/x86_64/primary_db                                                                            | 150 kB  00:00:00     
+(3/6): virtualbox/7/x86_64/primary                                                                           |  11 kB  00:00:00     
+(4/6): epel/x86_64/updateinfo                                                                                | 926 kB  00:00:02     
+(5/6): updates/7/x86_64/primary_db                                                                           | 3.6 MB  00:00:03     
+(6/6): epel/x86_64/primary                                                                                   | 3.5 MB  00:00:04     
+epel                                                                                                                    12605/12605
+virtualbox                                                                                                                    55/55
+Resolving Dependencies
+--> Running transaction check
+---> Package NetworkManager.x86_64 1:1.10.2-14.el7_5 will be updated
+---> Package NetworkManager.x86_64 1:1.10.2-16.el7_5 will be an update
+---> Package NetworkManager-libnm.x86_64 1:1.10.2-14.el7_5 will be updated
+---> Package NetworkManager-libnm.x86_64 1:1.10.2-16.el7_5 will be an update
+---> Package NetworkManager-team.x86_64 1:1.10.2-14.el7_5 will be updated
+---> Package NetworkManager-team.x86_64 1:1.10.2-16.el7_5 will be an update
+---> Package NetworkManager-tui.x86_64 1:1.10.2-14.el7_5 will be updated
+---> Package NetworkManager-tui.x86_64 1:1.10.2-16.el7_5 will be an update
+---> Package NetworkManager-wifi.x86_64 1:1.10.2-14.el7_5 will be updated
+---> Package NetworkManager-wifi.x86_64 1:1.10.2-16.el7_5 will be an update
+---> Package binutils.x86_64 0:2.27-27.base.el7 will be updated
+---> Package binutils.x86_64 0:2.27-28.base.el7_5.1 will be an update
+---> Package git.x86_64 0:1.8.3.1-13.el7 will be updated
+---> Package git.x86_64 0:1.8.3.1-14.el7_5 will be an update
+---> Package iwl100-firmware.noarch 0:39.31.5.1-62.1.el7_5 will be updated
+---> Package iwl100-firmware.noarch 0:39.31.5.1-62.2.el7_5 will be an update
+---> Package iwl1000-firmware.noarch 1:39.31.5.1-62.1.el7_5 will be updated
+---> Package iwl1000-firmware.noarch 1:39.31.5.1-62.2.el7_5 will be an update
+---> Package iwl105-firmware.noarch 0:18.168.6.1-62.1.el7_5 will be updated
+---> Package iwl105-firmware.noarch 0:18.168.6.1-62.2.el7_5 will be an update
+---> Package iwl135-firmware.noarch 0:18.168.6.1-62.1.el7_5 will be updated
+---> Package iwl135-firmware.noarch 0:18.168.6.1-62.2.el7_5 will be an update
+---> Package iwl2000-firmware.noarch 0:18.168.6.1-62.1.el7_5 will be updated
+---> Package iwl2000-firmware.noarch 0:18.168.6.1-62.2.el7_5 will be an update
+---> Package iwl2030-firmware.noarch 0:18.168.6.1-62.1.el7_5 will be updated
+---> Package iwl2030-firmware.noarch 0:18.168.6.1-62.2.el7_5 will be an update
+---> Package iwl3160-firmware.noarch 0:22.0.7.0-62.1.el7_5 will be updated
+---> Package iwl3160-firmware.noarch 0:22.0.7.0-62.2.el7_5 will be an update
+---> Package iwl3945-firmware.noarch 0:15.32.2.9-62.1.el7_5 will be updated
+---> Package iwl3945-firmware.noarch 0:15.32.2.9-62.2.el7_5 will be an update
+---> Package iwl4965-firmware.noarch 0:228.61.2.24-62.1.el7_5 will be updated
+---> Package iwl4965-firmware.noarch 0:228.61.2.24-62.2.el7_5 will be an update
+---> Package iwl5000-firmware.noarch 0:8.83.5.1_1-62.1.el7_5 will be updated
+---> Package iwl5000-firmware.noarch 0:8.83.5.1_1-62.2.el7_5 will be an update
+---> Package iwl5150-firmware.noarch 0:8.24.2.2-62.1.el7_5 will be updated
+---> Package iwl5150-firmware.noarch 0:8.24.2.2-62.2.el7_5 will be an update
+---> Package iwl6000-firmware.noarch 0:9.221.4.1-62.1.el7_5 will be updated
+---> Package iwl6000-firmware.noarch 0:9.221.4.1-62.2.el7_5 will be an update
+---> Package iwl6000g2a-firmware.noarch 0:17.168.5.3-62.1.el7_5 will be updated
+---> Package iwl6000g2a-firmware.noarch 0:17.168.5.3-62.2.el7_5 will be an update
+---> Package iwl6000g2b-firmware.noarch 0:17.168.5.2-62.1.el7_5 will be updated
+---> Package iwl6000g2b-firmware.noarch 0:17.168.5.2-62.2.el7_5 will be an update
+---> Package iwl6050-firmware.noarch 0:41.28.5.1-62.1.el7_5 will be updated
+---> Package iwl6050-firmware.noarch 0:41.28.5.1-62.2.el7_5 will be an update
+---> Package iwl7260-firmware.noarch 0:22.0.7.0-62.1.el7_5 will be updated
+---> Package iwl7260-firmware.noarch 0:22.0.7.0-62.2.el7_5 will be an update
+---> Package iwl7265-firmware.noarch 0:22.0.7.0-62.1.el7_5 will be updated
+---> Package iwl7265-firmware.noarch 0:22.0.7.0-62.2.el7_5 will be an update
+---> Package kernel.x86_64 0:3.10.0-862.6.3.el7 will be installed
+---> Package kernel-devel.x86_64 0:3.10.0-862.6.3.el7 will be installed
+---> Package kernel-headers.x86_64 0:3.10.0-862.3.2.el7 will be updated
+---> Package kernel-headers.x86_64 0:3.10.0-862.6.3.el7 will be an update
+---> Package kernel-tools.x86_64 0:3.10.0-862.3.2.el7 will be updated
+---> Package kernel-tools.x86_64 0:3.10.0-862.6.3.el7 will be an update
+---> Package kernel-tools-libs.x86_64 0:3.10.0-862.3.2.el7 will be updated
+---> Package kernel-tools-libs.x86_64 0:3.10.0-862.6.3.el7 will be an update
+---> Package linux-firmware.noarch 0:20180220-62.1.git6d51311.el7_5 will be updated
+---> Package linux-firmware.noarch 0:20180220-62.2.git6d51311.el7_5 will be an update
+---> Package open-vm-tools.x86_64 0:10.1.10-3.el7 will be updated
+---> Package open-vm-tools.x86_64 0:10.1.10-3.el7_5.1 will be an update
+---> Package perl-Git.noarch 0:1.8.3.1-13.el7 will be updated
+---> Package perl-Git.noarch 0:1.8.3.1-14.el7_5 will be an update
+---> Package python-perf.x86_64 0:3.10.0-862.3.2.el7 will be updated
+---> Package python-perf.x86_64 0:3.10.0-862.6.3.el7 will be an update
+---> Package selinux-policy.noarch 0:3.13.1-192.el7_5.3 will be updated
+---> Package selinux-policy.noarch 0:3.13.1-192.el7_5.4 will be an update
+---> Package selinux-policy-targeted.noarch 0:3.13.1-192.el7_5.3 will be updated
+---> Package selinux-policy-targeted.noarch 0:3.13.1-192.el7_5.4 will be an update
+---> Package sos.noarch 0:3.5-7.el7.centos will be updated
+---> Package sos.noarch 0:3.5-9.el7.centos will be an update
+---> Package sudo.x86_64 0:1.8.19p2-13.el7 will be updated
+---> Package sudo.x86_64 0:1.8.19p2-14.el7_5 will be an update
+---> Package systemtap.x86_64 0:3.2-4.el7 will be updated
+---> Package systemtap.x86_64 0:3.2-8.el7_5 will be an update
+---> Package systemtap-client.x86_64 0:3.2-4.el7 will be updated
+---> Package systemtap-client.x86_64 0:3.2-8.el7_5 will be an update
+---> Package systemtap-devel.x86_64 0:3.2-4.el7 will be updated
+---> Package systemtap-devel.x86_64 0:3.2-8.el7_5 will be an update
+---> Package systemtap-runtime.x86_64 0:3.2-4.el7 will be updated
+---> Package systemtap-runtime.x86_64 0:3.2-8.el7_5 will be an update
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+====================================================================================================================================
+ Package                              Arch                Version                                        Repository            Size
+====================================================================================================================================
+Installing:
+ kernel                               x86_64              3.10.0-862.6.3.el7                             updates               46 M
+ kernel-devel                         x86_64              3.10.0-862.6.3.el7                             updates               16 M
+Updating:
+ NetworkManager                       x86_64              1:1.10.2-16.el7_5                              updates              1.7 M
+ NetworkManager-libnm                 x86_64              1:1.10.2-16.el7_5                              updates              1.3 M
+ NetworkManager-team                  x86_64              1:1.10.2-16.el7_5                              updates              161 k
+ NetworkManager-tui                   x86_64              1:1.10.2-16.el7_5                              updates              235 k
+ NetworkManager-wifi                  x86_64              1:1.10.2-16.el7_5                              updates              192 k
+ binutils                             x86_64              2.27-28.base.el7_5.1                           updates              5.9 M
+ git                                  x86_64              1.8.3.1-14.el7_5                               updates              4.4 M
+ iwl100-firmware                      noarch              39.31.5.1-62.2.el7_5                           updates              155 k
+ iwl1000-firmware                     noarch              1:39.31.5.1-62.2.el7_5                         updates              218 k
+ iwl105-firmware                      noarch              18.168.6.1-62.2.el7_5                          updates              239 k
+ iwl135-firmware                      noarch              18.168.6.1-62.2.el7_5                          updates              248 k
+ iwl2000-firmware                     noarch              18.168.6.1-62.2.el7_5                          updates              242 k
+ iwl2030-firmware                     noarch              18.168.6.1-62.2.el7_5                          updates              251 k
+ iwl3160-firmware                     noarch              22.0.7.0-62.2.el7_5                            updates              1.6 M
+ iwl3945-firmware                     noarch              15.32.2.9-62.2.el7_5                           updates               93 k
+ iwl4965-firmware                     noarch              228.61.2.24-62.2.el7_5                         updates              107 k
+ iwl5000-firmware                     noarch              8.83.5.1_1-62.2.el7_5                          updates              299 k
+ iwl5150-firmware                     noarch              8.24.2.2-62.2.el7_5                            updates              152 k
+ iwl6000-firmware                     noarch              9.221.4.1-62.2.el7_5                           updates              172 k
+ iwl6000g2a-firmware                  noarch              17.168.5.3-62.2.el7_5                          updates              315 k
+ iwl6000g2b-firmware                  noarch              17.168.5.2-62.2.el7_5                          updates              315 k
+ iwl6050-firmware                     noarch              41.28.5.1-62.2.el7_5                           updates              248 k
+ iwl7260-firmware                     noarch              22.0.7.0-62.2.el7_5                            updates              1.1 M
+ iwl7265-firmware                     noarch              22.0.7.0-62.2.el7_5                            updates              5.5 M
+ kernel-headers                       x86_64              3.10.0-862.6.3.el7                             updates              7.1 M
+ kernel-tools                         x86_64              3.10.0-862.6.3.el7                             updates              6.3 M
+ kernel-tools-libs                    x86_64              3.10.0-862.6.3.el7                             updates              6.2 M
+ linux-firmware                       noarch              20180220-62.2.git6d51311.el7_5                 updates               57 M
+ open-vm-tools                        x86_64              10.1.10-3.el7_5.1                              updates              672 k
+ perl-Git                             noarch              1.8.3.1-14.el7_5                               updates               54 k
+ python-perf                          x86_64              3.10.0-862.6.3.el7                             updates              6.3 M
+ selinux-policy                       noarch              3.13.1-192.el7_5.4                             updates              453 k
+ selinux-policy-targeted              noarch              3.13.1-192.el7_5.4                             updates              6.6 M
+ sos                                  noarch              3.5-9.el7.centos                               updates              414 k
+ sudo                                 x86_64              1.8.19p2-14.el7_5                              updates              1.1 M
+ systemtap                            x86_64              3.2-8.el7_5                                    updates              145 k
+ systemtap-client                     x86_64              3.2-8.el7_5                                    updates              3.7 M
+ systemtap-devel                      x86_64              3.2-8.el7_5                                    updates              2.0 M
+ systemtap-runtime                    x86_64              3.2-8.el7_5                                    updates              404 k
+
+Transaction Summary
+====================================================================================================================================
+Install   2 Packages
+Upgrade  39 Packages
+
+Total download size: 185 M
+Is this ok [y/d/N]: y
+Downloading packages:
+Delta RPMs disabled because /usr/bin/applydeltarpm not installed.
+(1/41): NetworkManager-tui-1.10.2-16.el7_5.x86_64.rpm                                                        | 235 kB  00:00:00     
+(2/41): NetworkManager-team-1.10.2-16.el7_5.x86_64.rpm                                                       | 161 kB  00:00:00     
+(3/41): NetworkManager-wifi-1.10.2-16.el7_5.x86_64.rpm                                                       | 192 kB  00:00:04     
+(4/41): iwl100-firmware-39.31.5.1-62.2.el7_5.noarch.rpm                                                      | 155 kB  00:00:00     
+(5/41): NetworkManager-1.10.2-16.el7_5.x86_64.rpm                                                            | 1.7 MB  00:00:05     
+(6/41): iwl1000-firmware-39.31.5.1-62.2.el7_5.noarch.rpm                                                     | 218 kB  00:00:01     
+(7/41): iwl135-firmware-18.168.6.1-62.2.el7_5.noarch.rpm                                                     | 248 kB  00:00:00     
+(8/41): iwl2000-firmware-18.168.6.1-62.2.el7_5.noarch.rpm                                                    | 242 kB  00:00:00     
+(9/41): iwl105-firmware-18.168.6.1-62.2.el7_5.noarch.rpm                                                     | 239 kB  00:00:01     
+(10/41): iwl2030-firmware-18.168.6.1-62.2.el7_5.noarch.rpm                                                   | 251 kB  00:00:01     
+(11/41): iwl3945-firmware-15.32.2.9-62.2.el7_5.noarch.rpm                                                    |  93 kB  00:00:00     
+(12/41): iwl4965-firmware-228.61.2.24-62.2.el7_5.noarch.rpm                                                  | 107 kB  00:00:01     
+(13/41): NetworkManager-libnm-1.10.2-16.el7_5.x86_64.rpm                                                     | 1.3 MB  00:00:09     
+(14/41): iwl5150-firmware-8.24.2.2-62.2.el7_5.noarch.rpm                                                     | 152 kB  00:00:01     
+(15/41): iwl5000-firmware-8.83.5.1_1-62.2.el7_5.noarch.rpm                                                   | 299 kB  00:00:02     
+(16/41): iwl6000g2a-firmware-17.168.5.3-62.2.el7_5.noarch.rpm                                                | 315 kB  00:00:00     
+(17/41): iwl6000-firmware-9.221.4.1-62.2.el7_5.noarch.rpm                                                    | 172 kB  00:00:01     
+(18/41): iwl6000g2b-firmware-17.168.5.2-62.2.el7_5.noarch.rpm                                                | 315 kB  00:00:00     
+(19/41): iwl7260-firmware-22.0.7.0-62.2.el7_5.noarch.rpm                                                     | 1.1 MB  00:00:01     
+(20/41): git-1.8.3.1-14.el7_5.x86_64.rpm                                                                     | 4.4 MB  00:00:13     
+(21/41): iwl3160-firmware-22.0.7.0-62.2.el7_5.noarch.rpm                                                     | 1.6 MB  00:00:07     
+(22/41): iwl6050-firmware-41.28.5.1-62.2.el7_5.noarch.rpm                                                    | 248 kB  00:00:02     
+(23/41): iwl7265-firmware-22.0.7.0-62.2.el7_5.noarch.rpm                                                     | 5.5 MB  00:00:05     
+(24/41): kernel-tools-3.10.0-862.6.3.el7.x86_64.rpm                                                          | 6.3 MB  00:00:08     
+(25/41): kernel-tools-libs-3.10.0-862.6.3.el7.x86_64.rpm                                                     | 6.2 MB  00:00:05     
+(26/41): binutils-2.27-28.base.el7_5.1.x86_64.rpm                                                            | 5.9 MB  00:00:33     
+(27/41): open-vm-tools-10.1.10-3.el7_5.1.x86_64.rpm                                                          | 672 kB  00:00:02     
+(28/41): perl-Git-1.8.3.1-14.el7_5.noarch.rpm                                                                |  54 kB  00:00:00     
+(29/41): kernel-devel-3.10.0-862.6.3.el7.x86_64.rpm                                                          |  16 MB  00:00:40     
+(30/41): python-perf-3.10.0-862.6.3.el7.x86_64.rpm                                                           | 6.3 MB  00:00:18     
+(31/41): selinux-policy-3.13.1-192.el7_5.4.noarch.rpm                                                        | 453 kB  00:00:00     
+(32/41): sos-3.5-9.el7.centos.noarch.rpm                                                                     | 414 kB  00:00:00     
+(33/41): sudo-1.8.19p2-14.el7_5.x86_64.rpm                                                                   | 1.1 MB  00:00:01     
+(34/41): systemtap-3.2-8.el7_5.x86_64.rpm                                                                    | 145 kB  00:00:00     
+(35/41): selinux-policy-targeted-3.13.1-192.el7_5.4.noarch.rpm                                               | 6.6 MB  00:00:09     
+(36/41): systemtap-client-3.2-8.el7_5.x86_64.rpm                                                             | 3.7 MB  00:00:06     
+(37/41): systemtap-runtime-3.2-8.el7_5.x86_64.rpm                                                            | 404 kB  00:00:00     
+(38/41): kernel-headers-3.10.0-862.6.3.el7.x86_64.rpm                                                        | 7.1 MB  00:00:52     
+(39/41): systemtap-devel-3.2-8.el7_5.x86_64.rpm                                                              | 2.0 MB  00:00:04     
+(40/41): linux-firmware-20180220-62.2.git6d51311.el7_5.noarch.rpm                                            |  57 MB  00:01:14     
+(41/41): kernel-3.10.0-862.6.3.el7.x86_64.rpm                                                                |  46 MB  00:01:34     
+------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                               1.7 MB/s | 185 MB  00:01:48     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Updating   : 1:NetworkManager-libnm-1.10.2-16.el7_5.x86_64                                                                   1/80 
+  Updating   : 1:NetworkManager-1.10.2-16.el7_5.x86_64                                                                         2/80 
+  Updating   : git-1.8.3.1-14.el7_5.x86_64                                                                                     3/80 
+  Updating   : perl-Git-1.8.3.1-14.el7_5.noarch                                                                                4/80 
+  Installing : kernel-devel-3.10.0-862.6.3.el7.x86_64                                                                          5/80 
+  Updating   : systemtap-devel-3.2-8.el7_5.x86_64                                                                              6/80 
+  Updating   : systemtap-runtime-3.2-8.el7_5.x86_64                                                                            7/80 
+  Updating   : systemtap-client-3.2-8.el7_5.x86_64                                                                             8/80 
+  Updating   : kernel-tools-libs-3.10.0-862.6.3.el7.x86_64                                                                     9/80 
+  Updating   : selinux-policy-3.13.1-192.el7_5.4.noarch                                                                       10/80 
+  Updating   : linux-firmware-20180220-62.2.git6d51311.el7_5.noarch                                                           11/80 
+  Installing : kernel-3.10.0-862.6.3.el7.x86_64                                                                               12/80 
+  Updating   : selinux-policy-targeted-3.13.1-192.el7_5.4.noarch                                                              13/80 
+  Updating   : kernel-tools-3.10.0-862.6.3.el7.x86_64                                                                         14/80 
+  Updating   : systemtap-3.2-8.el7_5.x86_64                                                                                   15/80 
+  Updating   : 1:NetworkManager-tui-1.10.2-16.el7_5.x86_64                                                                    16/80 
+  Updating   : 1:NetworkManager-wifi-1.10.2-16.el7_5.x86_64                                                                   17/80 
+  Updating   : 1:NetworkManager-team-1.10.2-16.el7_5.x86_64                                                                   18/80 
+  Updating   : python-perf-3.10.0-862.6.3.el7.x86_64                                                                          19/80 
+  Updating   : iwl6000g2a-firmware-17.168.5.3-62.2.el7_5.noarch                                                               20/80 
+  Updating   : iwl2000-firmware-18.168.6.1-62.2.el7_5.noarch                                                                  21/80 
+  Updating   : iwl5000-firmware-8.83.5.1_1-62.2.el7_5.noarch                                                                  22/80 
+  Updating   : iwl2030-firmware-18.168.6.1-62.2.el7_5.noarch                                                                  23/80 
+  Updating   : binutils-2.27-28.base.el7_5.1.x86_64                                                                           24/80 
+  Updating   : iwl3945-firmware-15.32.2.9-62.2.el7_5.noarch                                                                   25/80 
+  Updating   : iwl6000-firmware-9.221.4.1-62.2.el7_5.noarch                                                                   26/80 
+  Updating   : iwl3160-firmware-22.0.7.0-62.2.el7_5.noarch                                                                    27/80 
+  Updating   : kernel-headers-3.10.0-862.6.3.el7.x86_64                                                                       28/80 
+  Updating   : sudo-1.8.19p2-14.el7_5.x86_64                                                                                  29/80 
+  Updating   : iwl135-firmware-18.168.6.1-62.2.el7_5.noarch                                                                   30/80 
+  Updating   : iwl6050-firmware-41.28.5.1-62.2.el7_5.noarch                                                                   31/80 
+  Updating   : iwl5150-firmware-8.24.2.2-62.2.el7_5.noarch                                                                    32/80 
+  Updating   : iwl6000g2b-firmware-17.168.5.2-62.2.el7_5.noarch                                                               33/80 
+  Updating   : iwl4965-firmware-228.61.2.24-62.2.el7_5.noarch                                                                 34/80 
+  Updating   : sos-3.5-9.el7.centos.noarch                                                                                    35/80 
+  Updating   : iwl7265-firmware-22.0.7.0-62.2.el7_5.noarch                                                                    36/80 
+  Updating   : iwl7260-firmware-22.0.7.0-62.2.el7_5.noarch                                                                    37/80 
+  Updating   : iwl100-firmware-39.31.5.1-62.2.el7_5.noarch                                                                    38/80 
+  Updating   : 1:iwl1000-firmware-39.31.5.1-62.2.el7_5.noarch                                                                 39/80 
+  Updating   : open-vm-tools-10.1.10-3.el7_5.1.x86_64                                                                         40/80 
+  Updating   : iwl105-firmware-18.168.6.1-62.2.el7_5.noarch                                                                   41/80 
+  Cleanup    : systemtap-3.2-4.el7.x86_64                                                                                     42/80 
+  Cleanup    : git-1.8.3.1-13.el7.x86_64                                                                                      43/80 
+  Cleanup    : perl-Git-1.8.3.1-13.el7.noarch                                                                                 44/80 
+  Cleanup    : selinux-policy-targeted-3.13.1-192.el7_5.3.noarch                                                              45/80 
+  Cleanup    : selinux-policy-3.13.1-192.el7_5.3.noarch                                                                       46/80 
+  Cleanup    : iwl6000g2a-firmware-17.168.5.3-62.1.el7_5.noarch                                                               47/80 
+  Cleanup    : iwl2000-firmware-18.168.6.1-62.1.el7_5.noarch                                                                  48/80 
+  Cleanup    : iwl5000-firmware-8.83.5.1_1-62.1.el7_5.noarch                                                                  49/80 
+  Cleanup    : iwl2030-firmware-18.168.6.1-62.1.el7_5.noarch                                                                  50/80 
+  Cleanup    : iwl3945-firmware-15.32.2.9-62.1.el7_5.noarch                                                                   51/80 
+  Cleanup    : iwl6000-firmware-9.221.4.1-62.1.el7_5.noarch                                                                   52/80 
+  Cleanup    : iwl3160-firmware-22.0.7.0-62.1.el7_5.noarch                                                                    53/80 
+  Cleanup    : kernel-headers-3.10.0-862.3.2.el7.x86_64                                                                       54/80 
+  Cleanup    : iwl135-firmware-18.168.6.1-62.1.el7_5.noarch                                                                   55/80 
+  Cleanup    : iwl6050-firmware-41.28.5.1-62.1.el7_5.noarch                                                                   56/80 
+  Cleanup    : iwl5150-firmware-8.24.2.2-62.1.el7_5.noarch                                                                    57/80 
+  Cleanup    : iwl6000g2b-firmware-17.168.5.2-62.1.el7_5.noarch                                                               58/80 
+  Cleanup    : iwl4965-firmware-228.61.2.24-62.1.el7_5.noarch                                                                 59/80 
+  Cleanup    : sos-3.5-7.el7.centos.noarch                                                                                    60/80 
+  Cleanup    : iwl7265-firmware-22.0.7.0-62.1.el7_5.noarch                                                                    61/80 
+  Cleanup    : linux-firmware-20180220-62.1.git6d51311.el7_5.noarch                                                           62/80 
+  Cleanup    : iwl7260-firmware-22.0.7.0-62.1.el7_5.noarch                                                                    63/80 
+  Cleanup    : iwl100-firmware-39.31.5.1-62.1.el7_5.noarch                                                                    64/80 
+  Cleanup    : 1:iwl1000-firmware-39.31.5.1-62.1.el7_5.noarch                                                                 65/80 
+  Cleanup    : iwl105-firmware-18.168.6.1-62.1.el7_5.noarch                                                                   66/80 
+  Cleanup    : systemtap-client-3.2-4.el7.x86_64                                                                              67/80 
+  Cleanup    : 1:NetworkManager-tui-1.10.2-14.el7_5.x86_64                                                                    68/80 
+  Cleanup    : 1:NetworkManager-team-1.10.2-14.el7_5.x86_64                                                                   69/80 
+  Cleanup    : 1:NetworkManager-wifi-1.10.2-14.el7_5.x86_64                                                                   70/80 
+  Cleanup    : 1:NetworkManager-1.10.2-14.el7_5.x86_64                                                                        71/80 
+  Cleanup    : kernel-tools-3.10.0-862.3.2.el7.x86_64                                                                         72/80 
+  Cleanup    : kernel-tools-libs-3.10.0-862.3.2.el7.x86_64                                                                    73/80 
+  Cleanup    : 1:NetworkManager-libnm-1.10.2-14.el7_5.x86_64                                                                  74/80 
+  Cleanup    : systemtap-devel-3.2-4.el7.x86_64                                                                               75/80 
+  Cleanup    : systemtap-runtime-3.2-4.el7.x86_64                                                                             76/80 
+  Cleanup    : python-perf-3.10.0-862.3.2.el7.x86_64                                                                          77/80 
+  Cleanup    : binutils-2.27-27.base.el7.x86_64                                                                               78/80 
+  Cleanup    : sudo-1.8.19p2-13.el7.x86_64                                                                                    79/80 
+  Cleanup    : open-vm-tools-10.1.10-3.el7.x86_64                                                                             80/80 
+  Verifying  : iwl105-firmware-18.168.6.1-62.2.el7_5.noarch                                                                    1/80 
+  Verifying  : open-vm-tools-10.1.10-3.el7_5.1.x86_64                                                                          2/80 
+  Verifying  : systemtap-3.2-8.el7_5.x86_64                                                                                    3/80 
+  Verifying  : systemtap-devel-3.2-8.el7_5.x86_64                                                                              4/80 
+  Verifying  : 1:iwl1000-firmware-39.31.5.1-62.2.el7_5.noarch                                                                  5/80 
+  Verifying  : iwl100-firmware-39.31.5.1-62.2.el7_5.noarch                                                                     6/80 
+  Verifying  : iwl7260-firmware-22.0.7.0-62.2.el7_5.noarch                                                                     7/80 
+  Verifying  : linux-firmware-20180220-62.2.git6d51311.el7_5.noarch                                                            8/80 
+  Verifying  : iwl7265-firmware-22.0.7.0-62.2.el7_5.noarch                                                                     9/80 
+  Verifying  : systemtap-client-3.2-8.el7_5.x86_64                                                                            10/80 
+  Verifying  : sos-3.5-9.el7.centos.noarch                                                                                    11/80 
+  Verifying  : iwl4965-firmware-228.61.2.24-62.2.el7_5.noarch                                                                 12/80 
+  Verifying  : iwl6000g2b-firmware-17.168.5.2-62.2.el7_5.noarch                                                               13/80 
+  Verifying  : 1:NetworkManager-tui-1.10.2-16.el7_5.x86_64                                                                    14/80 
+  Verifying  : iwl5150-firmware-8.24.2.2-62.2.el7_5.noarch                                                                    15/80 
+  Verifying  : selinux-policy-3.13.1-192.el7_5.4.noarch                                                                       16/80 
+  Verifying  : iwl6050-firmware-41.28.5.1-62.2.el7_5.noarch                                                                   17/80 
+  Verifying  : iwl135-firmware-18.168.6.1-62.2.el7_5.noarch                                                                   18/80 
+  Verifying  : kernel-tools-3.10.0-862.6.3.el7.x86_64                                                                         19/80 
+  Verifying  : kernel-tools-libs-3.10.0-862.6.3.el7.x86_64                                                                    20/80 
+  Verifying  : sudo-1.8.19p2-14.el7_5.x86_64                                                                                  21/80 
+  Verifying  : kernel-headers-3.10.0-862.6.3.el7.x86_64                                                                       22/80 
+  Verifying  : iwl3160-firmware-22.0.7.0-62.2.el7_5.noarch                                                                    23/80 
+  Verifying  : iwl6000-firmware-9.221.4.1-62.2.el7_5.noarch                                                                   24/80 
+  Verifying  : kernel-3.10.0-862.6.3.el7.x86_64                                                                               25/80 
+  Verifying  : 1:NetworkManager-wifi-1.10.2-16.el7_5.x86_64                                                                   26/80 
+  Verifying  : iwl3945-firmware-15.32.2.9-62.2.el7_5.noarch                                                                   27/80 
+  Verifying  : systemtap-runtime-3.2-8.el7_5.x86_64                                                                           28/80 
+  Verifying  : 1:NetworkManager-libnm-1.10.2-16.el7_5.x86_64                                                                  29/80 
+  Verifying  : binutils-2.27-28.base.el7_5.1.x86_64                                                                           30/80 
+  Verifying  : perl-Git-1.8.3.1-14.el7_5.noarch                                                                               31/80 
+  Verifying  : selinux-policy-targeted-3.13.1-192.el7_5.4.noarch                                                              32/80 
+  Verifying  : iwl2030-firmware-18.168.6.1-62.2.el7_5.noarch                                                                  33/80 
+  Verifying  : iwl5000-firmware-8.83.5.1_1-62.2.el7_5.noarch                                                                  34/80 
+  Verifying  : iwl2000-firmware-18.168.6.1-62.2.el7_5.noarch                                                                  35/80 
+  Verifying  : iwl6000g2a-firmware-17.168.5.3-62.2.el7_5.noarch                                                               36/80 
+  Verifying  : git-1.8.3.1-14.el7_5.x86_64                                                                                    37/80 
+  Verifying  : 1:NetworkManager-team-1.10.2-16.el7_5.x86_64                                                                   38/80 
+  Verifying  : 1:NetworkManager-1.10.2-16.el7_5.x86_64                                                                        39/80 
+  Verifying  : python-perf-3.10.0-862.6.3.el7.x86_64                                                                          40/80 
+  Verifying  : kernel-devel-3.10.0-862.6.3.el7.x86_64                                                                         41/80 
+  Verifying  : iwl2030-firmware-18.168.6.1-62.1.el7_5.noarch                                                                  42/80 
+  Verifying  : iwl7260-firmware-22.0.7.0-62.1.el7_5.noarch                                                                    43/80 
+  Verifying  : iwl100-firmware-39.31.5.1-62.1.el7_5.noarch                                                                    44/80 
+  Verifying  : iwl6050-firmware-41.28.5.1-62.1.el7_5.noarch                                                                   45/80 
+  Verifying  : 1:NetworkManager-1.10.2-14.el7_5.x86_64                                                                        46/80 
+  Verifying  : 1:iwl1000-firmware-39.31.5.1-62.1.el7_5.noarch                                                                 47/80 
+  Verifying  : selinux-policy-targeted-3.13.1-192.el7_5.3.noarch                                                              48/80 
+  Verifying  : iwl3160-firmware-22.0.7.0-62.1.el7_5.noarch                                                                    49/80 
+  Verifying  : perl-Git-1.8.3.1-13.el7.noarch                                                                                 50/80 
+  Verifying  : 1:NetworkManager-team-1.10.2-14.el7_5.x86_64                                                                   51/80 
+  Verifying  : kernel-headers-3.10.0-862.3.2.el7.x86_64                                                                       52/80 
+  Verifying  : iwl6000-firmware-9.221.4.1-62.1.el7_5.noarch                                                                   53/80 
+  Verifying  : binutils-2.27-27.base.el7.x86_64                                                                               54/80 
+  Verifying  : iwl6000g2a-firmware-17.168.5.3-62.1.el7_5.noarch                                                               55/80 
+  Verifying  : iwl135-firmware-18.168.6.1-62.1.el7_5.noarch                                                                   56/80 
+  Verifying  : python-perf-3.10.0-862.3.2.el7.x86_64                                                                          57/80 
+  Verifying  : iwl5000-firmware-8.83.5.1_1-62.1.el7_5.noarch                                                                  58/80 
+  Verifying  : iwl7265-firmware-22.0.7.0-62.1.el7_5.noarch                                                                    59/80 
+  Verifying  : iwl4965-firmware-228.61.2.24-62.1.el7_5.noarch                                                                 60/80 
+  Verifying  : open-vm-tools-10.1.10-3.el7.x86_64                                                                             61/80 
+  Verifying  : 1:NetworkManager-wifi-1.10.2-14.el7_5.x86_64                                                                   62/80 
+  Verifying  : iwl5150-firmware-8.24.2.2-62.1.el7_5.noarch                                                                    63/80 
+  Verifying  : systemtap-client-3.2-4.el7.x86_64                                                                              64/80 
+  Verifying  : sudo-1.8.19p2-13.el7.x86_64                                                                                    65/80 
+  Verifying  : 1:NetworkManager-libnm-1.10.2-14.el7_5.x86_64                                                                  66/80 
+  Verifying  : iwl3945-firmware-15.32.2.9-62.1.el7_5.noarch                                                                   67/80 
+  Verifying  : selinux-policy-3.13.1-192.el7_5.3.noarch                                                                       68/80 
+  Verifying  : iwl6000g2b-firmware-17.168.5.2-62.1.el7_5.noarch                                                               69/80 
+  Verifying  : sos-3.5-7.el7.centos.noarch                                                                                    70/80 
+  Verifying  : kernel-tools-libs-3.10.0-862.3.2.el7.x86_64                                                                    71/80 
+  Verifying  : linux-firmware-20180220-62.1.git6d51311.el7_5.noarch                                                           72/80 
+  Verifying  : systemtap-devel-3.2-4.el7.x86_64                                                                               73/80 
+  Verifying  : iwl105-firmware-18.168.6.1-62.1.el7_5.noarch                                                                   74/80 
+  Verifying  : iwl2000-firmware-18.168.6.1-62.1.el7_5.noarch                                                                  75/80 
+  Verifying  : git-1.8.3.1-13.el7.x86_64                                                                                      76/80 
+  Verifying  : 1:NetworkManager-tui-1.10.2-14.el7_5.x86_64                                                                    77/80 
+  Verifying  : kernel-tools-3.10.0-862.3.2.el7.x86_64                                                                         78/80 
+  Verifying  : systemtap-runtime-3.2-4.el7.x86_64                                                                             79/80 
+  Verifying  : systemtap-3.2-4.el7.x86_64                                                                                     80/80 
+
+Installed:
+  kernel.x86_64 0:3.10.0-862.6.3.el7                            kernel-devel.x86_64 0:3.10.0-862.6.3.el7                           
+
+Updated:
+  NetworkManager.x86_64 1:1.10.2-16.el7_5                         NetworkManager-libnm.x86_64 1:1.10.2-16.el7_5                     
+  NetworkManager-team.x86_64 1:1.10.2-16.el7_5                    NetworkManager-tui.x86_64 1:1.10.2-16.el7_5                       
+  NetworkManager-wifi.x86_64 1:1.10.2-16.el7_5                    binutils.x86_64 0:2.27-28.base.el7_5.1                            
+  git.x86_64 0:1.8.3.1-14.el7_5                                   iwl100-firmware.noarch 0:39.31.5.1-62.2.el7_5                     
+  iwl1000-firmware.noarch 1:39.31.5.1-62.2.el7_5                  iwl105-firmware.noarch 0:18.168.6.1-62.2.el7_5                    
+  iwl135-firmware.noarch 0:18.168.6.1-62.2.el7_5                  iwl2000-firmware.noarch 0:18.168.6.1-62.2.el7_5                   
+  iwl2030-firmware.noarch 0:18.168.6.1-62.2.el7_5                 iwl3160-firmware.noarch 0:22.0.7.0-62.2.el7_5                     
+  iwl3945-firmware.noarch 0:15.32.2.9-62.2.el7_5                  iwl4965-firmware.noarch 0:228.61.2.24-62.2.el7_5                  
+  iwl5000-firmware.noarch 0:8.83.5.1_1-62.2.el7_5                 iwl5150-firmware.noarch 0:8.24.2.2-62.2.el7_5                     
+  iwl6000-firmware.noarch 0:9.221.4.1-62.2.el7_5                  iwl6000g2a-firmware.noarch 0:17.168.5.3-62.2.el7_5                
+  iwl6000g2b-firmware.noarch 0:17.168.5.2-62.2.el7_5              iwl6050-firmware.noarch 0:41.28.5.1-62.2.el7_5                    
+  iwl7260-firmware.noarch 0:22.0.7.0-62.2.el7_5                   iwl7265-firmware.noarch 0:22.0.7.0-62.2.el7_5                     
+  kernel-headers.x86_64 0:3.10.0-862.6.3.el7                      kernel-tools.x86_64 0:3.10.0-862.6.3.el7                          
+  kernel-tools-libs.x86_64 0:3.10.0-862.6.3.el7                   linux-firmware.noarch 0:20180220-62.2.git6d51311.el7_5            
+  open-vm-tools.x86_64 0:10.1.10-3.el7_5.1                        perl-Git.noarch 0:1.8.3.1-14.el7_5                                
+  python-perf.x86_64 0:3.10.0-862.6.3.el7                         selinux-policy.noarch 0:3.13.1-192.el7_5.4                        
+  selinux-policy-targeted.noarch 0:3.13.1-192.el7_5.4             sos.noarch 0:3.5-9.el7.centos                                     
+  sudo.x86_64 0:1.8.19p2-14.el7_5                                 systemtap.x86_64 0:3.2-8.el7_5                                    
+  systemtap-client.x86_64 0:3.2-8.el7_5                           systemtap-devel.x86_64 0:3.2-8.el7_5                              
+  systemtap-runtime.x86_64 0:3.2-8.el7_5                         
+
+Complete!
+[root@centralserver ~]# 
+[root@centralserver ~]# 
+[root@centralserver ~]# 
+[root@centralserver ~]# 
+[root@centralserver ~]# yum install bind-utils
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos-mirror.rbc.ru
+ * epel: mirror.yandex.ru
+ * extras: mirror.corbina.net
+ * updates: mirror.corbina.net
+Resolving Dependencies
+--> Running transaction check
+---> Package bind-utils.x86_64 32:9.9.4-61.el7 will be installed
+--> Processing Dependency: bind-libs = 32:9.9.4-61.el7 for package: 32:bind-utils-9.9.4-61.el7.x86_64
+--> Processing Dependency: liblwres.so.90()(64bit) for package: 32:bind-utils-9.9.4-61.el7.x86_64
+--> Processing Dependency: libisccfg.so.90()(64bit) for package: 32:bind-utils-9.9.4-61.el7.x86_64
+--> Processing Dependency: libisccc.so.90()(64bit) for package: 32:bind-utils-9.9.4-61.el7.x86_64
+--> Processing Dependency: libisc.so.95()(64bit) for package: 32:bind-utils-9.9.4-61.el7.x86_64
+--> Processing Dependency: libdns.so.100()(64bit) for package: 32:bind-utils-9.9.4-61.el7.x86_64
+--> Processing Dependency: libbind9.so.90()(64bit) for package: 32:bind-utils-9.9.4-61.el7.x86_64
+--> Running transaction check
+---> Package bind-libs.x86_64 32:9.9.4-61.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+====================================================================================================================================
+ Package                         Arch                        Version                                Repository                 Size
+====================================================================================================================================
+Installing:
+ bind-utils                      x86_64                      32:9.9.4-61.el7                        base                      204 k
+Installing for dependencies:
+ bind-libs                       x86_64                      32:9.9.4-61.el7                        base                      1.0 M
+
+Transaction Summary
+====================================================================================================================================
+Install  1 Package (+1 Dependent package)
+
+Total download size: 1.2 M
+Installed size: 3.0 M
+Is this ok [y/d/N]: y
+Downloading packages:
+(1/2): bind-utils-9.9.4-61.el7.x86_64.rpm                                                                    | 204 kB  00:00:00     
+(2/2): bind-libs-9.9.4-61.el7.x86_64.rpm                                                                     | 1.0 MB  00:00:00     
+------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                               2.0 MB/s | 1.2 MB  00:00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : 32:bind-libs-9.9.4-61.el7.x86_64                                                                                 1/2 
+  Installing : 32:bind-utils-9.9.4-61.el7.x86_64                                                                                2/2 
+  Verifying  : 32:bind-utils-9.9.4-61.el7.x86_64                                                                                1/2 
+  Verifying  : 32:bind-libs-9.9.4-61.el7.x86_64                                                                                 2/2 
+
+Installed:
+  bind-utils.x86_64 32:9.9.4-61.el7                                                                                                 
+
+Dependency Installed:
+  bind-libs.x86_64 32:9.9.4-61.el7                                                                                                  
+
+Complete!
+ 
+[root@centralserver ~]# cat /etc/sysconfig/network-scripts/ifcfg-ens160 
+TYPE="Ethernet"
+PROXY_METHOD="none"
+BROWSER_ONLY="no"
+BOOTPROTO="none"
+DEFROUTE="yes"
+IPV4_FAILURE_FATAL="no"
+IPV6INIT="yes"
+IPV6_AUTOCONF="yes"
+IPV6_DEFROUTE="yes"
+IPV6_FAILURE_FATAL="no"
+IPV6_ADDR_GEN_MODE="stable-privacy"
+NAME="ens160"
+UUID="f29ebcda-31c3-4655-9330-348c107dbd88"
+DEVICE="ens160"
+ONBOOT="yes"
+IPADDR="192.168.0.2"
+PREFIX="24"
+GATEWAY="192.168.0.1"
+DNS1="8.8.8.8"
+IPV6_PRIVACY="no"
+[root@centralserver ~]# vi /etc/sysconfig/network-scripts/ifcfg-ens160 
+TYPE="Ethernet"
+PROXY_METHOD="none"
+BROWSER_ONLY="no"
+BOOTPROTO="none"
+DEFROUTE="yes"
+IPV4_FAILURE_FATAL="no"
+IPV6INIT="yes"
+IPV6_AUTOCONF="yes"
+IPV6_DEFROUTE="yes"
+IPV6_FAILURE_FATAL="no"
+IPV6_ADDR_GEN_MODE="stable-privacy"
+NAME="ens160"
+UUID="f29ebcda-31c3-4655-9330-348c107dbd88"
+DEVICE="ens160"
+ONBOOT="yes"
+IPADDR="192.168.0.2"
+PREFIX="24"
+GATEWAY="192.168.0.1"
+DNS1="192.168.0.3"
+IPV6_PRIVACY="no"
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+"/etc/sysconfig/network-scripts/ifcfg-ens160" 20L, 404C written
+[root@centralserver ~]# systemctl restart network
+[root@centralserver ~]# 
+[root@centralserver ~]# 
+[root@centralserver ~]# 
+[root@centralserver ~]# cat /etc/resolv.conf 
+# Generated by NetworkManager
+search otus.local
+nameserver 192.168.0.3
+[root@centralserver ~]# dig +short centralserver.otus.local A
+192.168.0.2
+[root@centralserver ~]# dig +short inetrouter.otus.local A
+192.168.255.1
+[root@centralserver ~]# dig +short inetrouter2.otus.local A
+[root@centralserver ~]# dig +short -x 192.168.255.1
+inetrouter.otus.local.
+[root@centralserver ~]# dig +short -x 192.168.0.1
+centralrouter.otus.local.
+[root@centralserver ~]# dig +short -x 192.168.0.2
+centralserver.otus.local.
+[root@centralserver ~]# dig +short -x 192.168.0.3
+ipa.otus.local.
+
+
+[root@centralserver ~]# yum install freeipa-client -y
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos-mirror.rbc.ru
+ * epel: mirror.yandex.ru
+ * extras: mirror.corbina.net
+ * updates: mirror.corbina.net
+Resolving Dependencies
+--> Running transaction check
+---> Package ipa-client.x86_64 0:4.5.4-10.el7.centos.3 will be installed
+--> Processing Dependency: python2-ipaclient = 4.5.4-10.el7.centos.3 for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: ipa-common = 4.5.4-10.el7.centos.3 for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: ipa-client-common = 4.5.4-10.el7.centos.3 for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: sssd >= 1.14.0 for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: python-gssapi >= 1.2.0-3 for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: krb5-workstation >= 1.15.1-4 for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: certmonger >= 0.78 for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: python-sssdconfig for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: python-ldap for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: oddjob-mkhomedir for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: ntp for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: nfs-utils for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: libsss_autofs for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: libnfsidmap for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: libini_config.so.3(INI_CONFIG_1.1.0)(64bit) for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: cyrus-sasl-gssapi(x86-64) for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: autofs for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: libref_array.so.1()(64bit) for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: libini_config.so.3()(64bit) for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: libcollection.so.2()(64bit) for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Processing Dependency: libbasicobjects.so.0()(64bit) for package: ipa-client-4.5.4-10.el7.centos.3.x86_64
+--> Running transaction check
+---> Package autofs.x86_64 1:5.0.7-83.el7 will be installed
+--> Processing Dependency: libtirpc.so.1()(64bit) for package: 1:autofs-5.0.7-83.el7.x86_64
+--> Processing Dependency: libhesiod.so.0()(64bit) for package: 1:autofs-5.0.7-83.el7.x86_64
+---> Package certmonger.x86_64 0:0.78.4-3.el7_5.1 will be installed
+--> Processing Dependency: libtevent.so.0(TEVENT_0.9.9)(64bit) for package: certmonger-0.78.4-3.el7_5.1.x86_64
+--> Processing Dependency: libtalloc.so.2(TALLOC_2.0.2)(64bit) for package: certmonger-0.78.4-3.el7_5.1.x86_64
+--> Processing Dependency: libtevent.so.0()(64bit) for package: certmonger-0.78.4-3.el7_5.1.x86_64
+--> Processing Dependency: libtalloc.so.2()(64bit) for package: certmonger-0.78.4-3.el7_5.1.x86_64
+---> Package cyrus-sasl-gssapi.x86_64 0:2.1.26-23.el7 will be installed
+---> Package ipa-client-common.noarch 0:4.5.4-10.el7.centos.3 will be installed
+---> Package ipa-common.noarch 0:4.5.4-10.el7.centos.3 will be installed
+---> Package krb5-workstation.x86_64 0:1.15.1-19.el7 will be installed
+--> Processing Dependency: libkadm5(x86-64) = 1.15.1-19.el7 for package: krb5-workstation-1.15.1-19.el7.x86_64
+--> Processing Dependency: libkadm5srv_mit.so.11(kadm5srv_mit_11_MIT)(64bit) for package: krb5-workstation-1.15.1-19.el7.x86_64
+--> Processing Dependency: libkadm5clnt_mit.so.11(kadm5clnt_mit_11_MIT)(64bit) for package: krb5-workstation-1.15.1-19.el7.x86_64
+--> Processing Dependency: libkadm5srv_mit.so.11()(64bit) for package: krb5-workstation-1.15.1-19.el7.x86_64
+--> Processing Dependency: libkadm5clnt_mit.so.11()(64bit) for package: krb5-workstation-1.15.1-19.el7.x86_64
+---> Package libbasicobjects.x86_64 0:0.1.1-29.el7 will be installed
+---> Package libcollection.x86_64 0:0.7.0-29.el7 will be installed
+---> Package libini_config.x86_64 0:1.3.1-29.el7 will be installed
+--> Processing Dependency: libpath_utils.so.1(PATH_UTILS_0.2.1)(64bit) for package: libini_config-1.3.1-29.el7.x86_64
+--> Processing Dependency: libpath_utils.so.1()(64bit) for package: libini_config-1.3.1-29.el7.x86_64
+---> Package libnfsidmap.x86_64 0:0.25-19.el7 will be installed
+---> Package libref_array.x86_64 0:0.1.5-29.el7 will be installed
+---> Package libsss_autofs.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package nfs-utils.x86_64 1:1.3.0-0.54.el7 will be installed
+--> Processing Dependency: gssproxy >= 0.7.0-3 for package: 1:nfs-utils-1.3.0-0.54.el7.x86_64
+--> Processing Dependency: rpcbind for package: 1:nfs-utils-1.3.0-0.54.el7.x86_64
+--> Processing Dependency: quota for package: 1:nfs-utils-1.3.0-0.54.el7.x86_64
+--> Processing Dependency: libevent for package: 1:nfs-utils-1.3.0-0.54.el7.x86_64
+--> Processing Dependency: keyutils for package: 1:nfs-utils-1.3.0-0.54.el7.x86_64
+--> Processing Dependency: libevent-2.0.so.5()(64bit) for package: 1:nfs-utils-1.3.0-0.54.el7.x86_64
+---> Package ntp.x86_64 0:4.2.6p5-28.el7.centos will be installed
+--> Processing Dependency: ntpdate = 4.2.6p5-28.el7.centos for package: ntp-4.2.6p5-28.el7.centos.x86_64
+--> Processing Dependency: libopts.so.25()(64bit) for package: ntp-4.2.6p5-28.el7.centos.x86_64
+---> Package oddjob-mkhomedir.x86_64 0:0.31.5-4.el7 will be installed
+--> Processing Dependency: oddjob = 0.31.5-4.el7 for package: oddjob-mkhomedir-0.31.5-4.el7.x86_64
+--> Processing Dependency: psmisc for package: oddjob-mkhomedir-0.31.5-4.el7.x86_64
+---> Package python-gssapi.x86_64 0:1.2.0-3.el7 will be installed
+--> Processing Dependency: python-enum34 for package: python-gssapi-1.2.0-3.el7.x86_64
+---> Package python-ldap.x86_64 0:2.4.15-2.el7 will be installed
+---> Package python-sssdconfig.noarch 0:1.16.0-19.el7_5.5 will be installed
+---> Package python2-ipaclient.noarch 0:4.5.4-10.el7.centos.3 will be installed
+--> Processing Dependency: python2-ipalib = 4.5.4-10.el7.centos.3 for package: python2-ipaclient-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-dns >= 1.12.0-3 for package: python2-ipaclient-4.5.4-10.el7.centos.3.noarch
+---> Package sssd.x86_64 0:1.16.0-19.el7_5.5 will be installed
+--> Processing Dependency: sssd-proxy = 1.16.0-19.el7_5.5 for package: sssd-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: sssd-ldap = 1.16.0-19.el7_5.5 for package: sssd-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: sssd-krb5 = 1.16.0-19.el7_5.5 for package: sssd-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: sssd-ipa = 1.16.0-19.el7_5.5 for package: sssd-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: sssd-common = 1.16.0-19.el7_5.5 for package: sssd-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: sssd-ad = 1.16.0-19.el7_5.5 for package: sssd-1.16.0-19.el7_5.5.x86_64
+--> Running transaction check
+---> Package autogen-libopts.x86_64 0:5.18-5.el7 will be installed
+---> Package gssproxy.x86_64 0:0.7.0-17.el7 will be installed
+--> Processing Dependency: libverto-module-base for package: gssproxy-0.7.0-17.el7.x86_64
+---> Package hesiod.x86_64 0:3.2.1-3.el7 will be installed
+---> Package keyutils.x86_64 0:1.5.8-3.el7 will be installed
+---> Package libevent.x86_64 0:2.0.21-4.el7 will be installed
+---> Package libkadm5.x86_64 0:1.15.1-19.el7 will be installed
+---> Package libpath_utils.x86_64 0:0.2.1-29.el7 will be installed
+---> Package libtalloc.x86_64 0:2.1.10-1.el7 will be installed
+---> Package libtevent.x86_64 0:0.9.33-2.el7 will be installed
+---> Package libtirpc.x86_64 0:0.2.4-0.10.el7 will be installed
+---> Package ntpdate.x86_64 0:4.2.6p5-28.el7.centos will be installed
+---> Package oddjob.x86_64 0:0.31.5-4.el7 will be installed
+---> Package psmisc.x86_64 0:22.20-15.el7 will be installed
+---> Package python-dns.noarch 0:1.12.0-4.20150617git465785f.el7 will be installed
+---> Package python-enum34.noarch 0:1.0.4-1.el7 will be installed
+---> Package python2-ipalib.noarch 0:4.5.4-10.el7.centos.3 will be installed
+--> Processing Dependency: python2-cryptography >= 1.4 for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-yubico >= 1.2.3 for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-qrcode-core >= 5.0.0 for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-nss >= 0.16 for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-netifaces >= 0.10.4 for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-netaddr >= 0.7.5-9 for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: pyusb for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-sss-murmur for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-setuptools for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-requests for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-pyasn1-modules for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-pyasn1 for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-libipa_hbac for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-jwcrypto for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-dateutil for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: python-cffi for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+--> Processing Dependency: pyOpenSSL for package: python2-ipalib-4.5.4-10.el7.centos.3.noarch
+---> Package quota.x86_64 1:4.01-17.el7 will be installed
+--> Processing Dependency: quota-nls = 1:4.01-17.el7 for package: 1:quota-4.01-17.el7.x86_64
+--> Processing Dependency: tcp_wrappers for package: 1:quota-4.01-17.el7.x86_64
+---> Package rpcbind.x86_64 0:0.2.0-44.el7 will be installed
+---> Package sssd-ad.x86_64 0:1.16.0-19.el7_5.5 will be installed
+--> Processing Dependency: sssd-krb5-common = 1.16.0-19.el7_5.5 for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: sssd-common-pac = 1.16.0-19.el7_5.5 for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libsss_idmap.so.0(SSS_IDMAP_0.4)(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libsmbclient.so.0(SMBCLIENT_0.1.0)(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libndr.so.0(NDR_0.0.1)(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libndr-nbt.so.0(NDR_NBT_0.0.1)(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libndr-krb5pac.so.0(NDR_KRB5PAC_0.0.1)(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libldb.so.1(LDB_0.9.10)(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libdhash.so.1(DHASH_0.4.3)(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libtdb.so.1()(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libsss_idmap.so.0()(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libsss_certmap.so.0()(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libsmbclient.so.0()(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libsamba-util.so.0()(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libndr.so.0()(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libndr-standard.so.0()(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libndr-nbt.so.0()(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libndr-krb5pac.so.0()(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libldb.so.1()(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libdhash.so.1()(64bit) for package: sssd-ad-1.16.0-19.el7_5.5.x86_64
+---> Package sssd-common.x86_64 0:1.16.0-19.el7_5.5 will be installed
+--> Processing Dependency: sssd-client(x86-64) = 1.16.0-19.el7_5.5 for package: sssd-common-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libsss_sudo(x86-64) = 1.16.0-19.el7_5.5 for package: sssd-common-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libhttp_parser_strict.so.2()(64bit) for package: sssd-common-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libcares.so.2()(64bit) for package: sssd-common-1.16.0-19.el7_5.5.x86_64
+---> Package sssd-ipa.x86_64 0:1.16.0-19.el7_5.5 will be installed
+--> Processing Dependency: libipa_hbac(x86-64) = 1.16.0-19.el7_5.5 for package: sssd-ipa-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libipa_hbac.so.0(IPA_HBAC_0.1.0)(64bit) for package: sssd-ipa-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libipa_hbac.so.0(IPA_HBAC_0.0.1)(64bit) for package: sssd-ipa-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libipa_hbac.so.0()(64bit) for package: sssd-ipa-1.16.0-19.el7_5.5.x86_64
+---> Package sssd-krb5.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package sssd-ldap.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package sssd-proxy.x86_64 0:1.16.0-19.el7_5.5 will be installed
+--> Running transaction check
+---> Package c-ares.x86_64 0:1.10.0-3.el7 will be installed
+---> Package http-parser.x86_64 0:2.7.1-5.el7_4 will be installed
+---> Package libdhash.x86_64 0:0.5.0-29.el7 will be installed
+---> Package libipa_hbac.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package libldb.x86_64 0:1.2.2-1.el7 will be installed
+---> Package libsmbclient.x86_64 0:4.7.1-6.el7 will be installed
+--> Processing Dependency: samba-common = 4.7.1-6.el7 for package: libsmbclient-4.7.1-6.el7.x86_64
+--> Processing Dependency: samba-common = 4.7.1-6.el7 for package: libsmbclient-4.7.1-6.el7.x86_64
+---> Package libsss_certmap.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package libsss_idmap.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package libsss_sudo.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package libtdb.x86_64 0:1.3.15-1.el7 will be installed
+---> Package libverto-tevent.x86_64 0:0.2.5-4.el7 will be installed
+---> Package pyOpenSSL.x86_64 0:0.13.1-3.el7 will be installed
+---> Package python-cffi.x86_64 0:1.6.0-5.el7 will be installed
+--> Processing Dependency: python-pycparser for package: python-cffi-1.6.0-5.el7.x86_64
+---> Package python-dateutil.noarch 0:1.5-7.el7 will be installed
+---> Package python-jwcrypto.noarch 0:0.4.2-1.el7 will be installed
+---> Package python-libipa_hbac.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package python-netaddr.noarch 0:0.7.5-9.el7 will be installed
+---> Package python-netifaces.x86_64 0:0.10.4-3.el7 will be installed
+---> Package python-nss.x86_64 0:0.16.0-3.el7 will be installed
+---> Package python-qrcode-core.noarch 0:5.0.1-1.el7 will be installed
+---> Package python-requests.noarch 0:2.6.0-1.el7_1 will be installed
+--> Processing Dependency: python-urllib3 >= 1.10.2-1 for package: python-requests-2.6.0-1.el7_1.noarch
+--> Processing Dependency: python-chardet >= 2.2.1-1 for package: python-requests-2.6.0-1.el7_1.noarch
+---> Package python-setuptools.noarch 0:0.9.8-7.el7 will be installed
+--> Processing Dependency: python-backports-ssl_match_hostname for package: python-setuptools-0.9.8-7.el7.noarch
+---> Package python-sss-murmur.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package python-yubico.noarch 0:1.2.3-1.el7 will be installed
+---> Package python2-cryptography.x86_64 0:1.7.2-2.el7 will be installed
+--> Processing Dependency: python-idna >= 2.0 for package: python2-cryptography-1.7.2-2.el7.x86_64
+--> Processing Dependency: python-ipaddress for package: python2-cryptography-1.7.2-2.el7.x86_64
+---> Package python2-pyasn1.noarch 0:0.1.9-7.el7 will be installed
+---> Package python2-pyasn1-modules.noarch 0:0.1.9-7.el7 will be installed
+---> Package pyusb.noarch 0:1.0.0-0.11.b1.el7 will be installed
+---> Package quota-nls.noarch 1:4.01-17.el7 will be installed
+---> Package samba-client-libs.x86_64 0:4.7.1-6.el7 will be installed
+--> Processing Dependency: libwbclient = 4.7.1-6.el7 for package: samba-client-libs-4.7.1-6.el7.x86_64
+--> Processing Dependency: libwbclient.so.0(WBCLIENT_0.9)(64bit) for package: samba-client-libs-4.7.1-6.el7.x86_64
+--> Processing Dependency: libaesni-intel-samba4.so(SAMBA_4.7.1)(64bit) for package: samba-client-libs-4.7.1-6.el7.x86_64
+--> Processing Dependency: libwbclient.so.0()(64bit) for package: samba-client-libs-4.7.1-6.el7.x86_64
+--> Processing Dependency: libaesni-intel-samba4.so()(64bit) for package: samba-client-libs-4.7.1-6.el7.x86_64
+---> Package sssd-client.x86_64 0:1.16.0-19.el7_5.5 will be installed
+--> Processing Dependency: libsss_nss_idmap.so.0(SSS_NSS_IDMAP_0.0.1)(64bit) for package: sssd-client-1.16.0-19.el7_5.5.x86_64
+--> Processing Dependency: libsss_nss_idmap.so.0()(64bit) for package: sssd-client-1.16.0-19.el7_5.5.x86_64
+---> Package sssd-common-pac.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package sssd-krb5-common.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package tcp_wrappers.x86_64 0:7.6-77.el7 will be installed
+--> Running transaction check
+---> Package libsss_nss_idmap.x86_64 0:1.16.0-19.el7_5.5 will be installed
+---> Package libwbclient.x86_64 0:4.7.1-6.el7 will be installed
+---> Package python-backports-ssl_match_hostname.noarch 0:3.5.0.1-1.el7 will be installed
+--> Processing Dependency: python-backports for package: python-backports-ssl_match_hostname-3.5.0.1-1.el7.noarch
+---> Package python-chardet.noarch 0:2.2.1-1.el7_1 will be installed
+---> Package python-idna.noarch 0:2.4-1.el7 will be installed
+---> Package python-ipaddress.noarch 0:1.0.16-2.el7 will be installed
+---> Package python-pycparser.noarch 0:2.14-1.el7 will be installed
+--> Processing Dependency: python-ply for package: python-pycparser-2.14-1.el7.noarch
+---> Package python-urllib3.noarch 0:1.10.2-5.el7 will be installed
+---> Package samba-common.noarch 0:4.7.1-6.el7 will be installed
+---> Package samba-common-libs.x86_64 0:4.7.1-6.el7 will be installed
+--> Running transaction check
+---> Package python-backports.x86_64 0:1.0-8.el7 will be installed
+---> Package python-ply.noarch 0:3.4-11.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+====================================================================================================================================
+ Package                                       Arch             Version                                     Repository         Size
+====================================================================================================================================
+Installing:
+ ipa-client                                    x86_64           4.5.4-10.el7.centos.3                       updates           256 k
+Installing for dependencies:
+ autofs                                        x86_64           1:5.0.7-83.el7                              base              811 k
+ autogen-libopts                               x86_64           5.18-5.el7                                  base               66 k
+ c-ares                                        x86_64           1.10.0-3.el7                                base               78 k
+ certmonger                                    x86_64           0.78.4-3.el7_5.1                            updates           599 k
+ cyrus-sasl-gssapi                             x86_64           2.1.26-23.el7                               base               41 k
+ gssproxy                                      x86_64           0.7.0-17.el7                                base              108 k
+ hesiod                                        x86_64           3.2.1-3.el7                                 base               30 k
+ http-parser                                   x86_64           2.7.1-5.el7_4                               base               28 k
+ ipa-client-common                             noarch           4.5.4-10.el7.centos.3                       updates           163 k
+ ipa-common                                    noarch           4.5.4-10.el7.centos.3                       updates           590 k
+ keyutils                                      x86_64           1.5.8-3.el7                                 base               54 k
+ krb5-workstation                              x86_64           1.15.1-19.el7                               updates           814 k
+ libbasicobjects                               x86_64           0.1.1-29.el7                                base               25 k
+ libcollection                                 x86_64           0.7.0-29.el7                                base               41 k
+ libdhash                                      x86_64           0.5.0-29.el7                                base               28 k
+ libevent                                      x86_64           2.0.21-4.el7                                base              214 k
+ libini_config                                 x86_64           1.3.1-29.el7                                base               63 k
+ libipa_hbac                                   x86_64           1.16.0-19.el7_5.5                           updates           138 k
+ libkadm5                                      x86_64           1.15.1-19.el7                               updates           175 k
+ libldb                                        x86_64           1.2.2-1.el7                                 base              131 k
+ libnfsidmap                                   x86_64           0.25-19.el7                                 base               50 k
+ libpath_utils                                 x86_64           0.2.1-29.el7                                base               28 k
+ libref_array                                  x86_64           0.1.5-29.el7                                base               26 k
+ libsmbclient                                  x86_64           4.7.1-6.el7                                 base              132 k
+ libsss_autofs                                 x86_64           1.16.0-19.el7_5.5                           updates           140 k
+ libsss_certmap                                x86_64           1.16.0-19.el7_5.5                           updates           166 k
+ libsss_idmap                                  x86_64           1.16.0-19.el7_5.5                           updates           142 k
+ libsss_nss_idmap                              x86_64           1.16.0-19.el7_5.5                           updates           148 k
+ libsss_sudo                                   x86_64           1.16.0-19.el7_5.5                           updates           138 k
+ libtalloc                                     x86_64           2.1.10-1.el7                                base               33 k
+ libtdb                                        x86_64           1.3.15-1.el7                                base               48 k
+ libtevent                                     x86_64           0.9.33-2.el7                                base               37 k
+ libtirpc                                      x86_64           0.2.4-0.10.el7                              base               88 k
+ libverto-tevent                               x86_64           0.2.5-4.el7                                 base              9.0 k
+ libwbclient                                   x86_64           4.7.1-6.el7                                 base              107 k
+ nfs-utils                                     x86_64           1:1.3.0-0.54.el7                            base              407 k
+ ntp                                           x86_64           4.2.6p5-28.el7.centos                       base              549 k
+ ntpdate                                       x86_64           4.2.6p5-28.el7.centos                       base               86 k
+ oddjob                                        x86_64           0.31.5-4.el7                                base               69 k
+ oddjob-mkhomedir                              x86_64           0.31.5-4.el7                                base               38 k
+ psmisc                                        x86_64           22.20-15.el7                                base              141 k
+ pyOpenSSL                                     x86_64           0.13.1-3.el7                                base              133 k
+ python-backports                              x86_64           1.0-8.el7                                   base              5.8 k
+ python-backports-ssl_match_hostname           noarch           3.5.0.1-1.el7                               base               13 k
+ python-cffi                                   x86_64           1.6.0-5.el7                                 base              218 k
+ python-chardet                                noarch           2.2.1-1.el7_1                               base              227 k
+ python-dateutil                               noarch           1.5-7.el7                                   base               85 k
+ python-dns                                    noarch           1.12.0-4.20150617git465785f.el7             base              233 k
+ python-enum34                                 noarch           1.0.4-1.el7                                 base               52 k
+ python-gssapi                                 x86_64           1.2.0-3.el7                                 base              322 k
+ python-idna                                   noarch           2.4-1.el7                                   base               94 k
+ python-ipaddress                              noarch           1.0.16-2.el7                                base               34 k
+ python-jwcrypto                               noarch           0.4.2-1.el7                                 base               57 k
+ python-ldap                                   x86_64           2.4.15-2.el7                                base              159 k
+ python-libipa_hbac                            x86_64           1.16.0-19.el7_5.5                           updates           131 k
+ python-netaddr                                noarch           0.7.5-9.el7                                 base              983 k
+ python-netifaces                              x86_64           0.10.4-3.el7                                base               17 k
+ python-nss                                    x86_64           0.16.0-3.el7                                base              266 k
+ python-ply                                    noarch           3.4-11.el7                                  base              123 k
+ python-pycparser                              noarch           2.14-1.el7                                  base              104 k
+ python-qrcode-core                            noarch           5.0.1-1.el7                                 base               40 k
+ python-requests                               noarch           2.6.0-1.el7_1                               base               94 k
+ python-setuptools                             noarch           0.9.8-7.el7                                 base              397 k
+ python-sss-murmur                             x86_64           1.16.0-19.el7_5.5                           updates           120 k
+ python-sssdconfig                             noarch           1.16.0-19.el7_5.5                           updates           164 k
+ python-urllib3                                noarch           1.10.2-5.el7                                base              102 k
+ python-yubico                                 noarch           1.2.3-1.el7                                 base               47 k
+ python2-cryptography                          x86_64           1.7.2-2.el7                                 base              502 k
+ python2-ipaclient                             noarch           4.5.4-10.el7.centos.3                       updates           652 k
+ python2-ipalib                                noarch           4.5.4-10.el7.centos.3                       updates           656 k
+ python2-pyasn1                                noarch           0.1.9-7.el7                                 base              100 k
+ python2-pyasn1-modules                        noarch           0.1.9-7.el7                                 base               59 k
+ pyusb                                         noarch           1.0.0-0.11.b1.el7                           base               66 k
+ quota                                         x86_64           1:4.01-17.el7                               base              179 k
+ quota-nls                                     noarch           1:4.01-17.el7                               base               90 k
+ rpcbind                                       x86_64           0.2.0-44.el7                                base               59 k
+ samba-client-libs                             x86_64           4.7.1-6.el7                                 base              4.8 M
+ samba-common                                  noarch           4.7.1-6.el7                                 base              205 k
+ samba-common-libs                             x86_64           4.7.1-6.el7                                 base              162 k
+ sssd                                          x86_64           1.16.0-19.el7_5.5                           updates           129 k
+ sssd-ad                                       x86_64           1.16.0-19.el7_5.5                           updates           255 k
+ sssd-client                                   x86_64           1.16.0-19.el7_5.5                           updates           196 k
+ sssd-common                                   x86_64           1.16.0-19.el7_5.5                           updates           1.4 M
+ sssd-common-pac                               x86_64           1.16.0-19.el7_5.5                           updates           200 k
+ sssd-ipa                                      x86_64           1.16.0-19.el7_5.5                           updates           344 k
+ sssd-krb5                                     x86_64           1.16.0-19.el7_5.5                           updates           171 k
+ sssd-krb5-common                              x86_64           1.16.0-19.el7_5.5                           updates           203 k
+ sssd-ldap                                     x86_64           1.16.0-19.el7_5.5                           updates           240 k
+ sssd-proxy                                    x86_64           1.16.0-19.el7_5.5                           updates           164 k
+ tcp_wrappers                                  x86_64           7.6-77.el7                                  base               78 k
+
+Transaction Summary
+====================================================================================================================================
+Install  1 Package (+90 Dependent packages)
+
+Total download size: 22 M
+Installed size: 78 M
+Downloading packages:
+(1/91): cyrus-sasl-gssapi-2.1.26-23.el7.x86_64.rpm                                                           |  41 kB  00:00:00     
+(2/91): c-ares-1.10.0-3.el7.x86_64.rpm                                                                       |  78 kB  00:00:00     
+(3/91): autofs-5.0.7-83.el7.x86_64.rpm                                                                       | 811 kB  00:00:00     
+(4/91): hesiod-3.2.1-3.el7.x86_64.rpm                                                                        |  30 kB  00:00:00     
+(5/91): http-parser-2.7.1-5.el7_4.x86_64.rpm                                                                 |  28 kB  00:00:00     
+(6/91): autogen-libopts-5.18-5.el7.x86_64.rpm                                                                |  66 kB  00:00:00     
+(7/91): certmonger-0.78.4-3.el7_5.1.x86_64.rpm                                                               | 599 kB  00:00:00     
+(8/91): gssproxy-0.7.0-17.el7.x86_64.rpm                                                                     | 108 kB  00:00:00     
+(9/91): keyutils-1.5.8-3.el7.x86_64.rpm                                                                      |  54 kB  00:00:00     
+(10/91): libbasicobjects-0.1.1-29.el7.x86_64.rpm                                                             |  25 kB  00:00:00     
+(11/91): libcollection-0.7.0-29.el7.x86_64.rpm                                                               |  41 kB  00:00:00     
+(12/91): libdhash-0.5.0-29.el7.x86_64.rpm                                                                    |  28 kB  00:00:00     
+(13/91): libevent-2.0.21-4.el7.x86_64.rpm                                                                    | 214 kB  00:00:00     
+(14/91): libini_config-1.3.1-29.el7.x86_64.rpm                                                               |  63 kB  00:00:00     
+(15/91): ipa-client-4.5.4-10.el7.centos.3.x86_64.rpm                                                         | 256 kB  00:00:00     
+(16/91): krb5-workstation-1.15.1-19.el7.x86_64.rpm                                                           | 814 kB  00:00:00     
+(17/91): libldb-1.2.2-1.el7.x86_64.rpm                                                                       | 131 kB  00:00:00     
+(18/91): libnfsidmap-0.25-19.el7.x86_64.rpm                                                                  |  50 kB  00:00:00     
+(19/91): libpath_utils-0.2.1-29.el7.x86_64.rpm                                                               |  28 kB  00:00:00     
+(20/91): libref_array-0.1.5-29.el7.x86_64.rpm                                                                |  26 kB  00:00:00     
+(21/91): libsmbclient-4.7.1-6.el7.x86_64.rpm                                                                 | 132 kB  00:00:00     
+(22/91): libkadm5-1.15.1-19.el7.x86_64.rpm                                                                   | 175 kB  00:00:00     
+(23/91): ipa-common-4.5.4-10.el7.centos.3.noarch.rpm                                                         | 590 kB  00:00:00     
+(24/91): libsss_autofs-1.16.0-19.el7_5.5.x86_64.rpm                                                          | 140 kB  00:00:00     
+(25/91): libipa_hbac-1.16.0-19.el7_5.5.x86_64.rpm                                                            | 138 kB  00:00:00     
+(26/91): libsss_sudo-1.16.0-19.el7_5.5.x86_64.rpm                                                            | 138 kB  00:00:00     
+(27/91): libsss_nss_idmap-1.16.0-19.el7_5.5.x86_64.rpm                                                       | 148 kB  00:00:00     
+(28/91): libtalloc-2.1.10-1.el7.x86_64.rpm                                                                   |  33 kB  00:00:00     
+(29/91): libsss_idmap-1.16.0-19.el7_5.5.x86_64.rpm                                                           | 142 kB  00:00:00     
+(30/91): libtevent-0.9.33-2.el7.x86_64.rpm                                                                   |  37 kB  00:00:00     
+(31/91): libverto-tevent-0.2.5-4.el7.x86_64.rpm                                                              | 9.0 kB  00:00:00     
+(32/91): libtdb-1.3.15-1.el7.x86_64.rpm                                                                      |  48 kB  00:00:00     
+(33/91): libwbclient-4.7.1-6.el7.x86_64.rpm                                                                  | 107 kB  00:00:00     
+(34/91): libsss_certmap-1.16.0-19.el7_5.5.x86_64.rpm                                                         | 166 kB  00:00:00     
+(35/91): ntpdate-4.2.6p5-28.el7.centos.x86_64.rpm                                                            |  86 kB  00:00:00     
+(36/91): oddjob-0.31.5-4.el7.x86_64.rpm                                                                      |  69 kB  00:00:00     
+(37/91): libtirpc-0.2.4-0.10.el7.x86_64.rpm                                                                  |  88 kB  00:00:00     
+(38/91): nfs-utils-1.3.0-0.54.el7.x86_64.rpm                                                                 | 407 kB  00:00:00     
+(39/91): ntp-4.2.6p5-28.el7.centos.x86_64.rpm                                                                | 549 kB  00:00:00     
+(40/91): python-backports-1.0-8.el7.x86_64.rpm                                                               | 5.8 kB  00:00:00     
+(41/91): pyOpenSSL-0.13.1-3.el7.x86_64.rpm                                                                   | 133 kB  00:00:00     
+(42/91): oddjob-mkhomedir-0.31.5-4.el7.x86_64.rpm                                                            |  38 kB  00:00:00     
+(43/91): python-backports-ssl_match_hostname-3.5.0.1-1.el7.noarch.rpm                                        |  13 kB  00:00:00     
+(44/91): python-dateutil-1.5-7.el7.noarch.rpm                                                                |  85 kB  00:00:00     
+(45/91): python-cffi-1.6.0-5.el7.x86_64.rpm                                                                  | 218 kB  00:00:00     
+(46/91): python-dns-1.12.0-4.20150617git465785f.el7.noarch.rpm                                               | 233 kB  00:00:00     
+(47/91): python-enum34-1.0.4-1.el7.noarch.rpm                                                                |  52 kB  00:00:00     
+(48/91): python-idna-2.4-1.el7.noarch.rpm                                                                    |  94 kB  00:00:00     
+(49/91): python-gssapi-1.2.0-3.el7.x86_64.rpm                                                                | 322 kB  00:00:00     
+(50/91): python-ipaddress-1.0.16-2.el7.noarch.rpm                                                            |  34 kB  00:00:00     
+(51/91): python-jwcrypto-0.4.2-1.el7.noarch.rpm                                                              |  57 kB  00:00:00     
+(52/91): python-chardet-2.2.1-1.el7_1.noarch.rpm                                                             | 227 kB  00:00:00     
+(53/91): python-ldap-2.4.15-2.el7.x86_64.rpm                                                                 | 159 kB  00:00:00     
+(54/91): psmisc-22.20-15.el7.x86_64.rpm                                                                      | 141 kB  00:00:01     
+(55/91): python-libipa_hbac-1.16.0-19.el7_5.5.x86_64.rpm                                                     | 131 kB  00:00:00     
+(56/91): python-netifaces-0.10.4-3.el7.x86_64.rpm                                                            |  17 kB  00:00:00     
+(57/91): python-pycparser-2.14-1.el7.noarch.rpm                                                              | 104 kB  00:00:00     
+(58/91): python-qrcode-core-5.0.1-1.el7.noarch.rpm                                                           |  40 kB  00:00:00     
+(59/91): python-requests-2.6.0-1.el7_1.noarch.rpm                                                            |  94 kB  00:00:00     
+(60/91): python-netaddr-0.7.5-9.el7.noarch.rpm                                                               | 983 kB  00:00:00     
+(61/91): python-sss-murmur-1.16.0-19.el7_5.5.x86_64.rpm                                                      | 120 kB  00:00:00     
+(62/91): python-nss-0.16.0-3.el7.x86_64.rpm                                                                  | 266 kB  00:00:00     
+(63/91): python-urllib3-1.10.2-5.el7.noarch.rpm                                                              | 102 kB  00:00:00     
+(64/91): python-setuptools-0.9.8-7.el7.noarch.rpm                                                            | 397 kB  00:00:00     
+(65/91): python-yubico-1.2.3-1.el7.noarch.rpm                                                                |  47 kB  00:00:00     
+(66/91): python-sssdconfig-1.16.0-19.el7_5.5.noarch.rpm                                                      | 164 kB  00:00:00     
+(67/91): python-ply-3.4-11.el7.noarch.rpm                                                                    | 123 kB  00:00:01     
+(68/91): python2-pyasn1-0.1.9-7.el7.noarch.rpm                                                               | 100 kB  00:00:00     
+(69/91): python2-pyasn1-modules-0.1.9-7.el7.noarch.rpm                                                       |  59 kB  00:00:00     
+(70/91): python2-cryptography-1.7.2-2.el7.x86_64.rpm                                                         | 502 kB  00:00:00     
+(71/91): pyusb-1.0.0-0.11.b1.el7.noarch.rpm                                                                  |  66 kB  00:00:00     
+(72/91): quota-nls-4.01-17.el7.noarch.rpm                                                                    |  90 kB  00:00:00     
+(73/91): quota-4.01-17.el7.x86_64.rpm                                                                        | 179 kB  00:00:00     
+(74/91): rpcbind-0.2.0-44.el7.x86_64.rpm                                                                     |  59 kB  00:00:00     
+(75/91): samba-common-4.7.1-6.el7.noarch.rpm                                                                 | 205 kB  00:00:00     
+(76/91): python2-ipalib-4.5.4-10.el7.centos.3.noarch.rpm                                                     | 656 kB  00:00:01     
+(77/91): sssd-1.16.0-19.el7_5.5.x86_64.rpm                                                                   | 129 kB  00:00:00     
+(78/91): samba-common-libs-4.7.1-6.el7.x86_64.rpm                                                            | 162 kB  00:00:00     
+(79/91): sssd-ad-1.16.0-19.el7_5.5.x86_64.rpm                                                                | 255 kB  00:00:00     
+(80/91): sssd-client-1.16.0-19.el7_5.5.x86_64.rpm                                                            | 196 kB  00:00:00     
+(81/91): sssd-common-pac-1.16.0-19.el7_5.5.x86_64.rpm                                                        | 200 kB  00:00:00     
+(82/91): sssd-common-1.16.0-19.el7_5.5.x86_64.rpm                                                            | 1.4 MB  00:00:01     
+(83/91): sssd-krb5-1.16.0-19.el7_5.5.x86_64.rpm                                                              | 171 kB  00:00:00     
+(84/91): sssd-krb5-common-1.16.0-19.el7_5.5.x86_64.rpm                                                       | 203 kB  00:00:00     
+(85/91): sssd-ldap-1.16.0-19.el7_5.5.x86_64.rpm                                                              | 240 kB  00:00:00     
+(86/91): sssd-proxy-1.16.0-19.el7_5.5.x86_64.rpm                                                             | 164 kB  00:00:00     
+(87/91): tcp_wrappers-7.6-77.el7.x86_64.rpm                                                                  |  78 kB  00:00:00     
+(88/91): python2-ipaclient-4.5.4-10.el7.centos.3.noarch.rpm                                                  | 652 kB  00:00:04     
+(89/91): sssd-ipa-1.16.0-19.el7_5.5.x86_64.rpm                                                               | 344 kB  00:00:02     
+(90/91): samba-client-libs-4.7.1-6.el7.x86_64.rpm                                                            | 4.8 MB  00:00:05     
+ipa-client-common-4.5.4-10.el7 FAILED                                          
+http://mirror.satellite-service.ru/centos/7.5.1804/updates/x86_64/Packages/ipa-client-common-4.5.4-10.el7.centos.3.noarch.rpm: [Errno 12] Timeout on http://mirror.satellite-service.ru/centos/7.5.1804/updates/x86_64/Packages/ipa-client-common-4.5.4-10.el7.centos.3.noarch.rpm: (28, 'Connection timed out after 30001 milliseconds')
+Trying other mirror.
+(91/91): ipa-client-common-4.5.4-10.el7.centos.3.noarch.rpm                                                  | 163 kB  00:00:00     
+------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                               719 kB/s |  22 MB  00:00:30     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : libtalloc-2.1.10-1.el7.x86_64                                                                                   1/91 
+  Installing : libtevent-0.9.33-2.el7.x86_64                                                                                   2/91 
+  Installing : libtdb-1.3.15-1.el7.x86_64                                                                                      3/91 
+  Installing : libcollection-0.7.0-29.el7.x86_64                                                                               4/91 
+  Installing : libref_array-0.1.5-29.el7.x86_64                                                                                5/91 
+  Installing : libbasicobjects-0.1.1-29.el7.x86_64                                                                             6/91 
+  Installing : libldb-1.2.2-1.el7.x86_64                                                                                       7/91 
+  Installing : libdhash-0.5.0-29.el7.x86_64                                                                                    8/91 
+  Installing : libsss_certmap-1.16.0-19.el7_5.5.x86_64                                                                         9/91 
+  Installing : libsss_idmap-1.16.0-19.el7_5.5.x86_64                                                                          10/91 
+  Installing : python2-pyasn1-0.1.9-7.el7.noarch                                                                              11/91 
+  Installing : python-enum34-1.0.4-1.el7.noarch                                                                               12/91 
+  Installing : libtirpc-0.2.4-0.10.el7.x86_64                                                                                 13/91 
+  Installing : libnfsidmap-0.25-19.el7.x86_64                                                                                 14/91 
+  Installing : python-ipaddress-1.0.16-2.el7.noarch                                                                           15/91 
+  Installing : samba-common-4.7.1-6.el7.noarch                                                                                16/91 
+  Installing : ipa-common-4.5.4-10.el7.centos.3.noarch                                                                        17/91 
+  Installing : rpcbind-0.2.0-44.el7.x86_64                                                                                    18/91 
+  Installing : python-gssapi-1.2.0-3.el7.x86_64                                                                               19/91 
+  Installing : ipa-client-common-4.5.4-10.el7.centos.3.noarch                                                                 20/91 
+  Installing : python-sssdconfig-1.16.0-19.el7_5.5.noarch                                                                     21/91 
+  Installing : libsss_autofs-1.16.0-19.el7_5.5.x86_64                                                                         22/91 
+  Installing : cyrus-sasl-gssapi-2.1.26-23.el7.x86_64                                                                         23/91 
+  Installing : pyusb-1.0.0-0.11.b1.el7.noarch                                                                                 24/91 
+  Installing : python-dns-1.12.0-4.20150617git465785f.el7.noarch                                                              25/91 
+  Installing : keyutils-1.5.8-3.el7.x86_64                                                                                    26/91 
+  Installing : python-ldap-2.4.15-2.el7.x86_64                                                                                27/91 
+  Installing : psmisc-22.20-15.el7.x86_64                                                                                     28/91 
+  Installing : libipa_hbac-1.16.0-19.el7_5.5.x86_64                                                                           29/91 
+  Installing : python-libipa_hbac-1.16.0-19.el7_5.5.x86_64                                                                    30/91 
+  Installing : oddjob-0.31.5-4.el7.x86_64                                                                                     31/91 
+  Installing : oddjob-mkhomedir-0.31.5-4.el7.x86_64                                                                           32/91 
+  Installing : python-yubico-1.2.3-1.el7.noarch                                                                               33/91 
+  Installing : samba-common-libs-4.7.1-6.el7.x86_64                                                                           34/91 
+  Installing : libwbclient-4.7.1-6.el7.x86_64                                                                                 35/91 
+  Installing : samba-client-libs-4.7.1-6.el7.x86_64                                                                           36/91 
+  Installing : libsmbclient-4.7.1-6.el7.x86_64                                                                                37/91 
+  Installing : python2-pyasn1-modules-0.1.9-7.el7.noarch                                                                      38/91 
+  Installing : certmonger-0.78.4-3.el7_5.1.x86_64                                                                             39/91 
+  Installing : libverto-tevent-0.2.5-4.el7.x86_64                                                                             40/91 
+  Installing : python-chardet-2.2.1-1.el7_1.noarch                                                                            41/91 
+  Installing : 1:quota-nls-4.01-17.el7.noarch                                                                                 42/91 
+  Installing : libsss_nss_idmap-1.16.0-19.el7_5.5.x86_64                                                                      43/91 
+  Installing : sssd-client-1.16.0-19.el7_5.5.x86_64                                                                           44/91 
+  Installing : tcp_wrappers-7.6-77.el7.x86_64                                                                                 45/91 
+  Installing : 1:quota-4.01-17.el7.x86_64                                                                                     46/91 
+  Installing : python-netifaces-0.10.4-3.el7.x86_64                                                                           47/91 
+  Installing : libevent-2.0.21-4.el7.x86_64                                                                                   48/91 
+  Installing : ntpdate-4.2.6p5-28.el7.centos.x86_64                                                                           49/91 
+  Installing : pyOpenSSL-0.13.1-3.el7.x86_64                                                                                  50/91 
+  Installing : http-parser-2.7.1-5.el7_4.x86_64                                                                               51/91 
+  Installing : python-dateutil-1.5-7.el7.noarch                                                                               52/91 
+  Installing : python-netaddr-0.7.5-9.el7.noarch                                                                              53/91 
+  Installing : libpath_utils-0.2.1-29.el7.x86_64                                                                              54/91 
+  Installing : libini_config-1.3.1-29.el7.x86_64                                                                              55/91 
+  Installing : gssproxy-0.7.0-17.el7.x86_64                                                                                   56/91 
+  Installing : 1:nfs-utils-1.3.0-0.54.el7.x86_64                                                                              57/91 
+  Installing : python-ply-3.4-11.el7.noarch                                                                                   58/91 
+  Installing : python-pycparser-2.14-1.el7.noarch                                                                             59/91 
+  Installing : python-cffi-1.6.0-5.el7.x86_64                                                                                 60/91 
+  Installing : python-idna-2.4-1.el7.noarch                                                                                   61/91 
+  Installing : python-nss-0.16.0-3.el7.x86_64                                                                                 62/91 
+  Installing : python-qrcode-core-5.0.1-1.el7.noarch                                                                          63/91 
+  Installing : autogen-libopts-5.18-5.el7.x86_64                                                                              64/91 
+  Installing : ntp-4.2.6p5-28.el7.centos.x86_64                                                                               65/91 
+  Installing : libsss_sudo-1.16.0-19.el7_5.5.x86_64                                                                           66/91 
+  Installing : libkadm5-1.15.1-19.el7.x86_64                                                                                  67/91 
+  Installing : krb5-workstation-1.15.1-19.el7.x86_64                                                                          68/91 
+  Installing : python-backports-1.0-8.el7.x86_64                                                                              69/91 
+  Installing : python-backports-ssl_match_hostname-3.5.0.1-1.el7.noarch                                                       70/91 
+  Installing : python-setuptools-0.9.8-7.el7.noarch                                                                           71/91 
+  Installing : python2-cryptography-1.7.2-2.el7.x86_64                                                                        72/91 
+  Installing : python-jwcrypto-0.4.2-1.el7.noarch                                                                             73/91 
+  Installing : python-urllib3-1.10.2-5.el7.noarch                                                                             74/91 
+  Installing : python-requests-2.6.0-1.el7_1.noarch                                                                           75/91 
+  Installing : c-ares-1.10.0-3.el7.x86_64                                                                                     76/91 
+  Installing : sssd-common-1.16.0-19.el7_5.5.x86_64                                                                           77/91 
+  Installing : sssd-krb5-common-1.16.0-19.el7_5.5.x86_64                                                                      78/91 
+  Installing : sssd-common-pac-1.16.0-19.el7_5.5.x86_64                                                                       79/91 
+  Installing : sssd-ipa-1.16.0-19.el7_5.5.x86_64                                                                              80/91 
+  Installing : sssd-ad-1.16.0-19.el7_5.5.x86_64                                                                               81/91 
+  Installing : sssd-ldap-1.16.0-19.el7_5.5.x86_64                                                                             82/91 
+  Installing : sssd-krb5-1.16.0-19.el7_5.5.x86_64                                                                             83/91 
+  Installing : sssd-proxy-1.16.0-19.el7_5.5.x86_64                                                                            84/91 
+  Installing : sssd-1.16.0-19.el7_5.5.x86_64                                                                                  85/91 
+  Installing : python-sss-murmur-1.16.0-19.el7_5.5.x86_64                                                                     86/91 
+  Installing : python2-ipalib-4.5.4-10.el7.centos.3.noarch                                                                    87/91 
+  Installing : python2-ipaclient-4.5.4-10.el7.centos.3.noarch                                                                 88/91 
+  Installing : hesiod-3.2.1-3.el7.x86_64                                                                                      89/91 
+  Installing : 1:autofs-5.0.7-83.el7.x86_64                                                                                   90/91 
+  Installing : ipa-client-4.5.4-10.el7.centos.3.x86_64                                                                        91/91 
+  Verifying  : libtevent-0.9.33-2.el7.x86_64                                                                                   1/91 
+  Verifying  : sssd-common-pac-1.16.0-19.el7_5.5.x86_64                                                                        2/91 
+  Verifying  : hesiod-3.2.1-3.el7.x86_64                                                                                       3/91 
+  Verifying  : libbasicobjects-0.1.1-29.el7.x86_64                                                                             4/91 
+  Verifying  : python2-ipaclient-4.5.4-10.el7.centos.3.noarch                                                                  5/91 
+  Verifying  : ipa-common-4.5.4-10.el7.centos.3.noarch                                                                         6/91 
+  Verifying  : libref_array-0.1.5-29.el7.x86_64                                                                                7/91 
+  Verifying  : samba-common-libs-4.7.1-6.el7.x86_64                                                                            8/91 
+  Verifying  : python-sss-murmur-1.16.0-19.el7_5.5.x86_64                                                                      9/91 
+  Verifying  : samba-common-4.7.1-6.el7.noarch                                                                                10/91 
+  Verifying  : c-ares-1.10.0-3.el7.x86_64                                                                                     11/91 
+  Verifying  : rpcbind-0.2.0-44.el7.x86_64                                                                                    12/91 
+  Verifying  : python-yubico-1.2.3-1.el7.noarch                                                                               13/91 
+  Verifying  : 1:autofs-5.0.7-83.el7.x86_64                                                                                   14/91 
+  Verifying  : sssd-proxy-1.16.0-19.el7_5.5.x86_64                                                                            15/91 
+  Verifying  : python-backports-1.0-8.el7.x86_64                                                                              16/91 
+  Verifying  : certmonger-0.78.4-3.el7_5.1.x86_64                                                                             17/91 
+  Verifying  : libsmbclient-4.7.1-6.el7.x86_64                                                                                18/91 
+  Verifying  : python-pycparser-2.14-1.el7.noarch                                                                             19/91 
+  Verifying  : python-ipaddress-1.0.16-2.el7.noarch                                                                           20/91 
+  Verifying  : libkadm5-1.15.1-19.el7.x86_64                                                                                  21/91 
+  Verifying  : libsss_sudo-1.16.0-19.el7_5.5.x86_64                                                                           22/91 
+  Verifying  : libverto-tevent-0.2.5-4.el7.x86_64                                                                             23/91 
+  Verifying  : autogen-libopts-5.18-5.el7.x86_64                                                                              24/91 
+  Verifying  : libcollection-0.7.0-29.el7.x86_64                                                                              25/91 
+  Verifying  : python-qrcode-core-5.0.1-1.el7.noarch                                                                          26/91 
+  Verifying  : python-libipa_hbac-1.16.0-19.el7_5.5.x86_64                                                                    27/91 
+  Verifying  : python-setuptools-0.9.8-7.el7.noarch                                                                           28/91 
+  Verifying  : libipa_hbac-1.16.0-19.el7_5.5.x86_64                                                                           29/91 
+  Verifying  : libsss_idmap-1.16.0-19.el7_5.5.x86_64                                                                          30/91 
+  Verifying  : python-nss-0.16.0-3.el7.x86_64                                                                                 31/91 
+  Verifying  : 1:nfs-utils-1.3.0-0.54.el7.x86_64                                                                              32/91 
+  Verifying  : psmisc-22.20-15.el7.x86_64                                                                                     33/91 
+  Verifying  : python-urllib3-1.10.2-5.el7.noarch                                                                             34/91 
+  Verifying  : python-idna-2.4-1.el7.noarch                                                                                   35/91 
+  Verifying  : python-ply-3.4-11.el7.noarch                                                                                   36/91 
+  Verifying  : sssd-common-1.16.0-19.el7_5.5.x86_64                                                                           37/91 
+  Verifying  : gssproxy-0.7.0-17.el7.x86_64                                                                                   38/91 
+  Verifying  : python-jwcrypto-0.4.2-1.el7.noarch                                                                             39/91 
+  Verifying  : python-ldap-2.4.15-2.el7.x86_64                                                                                40/91 
+  Verifying  : libpath_utils-0.2.1-29.el7.x86_64                                                                              41/91 
+  Verifying  : python2-pyasn1-modules-0.1.9-7.el7.noarch                                                                      42/91 
+  Verifying  : python-netaddr-0.7.5-9.el7.noarch                                                                              43/91 
+  Verifying  : libnfsidmap-0.25-19.el7.x86_64                                                                                 44/91 
+  Verifying  : keyutils-1.5.8-3.el7.x86_64                                                                                    45/91 
+  Verifying  : python-dateutil-1.5-7.el7.noarch                                                                               46/91 
+  Verifying  : python-backports-ssl_match_hostname-3.5.0.1-1.el7.noarch                                                       47/91 
+  Verifying  : http-parser-2.7.1-5.el7_4.x86_64                                                                               48/91 
+  Verifying  : ipa-client-4.5.4-10.el7.centos.3.x86_64                                                                        49/91 
+  Verifying  : pyOpenSSL-0.13.1-3.el7.x86_64                                                                                  50/91 
+  Verifying  : ntp-4.2.6p5-28.el7.centos.x86_64                                                                               51/91 
+  Verifying  : python-gssapi-1.2.0-3.el7.x86_64                                                                               52/91 
+  Verifying  : sssd-ldap-1.16.0-19.el7_5.5.x86_64                                                                             53/91 
+  Verifying  : python-dns-1.12.0-4.20150617git465785f.el7.noarch                                                              54/91 
+  Verifying  : libdhash-0.5.0-29.el7.x86_64                                                                                   55/91 
+  Verifying  : pyusb-1.0.0-0.11.b1.el7.noarch                                                                                 56/91 
+  Verifying  : libldb-1.2.2-1.el7.x86_64                                                                                      57/91 
+  Verifying  : cyrus-sasl-gssapi-2.1.26-23.el7.x86_64                                                                         58/91 
+  Verifying  : ntpdate-4.2.6p5-28.el7.centos.x86_64                                                                           59/91 
+  Verifying  : libevent-2.0.21-4.el7.x86_64                                                                                   60/91 
+  Verifying  : python-netifaces-0.10.4-3.el7.x86_64                                                                           61/91 
+  Verifying  : libtalloc-2.1.10-1.el7.x86_64                                                                                  62/91 
+  Verifying  : sssd-krb5-1.16.0-19.el7_5.5.x86_64                                                                             63/91 
+  Verifying  : 1:quota-4.01-17.el7.x86_64                                                                                     64/91 
+  Verifying  : libsss_autofs-1.16.0-19.el7_5.5.x86_64                                                                         65/91 
+  Verifying  : python-sssdconfig-1.16.0-19.el7_5.5.noarch                                                                     66/91 
+  Verifying  : sssd-krb5-common-1.16.0-19.el7_5.5.x86_64                                                                      67/91 
+  Verifying  : sssd-client-1.16.0-19.el7_5.5.x86_64                                                                           68/91 
+  Verifying  : tcp_wrappers-7.6-77.el7.x86_64                                                                                 69/91 
+  Verifying  : oddjob-mkhomedir-0.31.5-4.el7.x86_64                                                                           70/91 
+  Verifying  : sssd-ipa-1.16.0-19.el7_5.5.x86_64                                                                              71/91 
+  Verifying  : python2-cryptography-1.7.2-2.el7.x86_64                                                                        72/91 
+  Verifying  : libini_config-1.3.1-29.el7.x86_64                                                                              73/91 
+  Verifying  : libtirpc-0.2.4-0.10.el7.x86_64                                                                                 74/91 
+  Verifying  : python-enum34-1.0.4-1.el7.noarch                                                                               75/91 
+  Verifying  : python2-ipalib-4.5.4-10.el7.centos.3.noarch                                                                    76/91 
+  Verifying  : oddjob-0.31.5-4.el7.x86_64                                                                                     77/91 
+  Verifying  : ipa-client-common-4.5.4-10.el7.centos.3.noarch                                                                 78/91 
+  Verifying  : sssd-ad-1.16.0-19.el7_5.5.x86_64                                                                               79/91 
+  Verifying  : krb5-workstation-1.15.1-19.el7.x86_64                                                                          80/91 
+  Verifying  : libsss_nss_idmap-1.16.0-19.el7_5.5.x86_64                                                                      81/91 
+  Verifying  : 1:quota-nls-4.01-17.el7.noarch                                                                                 82/91 
+  Verifying  : libtdb-1.3.15-1.el7.x86_64                                                                                     83/91 
+  Verifying  : samba-client-libs-4.7.1-6.el7.x86_64                                                                           84/91 
+  Verifying  : python-cffi-1.6.0-5.el7.x86_64                                                                                 85/91 
+  Verifying  : libwbclient-4.7.1-6.el7.x86_64                                                                                 86/91 
+  Verifying  : python-requests-2.6.0-1.el7_1.noarch                                                                           87/91 
+  Verifying  : libsss_certmap-1.16.0-19.el7_5.5.x86_64                                                                        88/91 
+  Verifying  : python-chardet-2.2.1-1.el7_1.noarch                                                                            89/91 
+  Verifying  : python2-pyasn1-0.1.9-7.el7.noarch                                                                              90/91 
+  Verifying  : sssd-1.16.0-19.el7_5.5.x86_64                                                                                  91/91 
+
+Installed:
+  ipa-client.x86_64 0:4.5.4-10.el7.centos.3                                                                                         
+
+Dependency Installed:
+  autofs.x86_64 1:5.0.7-83.el7                                autogen-libopts.x86_64 0:5.18-5.el7                                  
+  c-ares.x86_64 0:1.10.0-3.el7                                certmonger.x86_64 0:0.78.4-3.el7_5.1                                 
+  cyrus-sasl-gssapi.x86_64 0:2.1.26-23.el7                    gssproxy.x86_64 0:0.7.0-17.el7                                       
+  hesiod.x86_64 0:3.2.1-3.el7                                 http-parser.x86_64 0:2.7.1-5.el7_4                                   
+  ipa-client-common.noarch 0:4.5.4-10.el7.centos.3            ipa-common.noarch 0:4.5.4-10.el7.centos.3                            
+  keyutils.x86_64 0:1.5.8-3.el7                               krb5-workstation.x86_64 0:1.15.1-19.el7                              
+  libbasicobjects.x86_64 0:0.1.1-29.el7                       libcollection.x86_64 0:0.7.0-29.el7                                  
+  libdhash.x86_64 0:0.5.0-29.el7                              libevent.x86_64 0:2.0.21-4.el7                                       
+  libini_config.x86_64 0:1.3.1-29.el7                         libipa_hbac.x86_64 0:1.16.0-19.el7_5.5                               
+  libkadm5.x86_64 0:1.15.1-19.el7                             libldb.x86_64 0:1.2.2-1.el7                                          
+  libnfsidmap.x86_64 0:0.25-19.el7                            libpath_utils.x86_64 0:0.2.1-29.el7                                  
+  libref_array.x86_64 0:0.1.5-29.el7                          libsmbclient.x86_64 0:4.7.1-6.el7                                    
+  libsss_autofs.x86_64 0:1.16.0-19.el7_5.5                    libsss_certmap.x86_64 0:1.16.0-19.el7_5.5                            
+  libsss_idmap.x86_64 0:1.16.0-19.el7_5.5                     libsss_nss_idmap.x86_64 0:1.16.0-19.el7_5.5                          
+  libsss_sudo.x86_64 0:1.16.0-19.el7_5.5                      libtalloc.x86_64 0:2.1.10-1.el7                                      
+  libtdb.x86_64 0:1.3.15-1.el7                                libtevent.x86_64 0:0.9.33-2.el7                                      
+  libtirpc.x86_64 0:0.2.4-0.10.el7                            libverto-tevent.x86_64 0:0.2.5-4.el7                                 
+  libwbclient.x86_64 0:4.7.1-6.el7                            nfs-utils.x86_64 1:1.3.0-0.54.el7                                    
+  ntp.x86_64 0:4.2.6p5-28.el7.centos                          ntpdate.x86_64 0:4.2.6p5-28.el7.centos                               
+  oddjob.x86_64 0:0.31.5-4.el7                                oddjob-mkhomedir.x86_64 0:0.31.5-4.el7                               
+  psmisc.x86_64 0:22.20-15.el7                                pyOpenSSL.x86_64 0:0.13.1-3.el7                                      
+  python-backports.x86_64 0:1.0-8.el7                         python-backports-ssl_match_hostname.noarch 0:3.5.0.1-1.el7           
+  python-cffi.x86_64 0:1.6.0-5.el7                            python-chardet.noarch 0:2.2.1-1.el7_1                                
+  python-dateutil.noarch 0:1.5-7.el7                          python-dns.noarch 0:1.12.0-4.20150617git465785f.el7                  
+  python-enum34.noarch 0:1.0.4-1.el7                          python-gssapi.x86_64 0:1.2.0-3.el7                                   
+  python-idna.noarch 0:2.4-1.el7                              python-ipaddress.noarch 0:1.0.16-2.el7                               
+  python-jwcrypto.noarch 0:0.4.2-1.el7                        python-ldap.x86_64 0:2.4.15-2.el7                                    
+  python-libipa_hbac.x86_64 0:1.16.0-19.el7_5.5               python-netaddr.noarch 0:0.7.5-9.el7                                  
+  python-netifaces.x86_64 0:0.10.4-3.el7                      python-nss.x86_64 0:0.16.0-3.el7                                     
+  python-ply.noarch 0:3.4-11.el7                              python-pycparser.noarch 0:2.14-1.el7                                 
+  python-qrcode-core.noarch 0:5.0.1-1.el7                     python-requests.noarch 0:2.6.0-1.el7_1                               
+  python-setuptools.noarch 0:0.9.8-7.el7                      python-sss-murmur.x86_64 0:1.16.0-19.el7_5.5                         
+  python-sssdconfig.noarch 0:1.16.0-19.el7_5.5                python-urllib3.noarch 0:1.10.2-5.el7                                 
+  python-yubico.noarch 0:1.2.3-1.el7                          python2-cryptography.x86_64 0:1.7.2-2.el7                            
+  python2-ipaclient.noarch 0:4.5.4-10.el7.centos.3            python2-ipalib.noarch 0:4.5.4-10.el7.centos.3                        
+  python2-pyasn1.noarch 0:0.1.9-7.el7                         python2-pyasn1-modules.noarch 0:0.1.9-7.el7                          
+  pyusb.noarch 0:1.0.0-0.11.b1.el7                            quota.x86_64 1:4.01-17.el7                                           
+  quota-nls.noarch 1:4.01-17.el7                              rpcbind.x86_64 0:0.2.0-44.el7                                        
+  samba-client-libs.x86_64 0:4.7.1-6.el7                      samba-common.noarch 0:4.7.1-6.el7                                    
+  samba-common-libs.x86_64 0:4.7.1-6.el7                      sssd.x86_64 0:1.16.0-19.el7_5.5                                      
+  sssd-ad.x86_64 0:1.16.0-19.el7_5.5                          sssd-client.x86_64 0:1.16.0-19.el7_5.5                               
+  sssd-common.x86_64 0:1.16.0-19.el7_5.5                      sssd-common-pac.x86_64 0:1.16.0-19.el7_5.5                           
+  sssd-ipa.x86_64 0:1.16.0-19.el7_5.5                         sssd-krb5.x86_64 0:1.16.0-19.el7_5.5                                 
+  sssd-krb5-common.x86_64 0:1.16.0-19.el7_5.5                 sssd-ldap.x86_64 0:1.16.0-19.el7_5.5                                 
+  sssd-proxy.x86_64 0:1.16.0-19.el7_5.5                       tcp_wrappers.x86_64 0:7.6-77.el7                                     
+
+Complete!
+[root@centralserver ~]# ipa-client-install --mkhomedir
+Discovery was successful!
+Client hostname: centralserver.otus.local
+Realm: OTUS.LOCAL
+DNS Domain: otus.local
+IPA Server: ipa.otus.local
+BaseDN: dc=otus,dc=local
+
+Continue to configure the system with these values? [no]: yes
+Synchronizing time with KDC...
+Attempting to sync time using ntpd.  Will timeout after 15 seconds
+Attempting to sync time using ntpd.  Will timeout after 15 seconds
+Unable to sync time with NTP server, assuming the time is in sync. Please check that 123 UDP port is opened.
+User authorized to enroll computers: admin
+Password for admin@OTUS.LOCAL: 
+Successfully retrieved CA cert
+    Subject:     CN=Certificate Authority,O=OTUS.LOCAL
+    Issuer:      CN=Certificate Authority,O=OTUS.LOCAL
+    Valid From:  2018-07-10 08:16:24
+    Valid Until: 2038-07-10 08:16:24
+
+Enrolled in IPA realm OTUS.LOCAL
+Created /etc/ipa/default.conf
+New SSSD config will be created
+Configured sudoers in /etc/nsswitch.conf
+Configured /etc/sssd/sssd.conf
+Configured /etc/krb5.conf for IPA realm OTUS.LOCAL
+trying https://ipa.otus.local/ipa/json
+[try 1]: Forwarding 'schema' to json server 'https://ipa.otus.local/ipa/json'
+trying https://ipa.otus.local/ipa/session/json
+[try 1]: Forwarding 'ping' to json server 'https://ipa.otus.local/ipa/session/json'
+[try 1]: Forwarding 'ca_is_enabled' to json server 'https://ipa.otus.local/ipa/session/json'
+Systemwide CA database updated.
+Adding SSH public key from /etc/ssh/ssh_host_rsa_key.pub
+Adding SSH public key from /etc/ssh/ssh_host_ecdsa_key.pub
+Adding SSH public key from /etc/ssh/ssh_host_ed25519_key.pub
+[try 1]: Forwarding 'host_mod' to json server 'https://ipa.otus.local/ipa/session/json'
+SSSD enabled
+Configured /etc/openldap/ldap.conf
+NTP enabled
+Configured /etc/ssh/ssh_config
+Configured /etc/ssh/sshd_config
+Configuring otus.local as NIS domain.
+Client configuration complete.
+The ipa-client-install command was successful
+[root@centralserver ~]# ssh admin@centralserver.otus.local
+Password: 
+Creating home directory for admin.
+[admin@centralserver ~]$ exit
+logout
+Connection to centralserver.otus.local closed.
+
+[root@ipa ~]# ssh marat@centralserver.otus.local
+Last login: Tue Jul 10 13:47:03 2018 from centralserver.otus.local
+-sh-4.2$ sudo -i
+[sudo] password for marat: 
+[root@centralserver ~]# 
