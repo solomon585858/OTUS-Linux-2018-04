@@ -1,0 +1,125 @@
+[root@mysqlmaster ~]# ansible-playbook install_postgresql_9.6.yml -i ./inventory
+
+PLAY [pgsqlservers] ****************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************
+ok: [pgsqlslave]
+ok: [pgsqlmaster]
+
+TASK [Add Postgres Yum Repository] *************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Install PostgreSQL 9.6 Server] ***********************************************************************************************
+changed: [pgsqlslave] => (item=[u'postgresql96-server', u'postgresql96'])
+changed: [pgsqlmaster] => (item=[u'postgresql96-server', u'postgresql96'])
+
+TASK [Initialize PGDATA] ***********************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Configure PostgreSQL to listen on localhost] *********************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Configure shared_buffers] ****************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Configure effective_cache_size] **********************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Configure work_mem] **********************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Configure maintenance_work_mem] **********************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Configure temp_buffers] ******************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Configure effective_io_concurrency] ******************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Configure random_page_cost] **************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Enable fsync] ****************************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Enable autovacuum] ***********************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Allow to connect locally with username and password for IPv4] ****************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Disable connection for IPv6] *************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Allow connection for everyone in network 10.0.0.0/8 with username and password] **********************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Restart postgresql] **********************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Enable postgresql] ***********************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+PLAY RECAP *************************************************************************************************************************
+pgsqlmaster                : ok=19   changed=18   unreachable=0    failed=0   
+pgsqlslave                 : ok=19   changed=18   unreachable=0    failed=0   
+
+[root@psqlmaster ~]# systemctl status postgresql-9.6.service
+в—Џ postgresql-9.6.service - PostgreSQL 9.6 database server
+   Loaded: loaded (/usr/lib/systemd/system/postgresql-9.6.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2018-08-23 14:36:11 MSK; 1min 16s ago
+     Docs: https://www.postgresql.org/docs/9.6/static/
+ Main PID: 3058 (postmaster)
+   CGroup: /system.slice/postgresql-9.6.service
+           в”њв”Ђ3058 /usr/pgsql-9.6/bin/postmaster -D /var/lib/pgsql/9.6/data/
+           в”њв”Ђ3060 postgres: logger process   
+           в”њв”Ђ3062 postgres: checkpointer process   
+           в”њв”Ђ3063 postgres: writer process   
+           в”њв”Ђ3064 postgres: wal writer process   
+           в”њв”Ђ3065 postgres: autovacuum launcher process   
+           в””в”Ђ3066 postgres: stats collector process   
+
+Aug 23 14:36:11 psqlmaster systemd[1]: Starting PostgreSQL 9.6 database server...
+Aug 23 14:36:11 psqlmaster postmaster[3058]: < 2018-08-23 14:36:11.541 MSK > LOG:  redirecting log output to logging collec...rocess
+Aug 23 14:36:11 psqlmaster postmaster[3058]: < 2018-08-23 14:36:11.541 MSK > HINT:  Future log output will appear in direct..._log".
+Aug 23 14:36:11 psqlmaster systemd[1]: Started PostgreSQL 9.6 database server.
+Hint: Some lines were ellipsized, use -l to show in full.
+
+[root@psqlslave ~]# systemctl status postgresql-9.6.service
+в—Џ postgresql-9.6.service - PostgreSQL 9.6 database server
+   Loaded: loaded (/usr/lib/systemd/system/postgresql-9.6.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2018-08-23 14:36:11 MSK; 1min 19s ago
+     Docs: https://www.postgresql.org/docs/9.6/static/
+ Main PID: 4011 (postmaster)
+   CGroup: /system.slice/postgresql-9.6.service
+           в”њв”Ђ4011 /usr/pgsql-9.6/bin/postmaster -D /var/lib/pgsql/9.6/data/
+           в”њв”Ђ4013 postgres: logger process   
+           в”њв”Ђ4015 postgres: checkpointer process   
+           в”њв”Ђ4016 postgres: writer process   
+           в”њв”Ђ4017 postgres: wal writer process   
+           в”њв”Ђ4018 postgres: autovacuum launcher process   
+           в””в”Ђ4019 postgres: stats collector process   
+
+Aug 23 14:36:11 psqlslave systemd[1]: Starting PostgreSQL 9.6 database server...
+Aug 23 14:36:11 psqlslave postmaster[4011]: < 2018-08-23 14:36:11.476 MSK > LOG:  redirecting log output to logging collect...rocess
+Aug 23 14:36:11 psqlslave postmaster[4011]: < 2018-08-23 14:36:11.476 MSK > HINT:  Future log output will appear in directo..._log".
+Aug 23 14:36:11 psqlslave systemd[1]: Started PostgreSQL 9.6 database server.
+Hint: Some lines were ellipsized, use -l to show in full.

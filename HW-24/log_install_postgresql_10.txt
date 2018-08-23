@@ -1,0 +1,137 @@
+[root@mysqlmaster ~]# ansible-playbook install_postgresql_10.yml -i ./inventory
+SSH password: 
+
+PLAY [pgsqlservers] ****************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************
+ok: [pgsqlmaster]
+ok: [pgsqlslave]
+
+TASK [Add Postgres Yum Repository] *************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Install PostgreSQL 10 Server] ************************************************************************************************
+changed: [pgsqlslave] => (item=[u'postgresql10-server', u'postgresql10'])
+changed: [pgsqlmaster] => (item=[u'postgresql10-server', u'postgresql10'])
+
+TASK [Initialize PGDATA] ***********************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Configure PostgreSQL to listen on localhost] *********************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Configure shared_buffers] ****************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Configure effective_cache_size] **********************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Configure work_mem] **********************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Configure maintenance_work_mem] **********************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Configure temp_buffers] ******************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Configure effective_io_concurrency] ******************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Configure random_page_cost] **************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Enable fsync] ****************************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Enable autovacuum] ***********************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Allow to connect locally with username and password for IPv4] ****************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Disable connection for IPv6] *************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Allow connection for everyone in network 10.0.0.0/8 with username and password] **********************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Restart postgresql] **********************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Enable postgresql] ***********************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+PLAY RECAP *************************************************************************************************************************
+pgsqlmaster                : ok=19   changed=18   unreachable=0    failed=0   
+pgsqlslave                 : ok=19   changed=18   unreachable=0    failed=0 
+
+[root@psqlmaster ~]# systemctl status postgresql-10.service
+в—Џ postgresql-10.service - PostgreSQL 10 database server
+   Loaded: loaded (/usr/lib/systemd/system/postgresql-10.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2018-08-23 14:47:41 MSK; 8s ago
+     Docs: https://www.postgresql.org/docs/10/static/
+  Process: 2932 ExecStartPre=/usr/pgsql-10/bin/postgresql-10-check-db-dir ${PGDATA} (code=exited, status=0/SUCCESS)
+ Main PID: 2937 (postmaster)
+   CGroup: /system.slice/postgresql-10.service
+           в”њв”Ђ2937 /usr/pgsql-10/bin/postmaster -D /var/lib/pgsql/10/data/
+           в”њв”Ђ2939 postgres: logger process   
+           в”њв”Ђ2941 postgres: checkpointer process   
+           в”њв”Ђ2942 postgres: writer process   
+           в”њв”Ђ2943 postgres: wal writer process   
+           в”њв”Ђ2944 postgres: autovacuum launcher process   
+           в”њв”Ђ2945 postgres: stats collector process   
+           в””в”Ђ2946 postgres: bgworker: logical replication launcher   
+
+Aug 23 14:47:41 psqlmaster systemd[1]: Starting PostgreSQL 10 database server...
+Aug 23 14:47:41 psqlmaster postmaster[2937]: 2018-08-23 14:47:41.320 MSK [2937] LOG:  listening on IPv4 address "127.0.0.1"...t 5432
+Aug 23 14:47:41 psqlmaster postmaster[2937]: 2018-08-23 14:47:41.320 MSK [2937] LOG:  listening on IPv4 address "127.0.0.4"...t 5432
+Aug 23 14:47:41 psqlmaster postmaster[2937]: 2018-08-23 14:47:41.351 MSK [2937] LOG:  listening on Unix socket "/var/run/po....5432"
+Aug 23 14:47:41 psqlmaster postmaster[2937]: 2018-08-23 14:47:41.443 MSK [2937] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+Aug 23 14:47:41 psqlmaster postmaster[2937]: 2018-08-23 14:47:41.495 MSK [2937] LOG:  redirecting log output to logging col...rocess
+Aug 23 14:47:41 psqlmaster postmaster[2937]: 2018-08-23 14:47:41.495 MSK [2937] HINT:  Future log output will appear in dir..."log".
+Aug 23 14:47:41 psqlmaster systemd[1]: Started PostgreSQL 10 database server.
+Hint: Some lines were ellipsized, use -l to show in full.
+
+[root@psqlslave ~]# systemctl status postgresql-10.service
+в—Џ postgresql-10.service - PostgreSQL 10 database server
+   Loaded: loaded (/usr/lib/systemd/system/postgresql-10.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2018-08-23 14:47:25 MSK; 2min 52s ago
+     Docs: https://www.postgresql.org/docs/10/static/
+ Main PID: 2794 (postmaster)
+   CGroup: /system.slice/postgresql-10.service
+           в”њв”Ђ2794 /usr/pgsql-10/bin/postmaster -D /var/lib/pgsql/10/data/
+           в”њв”Ђ2796 postgres: logger process   
+           в”њв”Ђ2798 postgres: checkpointer process   
+           в”њв”Ђ2799 postgres: writer process   
+           в”њв”Ђ2800 postgres: wal writer process   
+           в”њв”Ђ2801 postgres: autovacuum launcher process   
+           в”њв”Ђ2802 postgres: stats collector process   
+           в””в”Ђ2803 postgres: bgworker: logical replication launcher   
+
+Aug 23 14:47:25 psqlslave systemd[1]: Starting PostgreSQL 10 database server...
+Aug 23 14:47:25 psqlslave postmaster[2794]: 2018-08-23 14:47:25.328 MSK [2794] LOG:  listening on IPv4 address "127.0.0.1",...t 5432
+Aug 23 14:47:25 psqlslave postmaster[2794]: 2018-08-23 14:47:25.328 MSK [2794] LOG:  listening on IPv4 address "127.0.0.4",...t 5432
+Aug 23 14:47:25 psqlslave postmaster[2794]: 2018-08-23 14:47:25.365 MSK [2794] LOG:  listening on Unix socket "/var/run/pos....5432"
+Aug 23 14:47:25 psqlslave postmaster[2794]: 2018-08-23 14:47:25.434 MSK [2794] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+Aug 23 14:47:25 psqlslave postmaster[2794]: 2018-08-23 14:47:25.481 MSK [2794] LOG:  redirecting log output to logging coll...rocess
+Aug 23 14:47:25 psqlslave postmaster[2794]: 2018-08-23 14:47:25.481 MSK [2794] HINT:  Future log output will appear in dire..."log".
+Aug 23 14:47:25 psqlslave systemd[1]: Started PostgreSQL 10 database server.
+Hint: Some lines were ellipsized, use -l to show in full.

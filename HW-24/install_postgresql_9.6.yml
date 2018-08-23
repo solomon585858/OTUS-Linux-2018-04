@@ -1,0 +1,113 @@
+---
+- hosts: pgsqlservers
+  become: true
+  vars:
+    version: 9.6
+
+  tasks:
+  - name: Add Postgres Yum Repository
+    command: rpm -Uvh https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm
+
+  - name: Install PostgreSQL 9.6 Server
+    yum: name={{ item }} state=latest 
+    with_items:
+    - postgresql96-server
+    - postgresql96
+
+  - name: Initialize PGDATA
+    command: /usr/pgsql-{{ version }}/bin/postgresql96-setup initdb
+
+  - name: Configure PostgreSQL to listen on localhost
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '^#listen_address'
+      line: "listen_addresses = 'localhost'         # what IP address(es) to listen on;"      
+
+  - name: Configure shared_buffers
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: 'shared_buffers = 128MB                  # min 128kB'
+      line: 'shared_buffers = 512MB                  # min 128kB'      
+
+  - name: Configure effective_cache_size
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '#effective_cache_size = 4GB'
+      line: 'effective_cache_size = 1GB'      
+
+  - name: Configure work_mem
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '#work_mem'
+      line: 'work_mem = 64MB                         # min 64kB'
+
+  - name: Configure maintenance_work_mem
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '#maintenance_work_mem = 64MB            # min 1MB'
+      line: 'maintenance_work_mem = 128MB            # min 1MB'
+      
+  - name: Configure temp_buffers
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '#temp_buffers = 8MB                     # min 800kB'
+      line: 'temp_buffers = 32MB                     # min 800kB'   
+      
+  - name: Configure effective_io_concurrency
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '#effective_io_concurrency = 1           # 1-1000; 0 disables prefetching'
+      line: 'effective_io_concurrency = 1           # 1-1000; 0 disables prefetching'
+
+  - name: Configure random_page_cost
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '#random_page_cost = 4.0                 # same scale as above'
+      line: 'random_page_cost = 1.1                 # same scale as above'
+
+  - name: Enable fsync
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '#fsync = on                             # flush data to disk for crash safety'
+      line: 'fsync = on                             # flush data to disk for crash safety'   
+
+  - name: Enable autovacuum
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: "^#autovacuum = on"
+      line: "autovacuum = on                        # Enable autovacuum subprocess?  'on'"
+
+  - name: Allow to connect locally with username and password for IPv4
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/pg_hba.conf
+      state: present      
+      regexp: 'host    all             all             127.0.0.1/32            ident'
+      line: 'host    all             all             127.0.0.1/32             md5'
+
+  - name: Disable connection for IPv6
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/pg_hba.conf
+      state: present
+      regexp: 'host    all             all             ::1/128                 ident'
+      line: '#host    all             all             ::1/128                 ident'
+
+  - name: Allow connection for everyone in network 10.0.0.0/8 with username and password
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/pg_hba.conf
+      line: 'host    all             all             10.0.0.0/8              md5'
+
+  - name: Restart postgresql
+    systemd: name=postgresql-{{ version }} state=restarted
+
+  - name: Enable postgresql
+    systemd: name=postgresql-{{ version }} enabled=yes
