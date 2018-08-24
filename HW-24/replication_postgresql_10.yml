@@ -1,0 +1,109 @@
+---
+- hosts: pgsqlservers
+  become: true
+  vars:
+    version: 10
+  tasks:
+  - name: Configure wal_level
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '#wal_level = replica                    # minimal, replica, or logical'
+      line: 'wal_level = replica                    # minimal, replica, or logical'
+
+  - name: Configure max_wal_senders
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '#max_wal_senders = 10           # max number of walsender processes'
+      line: 'max_wal_senders = 3           # max number of walsender processes'
+
+  - name: Configure wal_keep_segments
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '#wal_keep_segments = 0           # in logfile segments, 16MB each; 0 disables'
+      line: 'wal_keep_segments = 64           # in logfile segments, 16MB each; 0 disables'
+      
+- hosts: pgsqlslave
+  become: true
+  vars:
+    version: 10    
+  tasks:
+  - name: Stop postgresql
+    systemd: name=postgresql-{{ version }} state=stopped
+
+- hosts: pgsqlmaster
+  become: true
+  vars:
+    version: 10
+  tasks:
+  - name: create repication user
+    become: yes
+    become_user: postgres
+    postgresql_user:
+      state: present
+      name: replicate
+      encrypted: no
+      role_attr_flags: REPLICATION
+
+  - name: Allow connection for replicate user
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/pg_hba.conf
+      line: 'host    replication     replicate       10.0.0.0/8              trust'
+
+  - name: Restart postgresql
+    systemd: name=postgresql-{{ version }} state=restarted
+
+
+- hosts: pgsqlslave
+  become: true
+  vars:
+    version: 10
+  tasks:
+  - name: Configure hot_standby
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+      state: present
+      regexp: '#hot_standby = on                       # "off" disallows queries during recovery'
+      line: 'hot_standby = on                       # "off" disallows queries during recovery'
+
+  - name: Backup PGDATA
+    command: cp -rf /var/lib/pgsql/{{ version }}/data/ /etc/ssl/
+
+  - name: Delete all files in PGDATA
+    file:
+      state: absent
+      path: "/var/lib/pgsql/{{ version }}/data/"
+
+  - name: Copy all the data from the master with the pg_basebackup
+    command: "pg_basebackup -h 10.1.100.220 -D /var/lib/pgsql/{{ version }}/data/ -U replicate --wal-method=stream"
+
+  - name: Create file recovery.conf
+    command: touch /var/lib/pgsql/{{ version }}/data/recovery.conf
+
+  - name: Enable standby_mode
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/recovery.conf
+      line: "standby_mode          = 'on'"
+
+  - name: Configure primary_conninfo
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/recovery.conf
+      line: "primary_conninfo      = 'host=10.1.100.220 port=5432 user=replicate'"
+
+  - name: Configure trigger_file
+    lineinfile: 
+      dest: /var/lib/pgsql/{{ version }}/data/recovery.conf
+      line: "trigger_file = '/tmp/MasterNow'"
+  
+  - name: Change ownership of PGDATA to postgres
+    file: 
+      dest: /var/lib/pgsql
+      owner: postgres
+      group: postgres
+      mode: 0700
+      recurse: yes
+
+  - name: Restart postgresql
+    systemd: name=postgresql-{{ version }} state=restarted

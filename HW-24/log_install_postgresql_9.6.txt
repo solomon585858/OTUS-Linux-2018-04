@@ -11,8 +11,8 @@ changed: [pgsqlslave]
 changed: [pgsqlmaster]
 
 TASK [Install PostgreSQL 9.6 Server] ***********************************************************************************************
-changed: [pgsqlslave] => (item=[u'postgresql96-server', u'postgresql96'])
-changed: [pgsqlmaster] => (item=[u'postgresql96-server', u'postgresql96'])
+changed: [pgsqlslave] => (item=[u'python-psycopg2', u'postgresql96-server', u'postgresql96'])
+changed: [pgsqlmaster] => (item=[u'python-psycopg2', u'postgresql96-server', u'postgresql96'])
 
 TASK [Initialize PGDATA] ***********************************************************************************************************
 changed: [pgsqlslave]

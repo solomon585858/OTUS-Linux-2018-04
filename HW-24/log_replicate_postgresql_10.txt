@@ -1,0 +1,100 @@
+[root@mysqlmaster ~]# ansible-playbook replication_postgresql_10.yml -i ./inventory
+
+PLAY [pgsqlservers] ****************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************
+ok: [pgsqlmaster]
+ok: [pgsqlslave]
+
+TASK [Configure wal_level] *********************************************************************************************************
+changed: [pgsqlmaster]
+changed: [pgsqlslave]
+
+TASK [Configure max_wal_senders] ***************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+TASK [Configure wal_keep_segments] *************************************************************************************************
+changed: [pgsqlslave]
+changed: [pgsqlmaster]
+
+PLAY [pgsqlslave] ******************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************
+ok: [pgsqlslave]
+
+TASK [Stop postgresql] *************************************************************************************************************
+changed: [pgsqlslave]
+
+PLAY [pgsqlmaster] *****************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************
+ok: [pgsqlmaster]
+
+TASK [create repication user] ******************************************************************************************************
+changed: [pgsqlmaster]
+
+TASK [Allow connection for replicate user] *****************************************************************************************
+changed: [pgsqlmaster]
+
+TASK [Restart postgresql] **********************************************************************************************************
+changed: [pgsqlmaster]
+
+PLAY [pgsqlslave] ******************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************
+ok: [pgsqlslave]
+
+TASK [Configure hot_standby] *******************************************************************************************************
+changed: [pgsqlslave]
+
+TASK [Backup PGDATA] ***************************************************************************************************************
+changed: [pgsqlslave]
+
+TASK [Delete all files in PGDATA] **************************************************************************************************
+changed: [pgsqlslave]
+
+TASK [Copy all the data from the master with the pg_basebackup] ********************************************************************
+changed: [pgsqlslave]
+
+TASK [Create file recovery.conf] ***************************************************************************************************
+changed: [pgsqlslave]
+
+TASK [Enable standby_mode] *********************************************************************************************************
+changed: [pgsqlslave]
+
+TASK [Configure primary_conninfo] **************************************************************************************************
+changed: [pgsqlslave]
+
+TASK [Configure trigger_file] ******************************************************************************************************
+changed: [pgsqlslave]
+
+TASK [Change ownership of PGDATA to postgres] **************************************************************************************
+changed: [pgsqlslave]
+
+TASK [Restart postgresql] **********************************************************************************************************
+changed: [pgsqlslave]
+
+PLAY RECAP *************************************************************************************************************************
+pgsqlmaster                : ok=8    changed=6    unreachable=0    failed=0   
+pgsqlslave                 : ok=17   changed=14   unreachable=0    failed=0   
+
+
+[root@psqlmaster ~]# su - postgres
+-bash-4.2$ psql
+psql (10.5)
+Type "help" for help.
+
+postgres=# select * from pg_stat_activity  where usename = 'replicate' ;
+ datid | datname | pid  | usesysid |  usename  | application_name | client_addr  | client_hostname | client_port |         backend_s
+tart         | xact_start | query_start |         state_change          | wait_event_type |  wait_event   | state  | backend_xid | b
+ackend_xmin | query | backend_type 
+-------+---------+------+----------+-----------+------------------+--------------+-----------------+-------------+------------------
+-------------+------------+-------------+-------------------------------+-----------------+---------------+--------+-------------+--
+------------+-------+--------------
+       |         | 3673 |    16384 | replicate | walreceiver      | 10.1.100.221 |                 |       37248 | 2018-08-24 14:48:
+29.875806+03 |            |             | 2018-08-24 14:48:29.878185+03 | Activity        | WalSenderMain | active |             |  
+            |       | walsender
+(1 row)
+
+postgres=# 

@@ -11,6 +11,7 @@
   - name: Install PostgreSQL 10 Server
     yum: name={{ item }} state=latest 
     with_items:
+    - python-psycopg2
     - postgresql{{ version }}-server
     - postgresql{{ version }}
 
@@ -22,7 +23,7 @@
       dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
       state: present
       regexp: '^#listen_address'
-      line: "listen_addresses = 'localhost'         # what IP address(es) to listen on;"      
+      line: "listen_addresses = '*'         # what IP address(es) to listen on;"      
 
   - name: Configure shared_buffers
     lineinfile: 

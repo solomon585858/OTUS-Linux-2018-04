@@ -12,8 +12,8 @@ changed: [pgsqlmaster]
 changed: [pgsqlslave]
 
 TASK [Install PostgreSQL 10 Server] ************************************************************************************************
-changed: [pgsqlslave] => (item=[u'postgresql10-server', u'postgresql10'])
-changed: [pgsqlmaster] => (item=[u'postgresql10-server', u'postgresql10'])
+changed: [pgsqlslave] => (item=[u'python-psycopg2', u'postgresql10-server', u'postgresql10'])
+changed: [pgsqlmaster] => (item=[u'python-psycopg2', u'postgresql10-server', u'postgresql10'])
 
 TASK [Initialize PGDATA] ***********************************************************************************************************
 changed: [pgsqlslave]
