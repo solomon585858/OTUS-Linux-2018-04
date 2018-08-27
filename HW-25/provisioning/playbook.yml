@@ -62,16 +62,12 @@
     file:
       path: /var/nfs
       state: directory
-#      owner: root
-#      group: root
       mode: 0775
 
   - name: Creates /var/nfs/upload directory
     file:
       path: /var/nfs/upload
       state: directory
-#      owner: root
-#      group: root
       mode: 0775
 
   - name: Modifying /etc/exports
@@ -126,8 +122,6 @@
     file:
       path: /mnt/nfs/var/nfs
       state: directory
-#      owner: root
-#      group: root
       mode: 0775
       recurse: yes
 
