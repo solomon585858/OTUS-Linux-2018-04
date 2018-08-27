@@ -1,0 +1,56 @@
+[vagrant@nfsserver ~]$ sudo exportfs
+/var/nfs      	192.168.255.0/30
+
+[vagrant@nfsserver ~]$ sudo cat /etc/exports
+/var/nfs        192.168.255.0/30(rw,sync,no_root_squash,no_all_squash)
+
+[vagrant@nfsserver ~]$ sudo systemctl status nfs-server
+● nfs-server.service - NFS server and services
+   Loaded: loaded (/usr/lib/systemd/system/nfs-server.service; enabled; vendor preset: disabled)
+   Active: active (exited) since Mon 2018-08-27 11:04:05 UTC; 5min ago
+  Process: 4981 ExecStart=/usr/sbin/rpc.nfsd $RPCNFSDARGS (code=exited, status=0/SUCCESS)
+  Process: 4977 ExecStartPre=/bin/sh -c /bin/kill -HUP `cat /run/gssproxy.pid` (code=exited, status=0/SUCCESS)
+  Process: 4976 ExecStartPre=/usr/sbin/exportfs -r (code=exited, status=0/SUCCESS)
+ Main PID: 4981 (code=exited, status=0/SUCCESS)
+   CGroup: /system.slice/nfs-server.service
+
+Aug 27 11:04:05 nfsserver systemd[1]: Starting NFS server and services...
+Aug 27 11:04:05 nfsserver systemd[1]: Started NFS server and services.
+
+[vagrant@nfsserver ~]$ sudo systemctl status rpcbind   
+● rpcbind.service - RPC bind service
+   Loaded: loaded (/usr/lib/systemd/system/rpcbind.service; enabled; vendor preset: enabled)
+   Active: active (running) since Mon 2018-08-27 11:04:04 UTC; 5min ago
+  Process: 4887 ExecStart=/sbin/rpcbind -w $RPCBIND_ARGS (code=exited, status=0/SUCCESS)
+ Main PID: 4888 (rpcbind)
+   CGroup: /system.slice/rpcbind.service
+           └─4888 /sbin/rpcbind -w
+
+Aug 27 11:04:04 nfsserver systemd[1]: Starting RPC bind service...
+Aug 27 11:04:04 nfsserver systemd[1]: Started RPC bind service.
+
+
+
+
+
+[vagrant@nfsclient ~]$ df -h
+Filesystem                       Size  Used Avail Use% Mounted on
+/dev/mapper/VolGroup00-LogVol00   38G  758M   37G   2% /
+devtmpfs                         109M     0  109M   0% /dev
+tmpfs                            118M     0  118M   0% /dev/shm
+tmpfs                            118M  4.5M  114M   4% /run
+tmpfs                            118M     0  118M   0% /sys/fs/cgroup
+/dev/sda2                       1014M   63M  952M   7% /boot
+192.168.255.1:/var/nfs            38G  759M   37G   2% /mnt/nfs/var/nfs
+tmpfs                             24M     0   24M   0% /run/user/1000
+
+[vagrant@nfsclient ~]$ mount -v | grep /mnt/nfs/var/nfs
+192.168.255.1:/var/nfs on /mnt/nfs/var/nfs type nfs (rw,noatime,vers=3,rsize=32768,wsize=32768,namlen=255,hard,proto=udp,timeo=11,retrans=3,sec=sys,mountaddr=192.168.255.1,mountvers=3,mountport=20048,mountproto=udp,local_lock=none,addr=192.168.255.1)
+
+[vagrant@nfsclient ~]$ sudo touch /mnt/nfs/var/nfs/upload/testfile
+
+[vagrant@nfsclient ~]$ sudo vi /mnt/nfs/var/nfs/upload/testfile
+
+[vagrant@nfsclient ~]$ sudo cat /mnt/nfs/var/nfs/upload/testfile                         
+dsfsdf:::
+

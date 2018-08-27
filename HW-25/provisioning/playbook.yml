@@ -1,0 +1,142 @@
+---
+- hosts: nfsserver
+  become: true
+  tasks:
+  - name: Enable ipv4 forwarding
+    sysctl: name=net.ipv4.conf.all.forwarding value=1 sysctl_set=yes state=present reload=yes
+
+  - name: restart network
+    systemd: name=network state=restarted  
+
+  - name: Enable ipv4 forwarding
+    sysctl: name=net.ipv4.conf.all.forwarding value=1 sysctl_set=yes state=present reload=yes
+
+  - name: install packages
+    yum: name={{ item }} state=latest 
+    with_items:
+    - bind
+    - bind-utils
+    - net-tools
+    - ntp
+    - wget
+    - traceroute
+    - iptables-services
+    - nfs-utils
+
+  - name: enable iptables-services
+    systemd: name=iptables enabled=yes
+
+  - name: enable rpcbind
+    systemd: name=rpcbind enabled=yes
+
+  - name: enable nfs-server
+    systemd: name=nfs-server enabled=yes
+
+  - name: restart rpcbind
+    systemd: name=rpcbind state=restarted
+
+  - name: restart nfs-server
+    systemd: name=nfs-server state=restarted
+
+  - iptables_raw:
+      name: udp rule for portmapper
+      rules: '-A INPUT -m state --state NEW -m udp -p udp --dport 111 -j ACCEPT'
+
+  - iptables_raw:
+      name: udp rule for nfs
+      rules: '-A INPUT -m state --state NEW -m udp -p udp --dport 2049 -j ACCEPT'
+
+  - iptables_raw:
+      name: udp rule for mountd
+      rules: '-A INPUT -m state --state NEW -m udp -p udp --dport 20048 -j ACCEPT'
+  
+  - iptables_raw:
+      name: MASQUERADING
+      table: nat
+      rules: '-A POSTROUTING ! -d 192.168.0.0/16 -o eth0 -j MASQUERADE'
+
+  - name: restart iptables-services
+    systemd: name=iptables state=restarted
+
+  - name: Creates /var/nfs directory
+    file:
+      path: /var/nfs
+      state: directory
+#      owner: root
+#      group: root
+      mode: 0775
+
+  - name: Creates /var/nfs/upload directory
+    file:
+      path: /var/nfs/upload
+      state: directory
+#      owner: root
+#      group: root
+      mode: 0775
+
+  - name: Modifying /etc/exports
+    lineinfile: dest=/etc/exports
+      line="/var/nfs        192.168.255.0/30(rw,sync,no_root_squash,no_all_squash)"
+
+  - name: exportfs -r
+    command: exportfs -r
+    
+
+- hosts: nfsclient
+  become: true
+  tasks:
+  - name: Enable ipv4 forwarding
+    sysctl: name=net.ipv4.conf.all.forwarding value=1 sysctl_set=yes state=present reload=yes
+
+  - name: Deleting default route for eth0
+    lineinfile: dest=/etc/sysconfig/network-scripts/ifcfg-eth0      
+      insertafter=EOF
+      line="DEFROUTE=no"  
+
+  - name: Adding default gateway for eth1
+    lineinfile: dest=/etc/sysconfig/network-scripts/ifcfg-eth1      
+      insertafter=EOF
+      line="GATEWAY=192.168.255.1" 
+
+  - name: restart network
+    systemd: name=network state=restarted  
+
+  - name: Enable ipv4 forwarding
+    sysctl: name=net.ipv4.conf.all.forwarding value=1 sysctl_set=yes state=present reload=yes
+
+  - name: install packages
+    yum: name={{ item }} state=latest 
+    with_items:
+    - bind
+    - bind-utils
+    - net-tools
+    - ntp
+    - wget
+    - traceroute
+    - iptables-services
+    - nfs-utils
+
+  - name: enable rpcbind
+    systemd: name=rpcbind enabled=yes
+
+  - name: restart rpcbind
+    systemd: name=rpcbind state=restarted
+
+  - name: Creates /var/nfs directory
+    file:
+      path: /mnt/nfs/var/nfs
+      state: directory
+#      owner: root
+#      group: root
+      mode: 0775
+      recurse: yes
+
+  - name: Modifying /etc/fstab
+    lineinfile: dest=/etc/fstab
+      line="192.168.255.1:/var/nfs /mnt/nfs/var/nfs nfs vers=3,proto=udp,hard,intr,rsize=32768,wsize=32768,noatime 0 0"      
+
+  - name: Restart server
+    command: /sbin/shutdown -r +1
+    async: 0
+    poll: 0
+    ignore_errors: true
