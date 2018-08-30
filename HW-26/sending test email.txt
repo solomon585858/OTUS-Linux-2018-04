@@ -1,0 +1,130 @@
+SET UP DOMAINS AND USERS AND SENDING TEST MAIL!!!!!:
+
+[root@mail ~]# mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2493
+Server version: 5.5.60-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> 
+MariaDB [(none)]> USE mail;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [mail]> INSERT INTO domains (domain) VALUES ('test.local');
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [mail]> INSERT INTO users (email, password) VALUES ('info@test.local', ENCRYPT('P@ssw0rd'));
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [mail]> quit
+Bye
+
+[root@mail ~]# yum install mailx -y
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.satellite-service.ru
+ * epel: mirrors.colocall.net
+ * extras: dedic.sh
+ * updates: dedic.sh
+Package mailx-12.5-19.el7.x86_64 already installed and latest version
+Nothing to do
+
+[root@mail ~]# echo "This is a test!!!!" | mailx -s "subject" info@test.local
+echo "This is a testmailx info@test.localmailx info@test.local" | mailx -s "subject" info@test.local
+
+[root@mail ~]# cat /var/log/maillog
+Aug 30 11:27:46 mail postfix[10958]: fatal: parameter inet_interfaces: no local interface found for 127.0.0.4
+Aug 30 11:46:04 mail postfix/postfix-script[13843]: starting the Postfix mail system
+Aug 30 11:46:04 mail postfix/master[13845]: daemon started -- version 2.10.1, configuration /etc/postfix
+Aug 30 11:50:02 mail dovecot: master: Dovecot v2.2.10 starting up for imap, pop3 (core dumps disabled)
+Aug 30 11:50:55 mail dovecot: pop3-login: Aborted login (no auth attempts in 6 secs): user=<>, rip=127.0.0.1, lip=127.0.0.1, secured, session=<715JLKN0ZgB/AAAB>
+Aug 30 11:53:32 mail postfix/postfix-script[14828]: stopping the Postfix mail system
+Aug 30 11:53:32 mail postfix/master[13845]: terminating on signal 15
+Aug 30 11:53:33 mail postfix/postfix-script[14908]: starting the Postfix mail system
+Aug 30 11:53:33 mail postfix/master[14910]: daemon started -- version 2.10.1, configuration /etc/postfix
+Aug 30 11:56:05 mail postfix/smtpd[15279]: connect from localhost[127.0.0.1]
+Aug 30 11:56:25 mail postfix/smtpd[15279]: disconnect from localhost[127.0.0.1]
+Aug 30 12:02:42 mail postfix/pickup[14911]: 05593109C82B: uid=0 from=<root>
+Aug 30 12:02:42 mail postfix/cleanup[16147]: 05593109C82B: message-id=<20180830090242.05593109C82B@mail.test.local>
+Aug 30 12:02:42 mail postfix/qmgr[14912]: 05593109C82B: from=<root@mail.test.local>, size=480, nrcpt=1 (queue active)
+Aug 30 12:02:42 mail postfix/pipe[16155]: 05593109C82B: to=<info@test.local>, relay=dovecot, delay=0.23, delays=0.03/0.01/0/0.19, dsn=2.0.0, status=sent (delivered via dovecot service)
+Aug 30 12:02:42 mail postfix/qmgr[14912]: 05593109C82B: removed
+
+[root@mail ~]# cat /home/vmail/dovecot-deliver.log
+2018-08-30 12:02:42 lda(info@test.local): Info: msgid=<20180830090242.05593109C82B@mail.test.local>: saved mail to INBOX[root@mail ~]# mysql -u root -p
+
+
+
+SENDING TEST LETTER WITH TELNET!!!!
+[root@mail ~]# telnet mail.test.local 25
+Trying 10.31.2.160...
+Connected to mail.test.local.
+Escape character is '^]'.
+220 mail.test.local ESMTP Postfix
+HELO test.local
+250 mail.test.local
+EHLO test.local
+250-mail.test.local
+250-PIPELINING
+250-SIZE 30720000
+250-VRFY
+250-ETRN
+250-STARTTLS
+250-AUTH PLAIN
+250-AUTH=PLAIN
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250 DSN
+MAIL FROM: <root@mail.test.local>
+250 2.1.0 Ok
+RCPT TO: <info@test.local>
+250 2.1.5 Ok
+DATA
+354 End data with <CR><LF>.<CR><LF>
+From: "Marat" <root@mail.test.local>
+To: "Marat" <info@test.local>
+Subject: Test Email
+
+Test!!!
+.
+250 2.0.0 Ok: queued as 61995109C82B
+QUIT
+221 2.0.0 Bye
+Connection closed by foreign host.
+
+[root@mail ~]# cat /var/log/maillog
+Aug 30 11:27:46 mail postfix[10958]: fatal: parameter inet_interfaces: no local interface found for 127.0.0.4
+Aug 30 11:46:04 mail postfix/postfix-script[13843]: starting the Postfix mail system
+Aug 30 11:46:04 mail postfix/master[13845]: daemon started -- version 2.10.1, configuration /etc/postfix
+Aug 30 11:50:02 mail dovecot: master: Dovecot v2.2.10 starting up for imap, pop3 (core dumps disabled)
+Aug 30 11:50:55 mail dovecot: pop3-login: Aborted login (no auth attempts in 6 secs): user=<>, rip=127.0.0.1, lip=127.0.0.1, secured, session=<715JLKN0ZgB/AAAB>
+Aug 30 11:53:32 mail postfix/postfix-script[14828]: stopping the Postfix mail system
+Aug 30 11:53:32 mail postfix/master[13845]: terminating on signal 15
+Aug 30 11:53:33 mail postfix/postfix-script[14908]: starting the Postfix mail system
+Aug 30 11:53:33 mail postfix/master[14910]: daemon started -- version 2.10.1, configuration /etc/postfix
+Aug 30 11:56:05 mail postfix/smtpd[15279]: connect from localhost[127.0.0.1]
+Aug 30 11:56:25 mail postfix/smtpd[15279]: disconnect from localhost[127.0.0.1]
+Aug 30 12:02:42 mail postfix/pickup[14911]: 05593109C82B: uid=0 from=<root>
+Aug 30 12:02:42 mail postfix/cleanup[16147]: 05593109C82B: message-id=<20180830090242.05593109C82B@mail.test.local>
+Aug 30 12:02:42 mail postfix/qmgr[14912]: 05593109C82B: from=<root@mail.test.local>, size=480, nrcpt=1 (queue active)
+Aug 30 12:02:42 mail postfix/pipe[16155]: 05593109C82B: to=<info@test.local>, relay=dovecot, delay=0.23, delays=0.03/0.01/0/0.19, dsn=2.0.0, status=sent (delivered via dovecot service)
+Aug 30 12:02:42 mail postfix/qmgr[14912]: 05593109C82B: removed
+Aug 30 12:09:13 mail postfix/smtpd[16986]: connect from mail.test.local[10.31.2.160]
+Aug 30 12:09:40 mail postfix/smtpd[16986]: 61995109C82B: client=mail.test.local[10.31.2.160]
+Aug 30 12:10:11 mail postfix/cleanup[17047]: 61995109C82B: message-id=<20180830090940.61995109C82B@mail.test.local>
+Aug 30 12:10:11 mail postfix/qmgr[14912]: 61995109C82B: from=<root@mail.test.local>, size=385, nrcpt=1 (queue active)
+Aug 30 12:10:12 mail postfix/pipe[17119]: 61995109C82B: to=<info@test.local>, relay=dovecot, delay=37, delays=37/0.01/0/0.05, dsn=2.0.0, status=sent (delivered via dovecot service)
+Aug 30 12:10:12 mail postfix/qmgr[14912]: 61995109C82B: removed
+Aug 30 12:10:17 mail postfix/smtpd[16986]: disconnect from mail.test.local[10.31.2.160]
+
+[root@mail ~]# cat /home/vmail/dovecot-deliver.log
+2018-08-30 12:02:42 lda(info@test.local): Info: msgid=<20180830090242.05593109C82B@mail.test.local>: saved mail to INBOX
+2018-08-30 12:10:12 lda(info@test.local): Info: msgid=<20180830090940.61995109C82B@mail.test.local>: saved mail to INBOX
+
+[root@mail ~]# 

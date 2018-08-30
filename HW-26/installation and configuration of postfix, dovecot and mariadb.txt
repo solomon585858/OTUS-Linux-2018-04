@@ -1,0 +1,804 @@
+[root@mail ~]# firewall-cmd --permanent --add-port=25/tcp
+success
+[root@mail ~]# firewall-cmd --permanent --add-port=80/tcp
+success
+[root@mail ~]# firewall-cmd --permanent --add-port=110/tcp
+success
+[root@mail ~]# firewall-cmd --permanent --add-port=143/tcp
+success
+[root@mail ~]# firewall-cmd --permanent --add-port=443/tcp
+success
+[root@mail ~]# firewall-cmd --permanent --add-port=465/tcp
+success
+[root@mail ~]# firewall-cmd --permanent --add-port=587/tcp
+success
+[root@mail ~]# firewall-cmd --permanent --add-port=993/tcp
+success
+[root@mail ~]# firewall-cmd --permanent --add-port=995/tcp
+success
+[root@mail ~]# firewall-cmd --reload
+success
+[root@mail ~]# firewall-cmd --list-all-zones
+block
+  target: %%REJECT%%
+  icmp-block-inversion: no
+  interfaces: 
+  sources: 
+  services: 
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+
+dmz
+  target: default
+  icmp-block-inversion: no
+  interfaces: 
+  sources: 
+  services: ssh
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+
+drop
+  target: DROP
+  icmp-block-inversion: no
+  interfaces: 
+  sources: 
+  services: 
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+
+external
+  target: default
+  icmp-block-inversion: no
+  interfaces: 
+  sources: 
+  services: ssh
+  ports: 
+  protocols: 
+  masquerade: yes
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+
+home
+  target: default
+  icmp-block-inversion: no
+  interfaces: 
+  sources: 
+  services: ssh mdns samba-client dhcpv6-client
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+
+internal
+  target: default
+  icmp-block-inversion: no
+  interfaces: 
+  sources: 
+  services: ssh mdns samba-client dhcpv6-client
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: ens160
+  sources: 
+  services: ssh dhcpv6-client http https
+  ports: 60/tcp 5000/tcp 4990-4999/udp 10051/tcp 10050/tcp 25/tcp 80/tcp 110/tcp 143/tcp 443/tcp 465/tcp 587/tcp 993/tcp 995/tcp
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+
+trusted
+  target: ACCEPT
+  icmp-block-inversion: no
+  interfaces: 
+  sources: 
+  services: 
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+
+work
+  target: default
+  icmp-block-inversion: no
+  interfaces: 
+  sources: 
+  services: ssh dhcpv6-client
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+[root@mail ~]# yum --enablerepo=centosplus install postfix
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.satellite-service.ru
+ * centosplus: mirror.satellite-service.ru
+ * epel: mirrors.colocall.net
+ * extras: dedic.sh
+ * updates: dedic.sh
+base                                                                                                         | 3.6 kB  00:00:00     
+centosplus                                                                                                   | 3.4 kB  00:00:00     
+extras                                                                                                       | 3.4 kB  00:00:00     
+updates                                                                                                      | 3.4 kB  00:00:00     
+centosplus/7/x86_64/primary_db                                                                               | 2.9 MB  00:00:01     
+Resolving Dependencies
+--> Running transaction check
+---> Package postfix.x86_64 2:2.10.1-6.el7 will be updated
+---> Package postfix.x86_64 2:2.10.1-6.0.1.el7.centos will be an update
+--> Processing Dependency: libpq.so.5()(64bit) for package: 2:postfix-2.10.1-6.0.1.el7.centos.x86_64
+--> Running transaction check
+---> Package postgresql-libs.x86_64 0:9.2.24-1.el7_5 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+====================================================================================================================================
+ Package                         Arch                   Version                                    Repository                  Size
+====================================================================================================================================
+Updating:
+ postfix                         x86_64                 2:2.10.1-6.0.1.el7.centos                  centosplus                 2.5 M
+Installing for dependencies:
+ postgresql-libs                 x86_64                 9.2.24-1.el7_5                             updates                    234 k
+
+Transaction Summary
+====================================================================================================================================
+Install             ( 1 Dependent package)
+Upgrade  1 Package
+
+Total download size: 2.7 M
+Is this ok [y/d/N]: y
+Downloading packages:
+Delta RPMs disabled because /usr/bin/applydeltarpm not installed.
+(1/2): postgresql-libs-9.2.24-1.el7_5.x86_64.rpm                                                             | 234 kB  00:00:00     
+(2/2): postfix-2.10.1-6.0.1.el7.centos.x86_64.rpm                                                            | 2.5 MB  00:00:01     
+------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                               1.7 MB/s | 2.7 MB  00:00:01     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : postgresql-libs-9.2.24-1.el7_5.x86_64                                                                            1/3 
+  Updating   : 2:postfix-2.10.1-6.0.1.el7.centos.x86_64                                                                         2/3 
+  Cleanup    : 2:postfix-2.10.1-6.el7.x86_64                                                                                    3/3 
+  Verifying  : postgresql-libs-9.2.24-1.el7_5.x86_64                                                                            1/3 
+  Verifying  : 2:postfix-2.10.1-6.0.1.el7.centos.x86_64                                                                         2/3 
+  Verifying  : 2:postfix-2.10.1-6.el7.x86_64                                                                                    3/3 
+
+Dependency Installed:
+  postgresql-libs.x86_64 0:9.2.24-1.el7_5                                                                                           
+
+Updated:
+  postfix.x86_64 2:2.10.1-6.0.1.el7.centos                                                                                          
+
+Complete!
+[root@mail ~]# yum install dovecot mariadb-server dovecot-mysql
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.satellite-service.ru
+ * epel: mirrors.colocall.net
+ * extras: dedic.sh
+ * updates: dedic.sh
+Resolving Dependencies
+--> Running transaction check
+---> Package dovecot.x86_64 1:2.2.10-8.el7 will be installed
+--> Processing Dependency: libclucene-shared.so.1()(64bit) for package: 1:dovecot-2.2.10-8.el7.x86_64
+--> Processing Dependency: libclucene-core.so.1()(64bit) for package: 1:dovecot-2.2.10-8.el7.x86_64
+---> Package dovecot-mysql.x86_64 1:2.2.10-8.el7 will be installed
+---> Package mariadb-server.x86_64 1:5.5.60-1.el7_5 will be installed
+--> Processing Dependency: mariadb(x86-64) = 1:5.5.60-1.el7_5 for package: 1:mariadb-server-5.5.60-1.el7_5.x86_64
+--> Running transaction check
+---> Package clucene-core.x86_64 0:2.3.3.4-11.el7 will be installed
+---> Package mariadb.x86_64 1:5.5.60-1.el7_5 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+====================================================================================================================================
+ Package                           Arch                      Version                               Repository                  Size
+====================================================================================================================================
+Installing:
+ dovecot                           x86_64                    1:2.2.10-8.el7                        base                       3.2 M
+ dovecot-mysql                     x86_64                    1:2.2.10-8.el7                        base                        66 k
+ mariadb-server                    x86_64                    1:5.5.60-1.el7_5                      updates                     11 M
+Installing for dependencies:
+ clucene-core                      x86_64                    2.3.3.4-11.el7                        base                       528 k
+ mariadb                           x86_64                    1:5.5.60-1.el7_5                      updates                    8.9 M
+
+Transaction Summary
+====================================================================================================================================
+Install  3 Packages (+2 Dependent packages)
+
+Total download size: 24 M
+Installed size: 118 M
+Is this ok [y/d/N]: y
+Downloading packages:
+(1/5): dovecot-mysql-2.2.10-8.el7.x86_64.rpm                                                                 |  66 kB  00:00:00     
+(2/5): dovecot-2.2.10-8.el7.x86_64.rpm                                                                       | 3.2 MB  00:00:02     
+(3/5): clucene-core-2.3.3.4-11.el7.x86_64.rpm                                                                | 528 kB  00:00:03     
+(4/5): mariadb-5.5.60-1.el7_5.x86_64.rpm                                                                     | 8.9 MB  00:00:17     
+(5/5): mariadb-server-5.5.60-1.el7_5.x86_64.rpm                                                              |  11 MB  00:00:19     
+------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                               1.2 MB/s |  24 MB  00:00:19     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : 1:mariadb-5.5.60-1.el7_5.x86_64                                                                                  1/5 
+  Installing : clucene-core-2.3.3.4-11.el7.x86_64                                                                               2/5 
+  Installing : 1:dovecot-2.2.10-8.el7.x86_64                                                                                    3/5 
+  Installing : 1:dovecot-mysql-2.2.10-8.el7.x86_64                                                                              4/5 
+  Installing : 1:mariadb-server-5.5.60-1.el7_5.x86_64                                                                           5/5 
+  Verifying  : 1:mariadb-server-5.5.60-1.el7_5.x86_64                                                                           1/5 
+  Verifying  : clucene-core-2.3.3.4-11.el7.x86_64                                                                               2/5 
+  Verifying  : 1:dovecot-mysql-2.2.10-8.el7.x86_64                                                                              3/5 
+  Verifying  : 1:dovecot-2.2.10-8.el7.x86_64                                                                                    4/5 
+  Verifying  : 1:mariadb-5.5.60-1.el7_5.x86_64                                                                                  5/5 
+
+Installed:
+  dovecot.x86_64 1:2.2.10-8.el7         dovecot-mysql.x86_64 1:2.2.10-8.el7         mariadb-server.x86_64 1:5.5.60-1.el7_5        
+
+Dependency Installed:
+  clucene-core.x86_64 0:2.3.3.4-11.el7                                mariadb.x86_64 1:5.5.60-1.el7_5                               
+
+Complete!
+[root@mail ~]# 
+
+
+
+[root@mail ~]# systemctl enable mariadb.service
+Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.
+[root@mail ~]# systemctl start mariadb.service
+[root@mail ~]# mysql_secure_installation
+
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
+      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+In order to log into MariaDB to secure it, we'll need the current
+password for the root user.  If you've just installed MariaDB, and
+you haven't set the root password yet, the password will be blank,
+so you should just press enter here.
+
+Enter current password for root (enter for none): 
+OK, successfully used password, moving on...
+
+Setting the root password ensures that nobody can log into the MariaDB
+root user without the proper authorisation.
+
+Set root password? [Y/n] Y
+New password: 
+Re-enter new password: 
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+By default, a MariaDB installation has an anonymous user, allowing anyone
+to log into MariaDB without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] Y
+ ... Success!
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] Y
+ ... Success!
+
+By default, MariaDB comes with a database named 'test' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] Y
+ - Dropping test database...
+ ... Success!
+ - Removing privileges on test database...
+ ... Success!
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] Y
+ ... Success!
+
+Cleaning up...
+
+All done!  If you've completed all of the above steps, your MariaDB
+installation should now be secure.
+
+Thanks for using MariaDB!
+[root@mail ~]# mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 118
+Server version: 5.5.60-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> CREATE DATABASE mail;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [(none)]> USE mail;
+Database changed
+
+MariaDB [mail]> GRANT SELECT, INSERT, UPDATE, DELETE ON mail.* TO 'mail_admin'@'localhost' IDENTIFIED BY 'P@ssw0rd';
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [mail]> GRANT SELECT, INSERT, UPDATE, DELETE ON mail.* TO 'mail_admin'@'localhost.localdomain' IDENTIFIED BY 'P@ssw0rd';
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [mail]> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [mail]> CREATE TABLE domains (domain varchar(50) NOT NULL, PRIMARY KEY (domain) );
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [mail]> CREATE TABLE forwardings (source varchar(80) NOT NULL, destination TEXT NOT NULL, PRIMARY KEY (source) );
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [mail]> CREATE TABLE users (email varchar(80) NOT NULL, password varchar(20) NOT NULL, PRIMARY KEY (email) );
+Query OK, 0 rows affected (0.01 sec)
+
+MariaDB [mail]> CREATE TABLE transport ( domain varchar(128) NOT NULL default '', transport varchar(128) NOT NULL default '', UNIQUE KEY domain (domain) );
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [mail]> SHOW TABLES;
++----------------+
+| Tables_in_mail |
++----------------+
+| domains        |
+| forwardings    |
+| transport      |
+| users          |
++----------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mail]> quit
+Bye
+[root@mail ~]# vi /etc/my.cnf
+[mysqld]
+bind-address=127.0.0.1
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+# Settings user and group are ignored when systemd is used.
+# If you need to run mysqld under a different user or group,
+# customize your systemd unit file for mariadb according to the
+# instructions in http://fedoraproject.org/wiki/Systemd
+
+[mysqld_safe]
+log-error=/var/log/mariadb/mariadb.log
+pid-file=/var/run/mariadb/mariadb.pid
+
+#
+# include all files from the config directory
+#
+!includedir /etc/my.cnf.d
+
+[root@mail ~]# systemctl restart  mariadb.service
+[root@mail ~]# 
+[root@mail ~]# cat /etc/postfix/mysql-virtual_domains.cf
+cat: /etc/postfix/mysql-virtual_domains.cf: No such file or directory
+[root@mail ~]# vi /etc/postfix/mysql-virtual_domains.cf
+user = mail_admin
+password = P@ssw0rd
+dbname = mail
+query = SELECT domain AS virtual FROM domains WHERE domain='%s'
+hosts = 127.0.0.1
+[root@mail ~]# 
+[root@mail ~]# 
+[root@mail ~]# 
+[root@mail ~]# 
+[root@mail ~]# vi /etc/postfix/mysql-virtual_forwardings.cf
+user = mail_admin
+password = P@ssw0rd
+dbname = mail
+query = SELECT destination FROM forwardings WHERE source='%s'
+hosts = 127.0.0.1
+[root@mail ~]# 
+[root@mail ~]# 
+[root@mail ~]# vi /etc/postfix/mysql-virtual_mailboxes.cf
+user = mail_admin
+password = P@ssw0rd
+dbname = mail
+query = SELECT CONCAT(SUBSTRING_INDEX(email,'@',-1),'/',SUBSTRING_INDEX(email,'@',1),'/') FROM users WHERE email='%s'
+hosts = 127.0.0.1
+
+[root@mail ~]# 
+[root@mail ~]# 
+[root@mail ~]# vi /etc/postfix/mysql-virtual_email2email.cf
+user = mail_admin
+password = P@ssw0rd
+dbname = mail
+query = SELECT email FROM users WHERE email='%s'
+hosts = 127.0.0.1
+
+[root@mail ~]# chmod o= /etc/postfix/mysql-virtual_*.cf
+[root@mail ~]# chgrp postfix /etc/postfix/mysql-virtual_*.cf
+[root@mail ~]# groupadd -g 5000 vmail
+[root@mail ~]# useradd -g vmail -u 5000 vmail -d /home/vmail -m
+[root@mail ~]# postconf -e 'myhostname = mail.test.local'
+[root@mail ~]# postconf -e 'mydestination = localhost, localhost.localdomain'
+postconf -e 'mynetworks = 127.0.0.0/8'
+[root@mail ~]# postconf -e 'mynetworks = 127.0.0.0/8'
+postconf -e 'inet_interfaces = all'
+postconf -e 'message_size_limit = 30720000'
+postconf -e 'virtual_alias_domains ='
+postconf -e 'virtual_alias_maps = proxy:mysql:/etc/postfix/mysql-virtual_forwardings.cf, mysql:/etc/postfix/mysql-virtual_email2email.cf'
+postconf -e 'virtual_mailbox_domains = proxy:mysql:/etc/postfix/mysql-virtual_domains.cf'
+postconf -e 'virtual_mailbox_maps = proxy:mysql:/etc/postfix/mysql-virtual_mailboxes.cf'
+[root@mail ~]# postconf -e 'inet_interfaces = all'
+postconf -e 'virtual_mailbox_base = /home/vmail'
+postconf -e 'virtual_uid_maps = static:5000'
+postconf -e 'virtual_gid_maps = static:5000'
+postconf -e 'smtpd_sasl_type = dovecot'
+postconf -e 'smtpd_sasl_path = private/auth'
+postconf -e 'smtpd_sasl_auth_enable = yes'
+[root@mail ~]# postconf -e 'message_size_limit = 30720000'
+postconf -e 'broken_sasl_auth_clients = yes'
+postconf -e 'smtpd_sasl_authenticated_header = yes'
+postconf -e 'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination'
+[root@mail ~]# postconf -e 'virtual_alias_domains ='
+postconf -e 'smtpd_use_tls = yes'
+postconf -e 'smtpd_tls_cert_file = /etc/pki/dovecot/certs/dovecot.pem'
+[root@mail ~]# postconf -e 'virtual_alias_maps = proxy:mysql:/etc/postfix/mysql-virtual_forwardings.cf, mysql:/etc/postfix/mysql-virtual_email2email.cf'
+postconf -e 'smtpd_tls_key_file = /etc/pki/dovecot/private/dovecot.pem'
+postconf -e 'virtual_create_maildirsize = yes'
+postconf -e 'virtual_maildir_extended = yes'
+[root@mail ~]# postconf -e 'virtual_mailbox_domains = proxy:mysql:/etc/postfix/mysql-virtual_domains.cf'
+postconf -e 'proxy_read_maps = $local_recipient_maps $mydestination $virtual_alias_maps $virtual_alias_domains $virtual_mailbox_maps $virtual_mailbox_domains $relay_recipient_maps $relay_domains $canonical_maps $sender_canonical_maps $recipient_canonical_maps $relocated_maps $transport_maps $mynetworks $virtual_mailbox_limit_maps'
+postconf -e 'virtual_transport = dovecot'
+[root@mail ~]# postconf -e 'virtual_mailbox_maps = proxy:mysql:/etc/postfix/mysql-virtual_mailboxes.cf'
+postconf -e 'dovecot_destination_recipient_limit = 1'
+[root@mail ~]# postconf -e 'virtual_mailbox_base = /home/vmail'
+[root@mail ~]# postconf -e 'virtual_uid_maps = static:5000'
+[root@mail ~]# postconf -e 'virtual_gid_maps = static:5000'
+[root@mail ~]# postconf -e 'smtpd_sasl_type = dovecot'
+[root@mail ~]# postconf -e 'smtpd_sasl_path = private/auth'
+[root@mail ~]# postconf -e 'smtpd_sasl_auth_enable = yes'
+[root@mail ~]# postconf -e 'broken_sasl_auth_clients = yes'
+[root@mail ~]# postconf -e 'smtpd_sasl_authenticated_header = yes'
+[root@mail ~]# postconf -e 'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination'
+[root@mail ~]# postconf -e 'smtpd_use_tls = yes'
+[root@mail ~]# postconf -e 'smtpd_tls_cert_file = /etc/pki/dovecot/certs/dovecot.pem'
+[root@mail ~]# postconf -e 'smtpd_tls_key_file = /etc/pki/dovecot/private/dovecot.pem'
+[root@mail ~]# postconf -e 'virtual_create_maildirsize = yes'
+[root@mail ~]# postconf -e 'virtual_maildir_extended = yes'
+[root@mail ~]# postconf -e 'proxy_read_maps = $local_recipient_maps $mydestination $virtual_alias_maps $virtual_alias_domains $virtual_mailbox_maps $virtual_mailbox_domains $relay_recipient_maps $relay_domains $canonical_maps $sender_canonical_maps $recipient_canonical_maps $relocated_maps $transport_maps $mynetworks $virtual_mailbox_limit_maps'
+[root@mail ~]# postconf -e 'virtual_transport = dovecot'
+[root@mail ~]# postconf -e 'dovecot_destination_recipient_limit = 1'
+[root@mail ~]# 
+
+[root@mail ~]# vi /etc/postfix/master.cf
+#
+# Postfix master process configuration file.  For details on the format
+# of the file, see the master(5) manual page (command: "man 5 master").
+#
+# Do not forget to execute "postfix reload" after editing this file.
+#
+# ==========================================================================
+# service type  private unpriv  chroot  wakeup  maxproc command + args
+#               (yes)   (yes)   (yes)   (never) (100)
+# ==========================================================================
+smtp      inet  n       -       n       -       -       smtpd
+#smtp      inet  n       -       n       -       1       postscreen
+#smtpd     pass  -       -       n       -       -       smtpd
+#dnsblog   unix  -       -       n       -       0       dnsblog
+#tlsproxy  unix  -       -       n       -       0       tlsproxy
+submission inet n       -       n       -       -       smtpd
+  -o syslog_name=postfix/submission
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+#  -o smtpd_reject_unlisted_recipient=no
+#  -o smtpd_client_restrictions=$mua_client_restrictions
+#  -o smtpd_helo_restrictions=$mua_helo_restrictions
+#  -o smtpd_sender_restrictions=$mua_sender_restrictions
+  -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
+  -o milter_macro_daemon_name=ORIGINATING
+smtps     inet  n       -       n       -       -       smtpd
+  -o syslog_name=postfix/smtps
+  -o smtpd_tls_wrappermode=yes
+  -o smtpd_sasl_auth_enable=yes
+#  -o smtpd_reject_unlisted_recipient=no
+#  -o smtpd_client_restrictions=$mua_client_restrictions
+#  -o smtpd_helo_restrictions=$mua_helo_restrictions
+#  -o smtpd_sender_restrictions=$mua_sender_restrictions
+  -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
+  -o milter_macro_daemon_name=ORIGINATING
+#628       inet  n       -       n       -       -       qmqpd
+pickup    unix  n       -       n       60      1       pickup
+cleanup   unix  n       -       n       -       0       cleanup
+qmgr      unix  n       -       n       300     1       qmgr
+#qmgr     unix  n       -       n       300     1       oqmgr
+tlsmgr    unix  -       -       n       1000?   1       tlsmgr
+rewrite   unix  -       -       n       -       -       trivial-rewrite
+bounce    unix  -       -       n       -       0       bounce
+defer     unix  -       -       n       -       0       bounce
+"/etc/postfix/master.cf" 129L, 6249C written
+[root@mail ~]# systemctl enable postfix.service
+[root@mail ~]# systemctl start  postfix.service
+[root@mail ~]# 
+
+
+[root@mail ~]# mv /etc/dovecot/dovecot.conf /etc/dovecot/dovecot.conf-backup
+[root@mail ~]# vi /etc/dovecot/dovecot.conf
+protocols = imap pop3
+log_timestamp = "%Y-%m-%d %H:%M:%S "
+mail_location = maildir:/home/vmail/%d/%n/Maildir
+
+ssl_cert = </etc/pki/dovecot/certs/dovecot.pem
+ssl_key = </etc/pki/dovecot/private/dovecot.pem
+
+namespace {
+protocols = imap pop3
+log_timestamp = "%Y-%m-%d %H:%M:%S "
+mail_location = maildir:/home/vmail/%d/%n/Maildir
+
+ssl_cert = </etc/pki/dovecot/certs/dovecot.pem
+ssl_key = </etc/pki/dovecot/private/dovecot.pem
+
+namespace {
+    type = private
+    separator = .
+    prefix = INBOX.
+    inbox = yes
+}
+
+service auth {
+    unix_listener auth-master {
+        mode = 0600
+        user = vmail
+    }
+
+    unix_listener /var/spool/postfix/private/auth {
+        mode = 0666
+        user = postfix
+        group = postfix
+    }
+
+user = root
+}
+
+service auth-worker {
+    user = root
+}
+
+protocol lda {
+    log_path = /home/vmail/dovecot-deliver.log
+    auth_socket_path = /var/run/dovecot/auth-master
+    postmaster_address = postmaster@test.local
+}
+
+protocol pop3 {
+    pop3_uidl_format = %08Xu%08Xv
+}
+
+passdb {
+"/etc/dovecot/dovecot.conf" [New] 52L, 965C written
+[root@mail ~]# vi /etc/dovecot/dovecot-sql.conf.ext
+driver = mysql
+connect = host=127.0.0.1 dbname=mail user=mail_admin password=P@ssw0rd
+default_pass_scheme = CRYPT
+password_query = SELECT email as user, password FROM users WHERE email='%u';
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+"/etc/dovecot/dovecot-sql.conf.ext" [New] 4L, 191C written
+[root@mail ~]# chgrp dovecot /etc/dovecot/dovecot-sql.conf.ext
+[root@mail ~]# chmod o= /etc/dovecot/dovecot-sql.conf.ext
+[root@mail ~]# systemctl enable dovecot.service
+Created symlink from /etc/systemd/system/multi-user.target.wants/dovecot.service to /usr/lib/systemd/system/dovecot.service.
+[root@mail ~]# systemctl start  dovecot.service
+[root@mail ~]# cat /var/log/maillog
+Aug 30 11:27:46 mail postfix[10958]: fatal: parameter inet_interfaces: no local interface found for 127.0.0.4
+Aug 30 11:46:04 mail postfix/postfix-script[13843]: starting the Postfix mail system
+Aug 30 11:46:04 mail postfix/master[13845]: daemon started -- version 2.10.1, configuration /etc/postfix
+Aug 30 11:50:02 mail dovecot: master: Dovecot v2.2.10 starting up for imap, pop3 (core dumps disabled)
+[root@mail ~]# yum install telnet -y
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.satellite-service.ru
+ * epel: mirrors.colocall.net
+ * extras: dedic.sh
+ * updates: dedic.sh
+Resolving Dependencies
+--> Running transaction check
+---> Package telnet.x86_64 1:0.17-64.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+====================================================================================================================================
+ Package                       Arch                          Version                              Repository                   Size
+====================================================================================================================================
+Installing:
+ telnet                        x86_64                        1:0.17-64.el7                        base                         64 k
+
+Transaction Summary
+====================================================================================================================================
+Install  1 Package
+
+Total download size: 64 k
+Installed size: 113 k
+Downloading packages:
+telnet-0.17-64.el7.x86_64.rpm                                                                                |  64 kB  00:00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : 1:telnet-0.17-64.el7.x86_64                                                                                      1/1 
+  Verifying  : 1:telnet-0.17-64.el7.x86_64                                                                                      1/1 
+
+Installed:
+  telnet.x86_64 1:0.17-64.el7                                                                                                       
+
+Complete!
+[root@mail ~]# telnet localhost pop3
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
++OK Dovecot ready.
+quit
++OK Logging out
+Connection closed by foreign host
+
+
+[root@mail ~]# vi /etc/aliases
+#
+#  Aliases in this file will NOT be expanded in the header from
+#  Mail, but WILL be visible over networks or from /bin/mail.
+#
+#       >>>>>>>>>>      The program "newaliases" must be run after
+#       >> NOTE >>      this file is updated for any changes to
+#       >>>>>>>>>>      show through to sendmail.
+#
+
+# Basic system aliases -- these MUST be present.
+mailer-daemon:  postmaster
+postmaster:     root
+root: postmaster@test.local
+# General redirections for pseudo accounts.
+bin:            root
+daemon:         root
+adm:            root
+lp:             root
+sync:           root
+shutdown:       root
+halt:           root
+mail:           root
+news:           root
+uucp:           root
+operator:       root
+games:          root
+gopher:         root
+ftp:            root
+nobody:         root
+radiusd:        root
+nut:            root
+dbus:           root
+vcsa:           root
+canna:          root
+wnn:            root
+rpm:            root
+nscd:           root
+pcap:           root
+apache:         root
+webalizer:      root
+dovecot:        root
+fax:            root
+quagga:         root
+radvd:          root
+"/etc/aliases" 96L, 1545C written
+[root@mail ~]# newaliases
+[root@mail ~]# systemctl restart  postfix.service
+[root@mail ~]# 
+
+
+TESTING POSTFIX:
+[root@mail ~]# telnet localhost 25
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+220 mail.test.local ESMTP Postfix
+ehlo localhost
+250-mail.test.local
+250-PIPELINING
+250-SIZE 30720000
+250-VRFY
+250-ETRN
+250-STARTTLS
+250-AUTH PLAIN
+250-AUTH=PLAIN
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250 DSN
+quit
+221 2.0.0 Bye
+Connection closed by foreign host.
