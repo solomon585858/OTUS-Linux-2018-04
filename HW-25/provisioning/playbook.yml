@@ -39,21 +39,48 @@
     systemd: name=nfs-server state=restarted
 
   - iptables_raw:
-      name: udp rule for portmapper
-      rules: '-A INPUT -m state --state NEW -m udp -p udp --dport 111 -j ACCEPT'
+      name: input iptables rules for nfs
+      rules: '-A INPUT -p udp -m multiport --dports 111,2049,20048 -m state --state NEW,ESTABLISHED -j ACCEPT'
 
   - iptables_raw:
-      name: udp rule for nfs
-      rules: '-A INPUT -m state --state NEW -m udp -p udp --dport 2049 -j ACCEPT'
+      name: input iptables rules for nfs
+      rules: '-A OUTPUT -p udp -m multiport --sports 111,2049,20048 -m state --state ESTABLISHED -j ACCEPT'
 
   - iptables_raw:
-      name: udp rule for mountd
-      rules: '-A INPUT -m state --state NEW -m udp -p udp --dport 20048 -j ACCEPT'
-  
+      name: input iptables rule for ssh
+      rules: '-A INPUT -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT'
+
   - iptables_raw:
-      name: MASQUERADING
-      table: nat
-      rules: '-A POSTROUTING ! -d 192.168.0.0/16 -o eth0 -j MASQUERADE'
+      name: output iptables rule for ssh
+      rules: '-A OUTPUT -p tcp --sport 22 -m state --state NEW,ESTABLISHED -j ACCEPT'
+
+  - iptables_raw:
+      name: input iptables tcp rule for client
+      rules: '-A INPUT -p tcp -s 192.168.255.2 -j ACCEPT'
+
+  - iptables_raw:
+      name: output iptables tcp rule for client
+      rules: '-A OUTPUT -p tcp -s 192.168.255.2 -j ACCEPT'
+
+  - iptables_raw:
+      name: input iptables udp rule for client
+      rules: '-A INPUT -p udp -s 192.168.255.2 -j ACCEPT'
+
+  - iptables_raw:
+      name: output iptables udp rule for client
+      rules: '-A OUTPUT -p udp -s 192.168.255.2 -j ACCEPT'
+
+  - iptables_raw:
+      name: drop everything for input
+      rules: '-P INPUT DROP'
+
+  - iptables_raw:
+      name: drop everything for forward
+      rules: '-P FORWARD DROP'     
+
+  - iptables_raw:
+      name: drop everything for output
+      rules: '-P OUTPUT DROP'  
 
   - name: restart iptables-services
     systemd: name=iptables state=restarted
@@ -62,17 +89,21 @@
     file:
       path: /var/nfs
       state: directory
-      mode: 0775
+      mode: 0444
 
   - name: Creates /var/nfs/upload directory
     file:
       path: /var/nfs/upload
       state: directory
-      mode: 0775
+      mode: 0777
 
-  - name: Modifying /etc/exports
+  - name: Modifying /etc/exports 1
     lineinfile: dest=/etc/exports
-      line="/var/nfs        192.168.255.0/30(rw,sync,no_root_squash,no_all_squash)"
+      line="/var/nfs               192.168.255.0/30(ro,sync,root_squash,all_squash)"    
+
+  - name: Modifying /etc/exports 2
+    lineinfile: dest=/etc/exports
+      line="/var/nfs/upload        192.168.255.0/30(rw,sync,no_root_squash,no_all_squash)"
 
   - name: exportfs -r
     command: exportfs -r
@@ -83,16 +114,6 @@
   tasks:
   - name: Enable ipv4 forwarding
     sysctl: name=net.ipv4.conf.all.forwarding value=1 sysctl_set=yes state=present reload=yes
-
-  - name: Deleting default route for eth0
-    lineinfile: dest=/etc/sysconfig/network-scripts/ifcfg-eth0      
-      insertafter=EOF
-      line="DEFROUTE=no"  
-
-  - name: Adding default gateway for eth1
-    lineinfile: dest=/etc/sysconfig/network-scripts/ifcfg-eth1      
-      insertafter=EOF
-      line="GATEWAY=192.168.255.1" 
 
   - name: restart network
     systemd: name=network state=restarted  
@@ -120,14 +141,25 @@
 
   - name: Creates /var/nfs directory
     file:
-      path: /mnt/nfs/var/nfs
+      path: /mnt/nfs
       state: directory
       mode: 0775
       recurse: yes
 
-  - name: Modifying /etc/fstab
+  - name: Creates /mnt/upload directory
+    file:
+      path: /mnt/upload
+      state: directory
+      mode: 0775
+      recurse: yes
+
+  - name: Modifying /etc/fstab 1
     lineinfile: dest=/etc/fstab
-      line="192.168.255.1:/var/nfs /mnt/nfs/var/nfs nfs vers=3,proto=udp,hard,intr,rsize=32768,wsize=32768,noatime 0 0"      
+      line="192.168.255.1:/var/nfs /mnt/nfs nfs vers=3,proto=udp,hard,intr,rsize=32768,wsize=32768,noatime 0 0" 
+
+  - name: Modifying /etc/fstab 2
+    lineinfile: dest=/etc/fstab         
+      line="192.168.255.1:/var/nfs/upload /mnt/upload nfs vers=3,proto=udp,hard,intr,rsize=32768,wsize=32768,noatime 0 0"      
 
   - name: Restart server
     command: /sbin/shutdown -r +1
